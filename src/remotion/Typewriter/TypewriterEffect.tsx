@@ -19,18 +19,18 @@ export const TypewriterEffect: React.FC<TypewriterProps> = ({
     fontSize,
     bgColor,
 }) => {
-    const frame = useCurrentFrame()
-    const { fps, durationInFrames, width, height } = useVideoConfig()
+    const frame = useCurrentFrame();
+    const { fps, durationInFrames, width, height } = useVideoConfig();
 
-    const charsToSHow = Math.min(text.length, Math.floor(frame / speed))
-    const displayed = text.slice(0, charsToSHow)
+    const charsToShow = Math.min(text.length, Math.floor(frame / speed));
+    const displayed = text.slice(0, charsToShow);
 
     const opacity = interpolate(
         frame,
-        [charsToSHow * speed, charsToSHow * speed + speed / 2],
+        [charsToShow * speed, charsToShow * speed + speed / 2],
         [1, 0],
         { extrapolateRight: 'clamp' }
-    )
+    );
 
     return (
         <div style={{ flex: 1, backgroundColor: bgColor, width, height, padding: 50 }}>
@@ -43,8 +43,8 @@ export const TypewriterEffect: React.FC<TypewriterProps> = ({
                 }}
             >
                 {displayed}
-                <span style={{ opacity }}></span>
+                <span style={{ opacity }}>|</span>
             </span>
         </div>
-    )
-}
+    );
+};
