@@ -9,10 +9,27 @@ import {
   VIDEO_WIDTH,
 } from "../../types/constants";
 import { NextLogo } from "./MyComp/NextLogo";
+import { typewriterSchema, TypewriterEffect } from "./Typewriter/TypewriterEffect";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="Typewriter"
+        component={TypewriterEffect}
+        durationInFrames={150}
+        fps={30}
+        width={1280}
+        height={720}
+        defaultProps={{
+          text: 'Your Typewriter Text Here',
+          speed: 4,
+          color: '#ffffff',
+          fontSize: 70,
+          bgColor: '#000000',
+        }}
+        schema={typewriterSchema}
+      />
       <Composition
         id={COMP_NAME}
         component={Main}

@@ -1,0 +1,50 @@
+import React, { useEffect, useState } from 'react';
+import { useVideoConfig, useCurrentFrame, interpolate } from 'remotion';
+import { z } from 'zod';
+
+export const typewriterSchema = z.object({
+    text: z.string().default('Your Typewriter Text'),
+    speed: z.number().min(1).default(5), // frames per character
+    color: z.string().default('#ffffff'),
+    fontSize: z.number().default(60),
+    bgColor: z.string().default('#000000'),
+});
+
+type TypewriterProps = z.infer<typeof typewriterSchema>;
+
+export const TypewriterEffect: React.FC<TypewriterProps> = ({
+    text,
+    speed,
+    color,
+    fontSize,
+    bgColor,
+}) => {
+    const frame = useCurrentFrame()
+    const { fps, durationInFrames, width, height } = useVideoConfig()
+
+    const charsToSHow = Math.min(text.length, Math.floor(frame / speed))
+    const displayed = text.slice(0, charsToSHow)
+
+    const opacity = interpolate(
+        frame,
+        [charsToSHow * speed, charsToSHow * speed + speed / 2],
+        [1, 0],
+        { extrapolateRight: 'clamp' }
+    )
+
+    return (
+        <div style={{ flex: 1, backgroundColor: bgColor, width, height, padding: 50 }}>
+            <span
+                style={{
+                    color,
+                    fontSize,
+                    fontFamily: 'Courier New, monospace',
+                    whiteSpace: 'pre-wrap',
+                }}
+            >
+                {displayed}
+                <span style={{ opacity }}></span>
+            </span>
+        </div>
+    )
+}

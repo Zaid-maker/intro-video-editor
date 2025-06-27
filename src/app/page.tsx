@@ -1,65 +1,91 @@
-"use client";
+// app/page.tsx
+'use client';
 
-import { Player } from "@remotion/player";
-import type { NextPage } from "next";
-import React, { useMemo, useState } from "react";
-import { z } from "zod";
-import {
-  defaultMyCompProps,
-  CompositionProps,
-  DURATION_IN_FRAMES,
-  VIDEO_FPS,
-  VIDEO_HEIGHT,
-  VIDEO_WIDTH,
-} from "../../types/constants";
-import { RenderControls } from "../components/RenderControls";
-import { Spacing } from "../components/Spacing";
-import { Tips } from "../components/Tips";
-import { Main } from "../remotion/MyComp/Main";
+import { useState } from 'react';
+import { Player } from '@remotion/player';
+import { TypewriterEffect } from '../remotion/Typewriter/TypewriterEffect';
 
-const Home: NextPage = () => {
-  const [text, setText] = useState<string>(defaultMyCompProps.title);
+export default function Home() {
+  const [props, setProps] = useState({
+    text: 'Hello, Remotion!',
+    speed: 5,
+    color: '#ffcc00',
+    fontSize: 80,
+    bgColor: '#222222',
+  });
 
-  const inputProps: z.infer<typeof CompositionProps> = useMemo(() => {
-    return {
-      title: text,
-    };
-  }, [text]);
+  const durationInFrames = props.text.length * props.speed + props.speed * 2;
 
   return (
-    <div>
-      <div className="max-w-screen-md m-auto mb-5">
-        <div className="overflow-hidden rounded-geist shadow-[0_0_200px_rgba(0,0,0,0.15)] mb-10 mt-16">
-          <Player
-            component={Main}
-            inputProps={inputProps}
-            durationInFrames={DURATION_IN_FRAMES}
-            fps={VIDEO_FPS}
-            compositionHeight={VIDEO_HEIGHT}
-            compositionWidth={VIDEO_WIDTH}
-            style={{
-              // Can't use tailwind class for width since player's default styles take presedence over tailwind's,
-              // but not over inline styles
-              width: "100%",
-            }}
-            controls
-            autoPlay
-            loop
+    <div className="p-8 max-w-3xl mx-auto">
+      <h1 className="text-3xl mb-4">Customize Your Intro</h1>
+      <Player
+        component={TypewriterEffect}
+        inputProps={props}
+        durationInFrames={durationInFrames}
+        compositionWidth={1280}
+        compositionHeight={720}
+        fps={30}
+        controls
+        style={{ width: '100%', border: '1px solid #444' }}
+      />
+
+      <div className="mt-6 space-y-4">
+        <label>
+          Text:
+          <input
+            className="block w-full border p-2"
+            value={props.text}
+            onChange={(e) => setProps({ ...props, text: e.target.value })}
           />
-        </div>
-        <RenderControls
-          text={text}
-          setText={setText}
-          inputProps={inputProps}
-        ></RenderControls>
-        <Spacing></Spacing>
-        <Spacing></Spacing>
-        <Spacing></Spacing>
-        <Spacing></Spacing>
-        <Tips></Tips>
+        </label>
+
+        <label>
+          Speed:
+          <input
+            type="range"
+            min="1"
+            max="20"
+            value={props.speed}
+            onChange={(e) =>
+              setProps({ ...props, speed: parseInt(e.target.value, 10) })
+            }
+          />
+          {props.speed} frames/char
+        </label>
+
+        <label>
+          Font Size:
+          <input
+            type="number"
+            value={props.fontSize}
+            onChange={(e) =>
+              setProps({ ...props, fontSize: parseInt(e.target.value, 10) })
+            }
+            className="border p-1 w-20"
+          />
+        </label>
+
+        <label>
+          Text Color:
+          <input
+            type="color"
+            value={props.color}
+            onChange={(e) => setProps({ ...props, color: e.target.value })}
+          />
+        </label>
+
+        <label>
+          Background Color:
+          <input
+            type="color"
+            value={props.bgColor}
+            onChange={(e) =>
+              setProps({ ...props, bgColor: e.target.value })
+            }
+          />
+        </label>
       </div>
     </div>
   );
-};
-
-export default Home;
+}
