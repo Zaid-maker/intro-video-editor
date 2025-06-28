@@ -40,6 +40,23 @@ export default function Home() {
     setProps(values);
   }
 
+  async function handleRender() {
+    const res = await fetch('/api/render', {
+      method: 'POST',
+      body: JSON.stringify({
+        templateId: active.id,
+        inputProps: props,
+      }),
+    })
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${active.id}.mp4`;
+    link.click();
+  }
+
   return (
     <div className="p-8 max-w-4xl mx-auto space-y-8">
       <div className="flex gap-4">
