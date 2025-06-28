@@ -3,88 +3,113 @@
 
 import { useState } from 'react';
 import { Player } from '@remotion/player';
-import { TypewriterEffect } from '../remotion/Typewriter/TypewriterEffect';
+import { TypewriterEffect, typewriterSchema } from '@/remotion/Typewriter/TypewriterEffect';
+import { TemplateEditor } from '@/components/TemplateEditor';
+
+type TemplateEntry = {
+  id: string;
+  comp: any;
+  schema: any;
+  defaultProps: any;
+};
+
+const templates: TemplateEntry[] = [
+  {
+    id: "typewriter",
+    comp: TypewriterEffect,
+    schema: typewriterSchema,
+    defaultProps: {
+      text: "Hello!",
+      speed: 5,
+      color: "#fff",
+      fontSize: 70,
+      bgColor: "#000",
+    },
+  },
+];
 
 export default function Home() {
-  const [props, setProps] = useState({
-    text: 'Hello, Remotion!',
-    speed: 5,
-    color: '#ffcc00',
-    fontSize: 80,
-    bgColor: '#222222',
-  });
+  const [active, setActive] = useState(templates[0]);
+  const [props, setProps] = useState(active.defaultProps);
+  const [isRendering, setIsRendering] = useState(false);
 
-  const durationInFrames = props.text.length * props.speed + props.speed * 2;
+  const duration = props.text.length * props.speed + 60;
+
+  const handleApply = async (values: any) => {
+    await new Promise((r) => setTimeout(r, 300)); // simulate latency
+    setProps(values);
+  };
+
+  const handleRender = async () => {
+    setIsRendering(true);
+
+    const res = await fetch('/api/render', {
+      method: 'POST',
+      body: JSON.stringify({
+        templateId: active.id,
+        inputProps: props,
+      }),
+    });
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+
+    a.href = url;
+    a.download = `${active.id}.mp4`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setIsRendering(false);
+  };
 
   return (
-    <div className="p-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl mb-4">Customize Your Intro</h1>
+    <div className="p-8 max-w-4xl mx-auto space-y-8">
+      {/* Template switcher and preview */}
+      <div className="flex gap-4">
+        {templates.map((t) => (
+          <button
+            key={t.id}
+            className={`px-4 py-2 rounded ${t.id === active.id ? 'bg-blue-600 text-white' : 'border'
+              }`}
+            onClick={() => {
+              setActive(t);
+              setProps(t.defaultProps);
+            }}
+          >
+            {t.id}
+          </button>
+        ))}
+      </div>
+
       <Player
-        component={TypewriterEffect}
+        component={active.comp}
         inputProps={props}
-        durationInFrames={durationInFrames}
+        durationInFrames={duration}
         compositionWidth={1280}
         compositionHeight={720}
         fps={30}
         controls
-        style={{ width: '100%', border: '1px solid #444' }}
+        style={{
+          width: '100%',
+          maxWidth: 640,
+          border: '1px solid #444',
+        }}
       />
 
-      <div className="mt-6 space-y-4">
-        <label>
-          Text:
-          <input
-            className="block w-full border p-2"
-            value={props.text}
-            onChange={(e) => setProps({ ...props, text: e.target.value })}
-          />
-        </label>
+      <div className="flex gap-4">
+        <TemplateEditor
+          schema={active.schema}
+          defaultValues={props}
+          onSubmit={handleApply}
+        />
 
-        <label>
-          Speed:
-          <input
-            type="range"
-            min="1"
-            max="20"
-            value={props.speed}
-            onChange={(e) =>
-              setProps({ ...props, speed: parseInt(e.target.value, 10) })
-            }
-          />
-          {props.speed} frames/char
-        </label>
-
-        <label>
-          Font Size:
-          <input
-            type="number"
-            value={props.fontSize}
-            onChange={(e) =>
-              setProps({ ...props, fontSize: parseInt(e.target.value, 10) })
-            }
-            className="border p-1 w-20"
-          />
-        </label>
-
-        <label>
-          Text Color:
-          <input
-            type="color"
-            value={props.color}
-            onChange={(e) => setProps({ ...props, color: e.target.value })}
-          />
-        </label>
-
-        <label>
-          Background Color:
-          <input
-            type="color"
-            value={props.bgColor}
-            onChange={(e) =>
-              setProps({ ...props, bgColor: e.target.value })
-            }
-          />
-        </label>
+        <button
+          onClick={handleRender}
+          disabled={isRendering}
+          className={`px-4 py-2 rounded ${isRendering ? 'bg-gray-400 text-gray-700' : 'bg-green-600 text-white'
+            }`}
+        >
+          {isRendering ? 'Rendering…' : 'Render & Download'}
+        </button>
       </div>
     </div>
   );
