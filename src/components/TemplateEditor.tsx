@@ -36,7 +36,7 @@ export const TemplateEditor: React.FC<Props> = ({ schema, defaultValues, onSubmi
                                     <FormItem>
                                         <FormLabel>{key}</FormLabel>
                                         <FormControl>
-                                            {typeof val === "string" && val.match(/^#/)
+                                        {typeof val === "string" && val.startsWith("#")
                                                 ? <ColorPicker value={field.value} onChange={field.onChange} />
                                                 : typeof val === "string"
                                                     ? <Input {...field} />
