@@ -34,9 +34,11 @@ export default function Home() {
 
   const duration = active.defaultProps.text.length * active.defaultProps.speed + 60;
 
-  const handleApply = (vals: any) => {
-    setProps(vals);
-  };
+  async function handleApply(values: any) {
+    // simulate render latency or real API work
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    setProps(values);
+  }
 
   return (
     <div className="p-8 max-w-4xl mx-auto space-y-8">
