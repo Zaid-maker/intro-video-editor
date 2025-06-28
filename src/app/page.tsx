@@ -5,13 +5,22 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br from-indigo-600 to-purple-700 text-white">
       <nav className="container mx-auto flex justify-between items-center py-6">
         <h1 className="text-2xl font-bold">MyRemotion</h1>
-        <Link href="/login" className="px-4 py-2 bg-white text-indigo-700 rounded-lg">Login</Link>
+        <Link href="/intro" className="px-4 py-2 bg-white text-indigo-700 rounded-lg">
+          Get Started
+        </Link>
       </nav>
 
       <section className="container mx-auto text-center py-20 space-y-6">
         <h2 className="text-5xl font-extrabold">Create Stunning Video Intros</h2>
-        <p className="text-xl max-w-2xl mx-auto">Customize from 20+ templates, preview live, and download your final video — all in one place.</p>
-        <Link href="/intro" className="px-6 py-4 bg-white text-indigo-700 font-semibold rounded-lg shadow-lg hover:shadow-xl transition">Get Started</Link>
+        <p className="text-xl max-w-2xl mx-auto">
+          Choose from 20+ templates, customize live, and download your intro—all in one tool.
+        </p>
+        <Link
+          href="/intro"
+          className="px-6 py-4 bg-white text-indigo-700 font-semibold rounded-lg shadow-lg hover:shadow-xl transition"
+        >
+          Start Building
+        </Link>
       </section>
 
       <section className="bg-white text-gray-800 py-16">
