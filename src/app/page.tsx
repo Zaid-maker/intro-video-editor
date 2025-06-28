@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Player } from '@remotion/player';
 import { TypewriterEffect, typewriterSchema } from '../remotion/Typewriter/TypewriterEffect';
-import { TemplateEditor } from './components/TemplateEditor';
+import { TemplateEditor } from '../components/TemplateEditor';
 
 type TemplateEntry = {
   id: string;
