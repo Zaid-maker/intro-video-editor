@@ -41,7 +41,7 @@
     "@remotion/lambda": "4.0.319",
     "@remotion/paths": "4.0.319",
     "@remotion/player": "4.0.319",
-    "@remotion/renderer": "4.0.320",
+    "@remotion/renderer": "4.0.319",
     "@remotion/shapes": "4.0.319",
     "@remotion/tailwind-v4": "4.0.319",
     "class-variance-authority": "^0.7.1",
