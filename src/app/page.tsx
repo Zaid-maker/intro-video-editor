@@ -31,39 +31,45 @@ const templates: TemplateEntry[] = [
 export default function Home() {
   const [active, setActive] = useState(templates[0]);
   const [props, setProps] = useState(active.defaultProps);
+  const [isRendering, setIsRendering] = useState(false);
 
-  const duration = active.defaultProps.text.length * active.defaultProps.speed + 60;
+  const duration = props.text.length * props.speed + 60;
 
-  async function handleApply(values: any) {
-    // simulate render latency or real API work
-    await new Promise((resolve) => setTimeout(resolve, 500));
+  const handleApply = async (values: any) => {
+    await new Promise((r) => setTimeout(r, 300)); // simulate latency
     setProps(values);
-  }
+  };
 
-  async function handleRender() {
+  const handleRender = async () => {
+    setIsRendering(true);
+
     const res = await fetch('/api/render', {
       method: 'POST',
       body: JSON.stringify({
         templateId: active.id,
         inputProps: props,
       }),
-    })
-
+    });
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${active.id}.mp4`;
-    link.click();
-  }
+    const a = document.createElement('a');
+
+    a.href = url;
+    a.download = `${active.id}.mp4`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setIsRendering(false);
+  };
 
   return (
     <div className="p-8 max-w-4xl mx-auto space-y-8">
+      {/* Template switcher and preview */}
       <div className="flex gap-4">
         {templates.map((t) => (
           <button
             key={t.id}
-            className={`px-4 py-2 rounded ${t.id === active.id ? "bg-blue-600 text-white" : "border"}`}
+            className={`px-4 py-2 rounded ${t.id === active.id ? 'bg-blue-600 text-white' : 'border'
+              }`}
             onClick={() => {
               setActive(t);
               setProps(t.defaultProps);
@@ -82,14 +88,29 @@ export default function Home() {
         compositionHeight={720}
         fps={30}
         controls
-        style={{ width: "100%", maxWidth: 640, border: "1px solid #444" }}
+        style={{
+          width: '100%',
+          maxWidth: 640,
+          border: '1px solid #444',
+        }}
       />
 
-      <TemplateEditor
-        schema={active.schema}
-        defaultValues={props}
-        onSubmit={handleApply}
-      />
+      <div className="flex gap-4">
+        <TemplateEditor
+          schema={active.schema}
+          defaultValues={props}
+          onSubmit={handleApply}
+        />
+
+        <button
+          onClick={handleRender}
+          disabled={isRendering}
+          className={`px-4 py-2 rounded ${isRendering ? 'bg-gray-400 text-gray-700' : 'bg-green-600 text-white'
+            }`}
+        >
+          {isRendering ? 'Rendering…' : 'Render & Download'}
+        </button>
+      </div>
     </div>
   );
 }
