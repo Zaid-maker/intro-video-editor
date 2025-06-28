@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useVideoConfig, useCurrentFrame, interpolate } from 'remotion';
+import React from 'react';
+import { interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 import { z } from 'zod';
 
 export const typewriterSchema = z.object({
     text: z.string().default('Your Typewriter Text'),
-    speed: z.number().min(1).default(5), // frames per character
+    speed: z.number().min(1).default(5),
     color: z.string().default('#ffffff'),
     fontSize: z.number().default(60),
     bgColor: z.string().default('#000000'),
