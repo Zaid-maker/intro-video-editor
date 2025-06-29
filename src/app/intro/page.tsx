@@ -160,14 +160,14 @@ export default function Home() {
                     onSubmit={handleApply}
                 />
 
-                {/* <button
+                <button
                     onClick={handleRender}
                     disabled={isRendering}
                     className={`px-4 py-2 rounded ${isRendering ? 'bg-gray-400 text-gray-700' : 'bg-green-600 text-white'
                         }`}
                 >
                     {isRendering ? 'Rendering…' : 'Render & Download'}
-                </button> */}
+                </button>
             </div>
         </div>
     );

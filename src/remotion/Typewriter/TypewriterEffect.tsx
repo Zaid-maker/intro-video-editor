@@ -22,12 +22,21 @@ export const TypewriterEffect: React.FC<TypewriterProps> = ({
     const frame = useCurrentFrame();
     const { fps, durationInFrames, width, height } = useVideoConfig();
 
-    const charsToShow = Math.min(text.length, Math.floor(frame / speed));
+    // Calculate frames per character based on fps and speed (characters per second)
+    const framesPerChar = fps / speed;
+    const charsToShow = Math.min(text.length, Math.floor(frame / framesPerChar));
     const displayed = text.slice(0, charsToShow);
+
+    // Calculate total animation duration in frames
+    const totalAnimationFrames = text.length * framesPerChar;
+    
+    // Use durationInFrames to determine when to start fading out the cursor
+    const fadeStartFrame = Math.min(totalAnimationFrames, durationInFrames - fps); // Start fading 1 second before end
+    const fadeEndFrame = Math.min(totalAnimationFrames + fps, durationInFrames); // End fading at video end
 
     const opacity = interpolate(
         frame,
-        [charsToShow * speed, charsToShow * speed + speed / 2],
+        [fadeStartFrame, fadeEndFrame],
         [1, 0],
         { extrapolateRight: 'clamp' }
     );

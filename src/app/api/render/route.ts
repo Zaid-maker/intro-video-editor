@@ -1,7 +1,4 @@
-import { bundle } from '@remotion/bundler';
 import { NextResponse } from 'next/server';
-import { selectComposition, renderMedia } from '@remotion/renderer';
-import path from 'path';
 
 export async function POST(req: Request) {
     try {
@@ -29,6 +26,11 @@ export async function POST(req: Request) {
                 { status: 400 }
             );
         }
+
+        // Dynamic imports to avoid build-time issues
+        const { bundle } = await import('@remotion/bundler');
+        const { selectComposition, renderMedia } = await import('@remotion/renderer');
+        const path = await import('path');
 
         const bundleLocation = await bundle({
             entryPoint: path.resolve(process.cwd(), 'src/remotion/index.ts'),
