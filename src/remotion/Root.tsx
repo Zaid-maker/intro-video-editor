@@ -10,6 +10,9 @@ import {
 } from "../../types/constants";
 import { NextLogo } from "./MyComp/NextLogo";
 import { typewriterSchema, TypewriterEffect } from "./Typewriter/TypewriterEffect";
+import { fadeInTextSchema, FadeInTextEffect } from "./FadeInText/FadeInTextEffect";
+import { slideInTextSchema, SlideInTextEffect } from "./SlideInText/SlideInTextEffect";
+import { bounceTextSchema, BounceTextEffect } from "./BounceText/BounceTextEffect";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -29,6 +32,60 @@ export const RemotionRoot: React.FC = () => {
           bgColor: '#000000',
         }}
         schema={typewriterSchema}
+      />
+      <Composition
+        id="FadeInText"
+        component={FadeInTextEffect}
+        durationInFrames={180}
+        fps={30}
+        width={1280}
+        height={720}
+        defaultProps={{
+          text: 'Your Fade In Text',
+          duration: 3,
+          color: '#ffffff',
+          fontSize: 70,
+          bgColor: '#000000',
+          fontFamily: 'Arial, sans-serif',
+          fontWeight: 'bold',
+        }}
+        schema={fadeInTextSchema}
+      />
+      <Composition
+        id="SlideInText"
+        component={SlideInTextEffect}
+        durationInFrames={120}
+        fps={30}
+        width={1280}
+        height={720}
+        defaultProps={{
+          text: 'Your Slide In Text',
+          duration: 2,
+          color: '#ffffff',
+          fontSize: 70,
+          bgColor: '#000000',
+          direction: 'left',
+          bounce: false,
+        }}
+        schema={slideInTextSchema}
+      />
+      <Composition
+        id="BounceText"
+        component={BounceTextEffect}
+        durationInFrames={120}
+        fps={30}
+        width={1280}
+        height={720}
+        defaultProps={{
+          text: 'Bounce!',
+          duration: 2,
+          color: '#ffffff',
+          fontSize: 70,
+          bgColor: '#000000',
+          bounceIntensity: 5,
+          bounceCount: 3,
+        }}
+        schema={bounceTextSchema}
       />
       <Composition
         id={COMP_NAME}

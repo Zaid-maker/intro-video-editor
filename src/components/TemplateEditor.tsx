@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { ColorPicker } from "@/components/ui/color-picker";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { ZodSchema } from "zod";
 
 type Props<TSchema extends ZodSchema> = {
@@ -31,6 +33,70 @@ export function TemplateEditor<TSchema extends ZodSchema>({
         formState: { isSubmitting },
     } = form;
 
+    const getFieldType = (key: string, value: any) => {
+        // Check if it's a color field
+        if (typeof value === "string" && value.startsWith("#")) {
+            return "color";
+        }
+        
+        // Check if it's a boolean field
+        if (typeof value === "boolean") {
+            return "boolean";
+        }
+        
+        // Check if it's an enum field (we'll detect this by checking if it's a string with specific values)
+        if (typeof value === "string" && ["left", "right", "top", "bottom"].includes(value)) {
+            return "enum";
+        }
+        
+        // Default types
+        if (typeof value === "string") return "string";
+        if (typeof value === "number") return "number";
+        
+        return "string";
+    };
+
+    const renderField = (key: string, value: any, field: any) => {
+        const fieldType = getFieldType(key, value);
+        
+        switch (fieldType) {
+            case "color":
+                return <ColorPicker value={field.value} onChange={field.onChange} />;
+            case "boolean":
+                return (
+                    <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                    />
+                );
+            case "enum":
+                return (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger>
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="left">Left</SelectItem>
+                            <SelectItem value="right">Right</SelectItem>
+                            <SelectItem value="top">Top</SelectItem>
+                            <SelectItem value="bottom">Bottom</SelectItem>
+                        </SelectContent>
+                    </Select>
+                );
+            case "number":
+                return (
+                    <Slider
+                        value={[field.value]}
+                        onValueChange={(v) => field.onChange(v[0])}
+                        min={1}
+                        max={200}
+                    />
+                );
+            default:
+                return <Input {...field} />;
+        }
+    };
+
     return (
         <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -41,20 +107,9 @@ export function TemplateEditor<TSchema extends ZodSchema>({
                         name={key}
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>{key}</FormLabel>
+                                <FormLabel className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</FormLabel>
                                 <FormControl>
-                                    {typeof val === "string" && val.startsWith("#") ? (
-                                        <ColorPicker value={field.value} onChange={field.onChange} />
-                                    ) : typeof val === "string" ? (
-                                        <Input {...field} />
-                                    ) : typeof val === "number" ? (
-                                        <Slider
-                                            value={[field.value]}
-                                            onValueChange={(v) => field.onChange(v[0])}
-                                            min={1}
-                                            max={200}
-                                        />
-                                    ) : null}
+                                    {renderField(key, val, field)}
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

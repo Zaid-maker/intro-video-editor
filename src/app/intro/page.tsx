@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { Player } from '@remotion/player';
 import { TypewriterEffect, typewriterSchema } from '@/remotion/Typewriter/TypewriterEffect';
+import { FadeInTextEffect, fadeInTextSchema } from '@/remotion/FadeInText/FadeInTextEffect';
+import { SlideInTextEffect, slideInTextSchema } from '@/remotion/SlideInText/SlideInTextEffect';
+import { BounceTextEffect, bounceTextSchema } from '@/remotion/BounceText/BounceTextEffect';
 import { TemplateEditor } from '@/components/TemplateEditor';
 
 type TemplateEntry = {
@@ -25,6 +28,48 @@ const templates: TemplateEntry[] = [
             bgColor: "#000",
         },
     },
+    {
+        id: "FadeInText",
+        comp: FadeInTextEffect,
+        schema: fadeInTextSchema,
+        defaultProps: {
+            text: "Welcome!",
+            duration: 3,
+            color: "#ffffff",
+            fontSize: 70,
+            bgColor: "#1a1a1a",
+            fontFamily: "Arial, sans-serif",
+            fontWeight: "bold",
+        },
+    },
+    {
+        id: "SlideInText",
+        comp: SlideInTextEffect,
+        schema: slideInTextSchema,
+        defaultProps: {
+            text: "Slide In!",
+            duration: 2,
+            color: "#ffffff",
+            fontSize: 70,
+            bgColor: "#2d2d2d",
+            direction: "left",
+            bounce: false,
+        },
+    },
+    {
+        id: "BounceText",
+        comp: BounceTextEffect,
+        schema: bounceTextSchema,
+        defaultProps: {
+            text: "Bounce!",
+            duration: 2,
+            color: "#ffffff",
+            fontSize: 70,
+            bgColor: "#3d3d3d",
+            bounceIntensity: 5,
+            bounceCount: 3,
+        },
+    },
 ];
 
 export default function Home() {
@@ -32,7 +77,21 @@ export default function Home() {
     const [props, setProps] = useState(active.defaultProps);
     const [isRendering, setIsRendering] = useState(false);
 
-    const duration = props.text.length * props.speed + 60;
+    // Calculate duration based on template type
+    const getDuration = () => {
+        if (active.id === "typewriter") {
+            return props.text.length * props.speed + 60;
+        } else if (active.id === "FadeInText") {
+            return props.duration * 30 + 60; // duration in seconds * fps + buffer
+        } else if (active.id === "SlideInText") {
+            return props.duration * 30 + 60;
+        } else if (active.id === "BounceText") {
+            return props.duration * 30 + 60;
+        }
+        return 150;
+    };
+
+    const duration = getDuration();
 
     const handleApply = async (values: any) => {
         await new Promise((r) => setTimeout(r, 300)); // simulate latency
