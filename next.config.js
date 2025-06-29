@@ -41,16 +41,6 @@ const nextConfig = {
     'remotion',
     '@remotion/player',
   ],
-  // Disable static optimization for pages with Remotion components
-  experimental: {
-    serverComponentsExternalPackages: [
-      '@remotion/bundler',
-      '@remotion/renderer',
-      '@remotion/lambda',
-      'remotion',
-      '@remotion/player',
-    ],
-  },
 };
 
 module.exports = nextConfig;
