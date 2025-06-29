@@ -92,6 +92,5 @@
     "remotion": "remotionb studio",
     "render": "remotionb render",
     "deploy": "node deploy.mjs"
-  },
-  "packageManager": "bun@1.2.15"
+  }
 }
