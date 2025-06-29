@@ -8,6 +8,10 @@ import { SlideInTextEffect, slideInTextSchema } from '@/remotion/SlideInText/Sli
 import { BounceTextEffect, bounceTextSchema } from '@/remotion/BounceText/BounceTextEffect';
 import { TemplateEditor } from '@/components/TemplateEditor';
 
+// Force dynamic rendering to prevent SSR issues with Remotion
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 type TemplateEntry = {
     id: string;
     comp: any;

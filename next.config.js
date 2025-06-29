@@ -20,6 +20,18 @@ const nextConfig = {
       crypto: false,
     };
 
+    // Exclude Remotion from SSR
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push({
+        '@remotion/bundler': 'commonjs @remotion/bundler',
+        '@remotion/renderer': 'commonjs @remotion/renderer',
+        '@remotion/lambda': 'commonjs @remotion/lambda',
+        'remotion': 'commonjs remotion',
+        '@remotion/player': 'commonjs @remotion/player',
+      });
+    }
+
     return config;
   },
   serverExternalPackages: [
@@ -27,7 +39,18 @@ const nextConfig = {
     '@remotion/renderer',
     '@remotion/lambda',
     'remotion',
+    '@remotion/player',
   ],
+  // Disable static optimization for pages with Remotion components
+  experimental: {
+    serverComponentsExternalPackages: [
+      '@remotion/bundler',
+      '@remotion/renderer',
+      '@remotion/lambda',
+      'remotion',
+      '@remotion/player',
+    ],
+  },
 };
 
 module.exports = nextConfig;
