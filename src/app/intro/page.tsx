@@ -1,4 +1,4 @@
-import IntroClient from './IntroClient';
+import IntroClient from '@/app/intro/IntroClient';
 
 // Server-side configuration
 export const dynamic = 'force-dynamic';

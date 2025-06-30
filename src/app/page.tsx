@@ -1,9 +1,9 @@
-import { Hero } from "./(landing)/components/Hero";
-import { Features } from "./(landing)/components/Features";
-import { Testimonials } from "./(landing)/components/Testimonials";
-import { Pricing } from "./(landing)/components/Pricing";
-import { FAQ } from "./(landing)/components/FAQ";
-import { Footer } from "./(landing)/components/Footer";
+import { Hero } from "@/app/(landing)/components/Hero";
+import { Features } from "@/app/(landing)/components/Features";
+import { Testimonials } from "@/app/(landing)/components/Testimonials";
+import { Pricing } from "@/app/(landing)/components/Pricing";
+import { FAQ } from "@/app/(landing)/components/FAQ";
+import { Footer } from "@/app/(landing)/components/Footer";
 
 export default function Home() {
   return (

@@ -1,7 +1,7 @@
 import React from "react";
-import { State } from "../helpers/use-rendering";
-import { Button } from "./Button";
-import { Spacing } from "./Spacing";
+import { State } from "@/helpers/use-rendering";
+import { Button } from "@/components/Button";
+import { Spacing } from "@/components/Spacing";
 
 const Megabytes: React.FC<{
   sizeInBytes: number;

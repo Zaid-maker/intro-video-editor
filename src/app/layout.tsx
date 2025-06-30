@@ -1,7 +1,7 @@
 import "../../styles/global.css";
 import { Metadata, Viewport } from "next";
-import { Navbar } from "./(landing)/components/Navbar";
-import Sidebar from "./(landing)/components/Sidebar";
+import { Navbar } from "@/app/(landing)/components/Navbar";
+import Sidebar from "@/app/(landing)/components/Sidebar";
 import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {

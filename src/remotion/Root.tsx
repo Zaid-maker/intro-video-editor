@@ -1,5 +1,5 @@
 import { Composition } from "remotion";
-import { Main } from "./MyComp/Main";
+import { Main } from "@/remotion/MyComp/Main";
 import {
   COMP_NAME,
   defaultMyCompProps,
@@ -7,12 +7,12 @@ import {
   VIDEO_FPS,
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
-} from "../../types/constants";
-import { NextLogo } from "./MyComp/NextLogo";
-import { typewriterSchema, TypewriterEffect } from "./Typewriter/TypewriterEffect";
-import { fadeInTextSchema, FadeInTextEffect } from "./FadeInText/FadeInTextEffect";
-import { slideInTextSchema, SlideInTextEffect } from "./SlideInText/SlideInTextEffect";
-import { bounceTextSchema, BounceTextEffect } from "./BounceText/BounceTextEffect";
+} from "@/types/constants";
+import { NextLogo } from "@/remotion/MyComp/NextLogo";
+import { typewriterSchema, TypewriterEffect } from "@/remotion/Typewriter/TypewriterEffect";
+import { fadeInTextSchema, FadeInTextEffect } from "@/remotion/FadeInText/FadeInTextEffect";
+import { slideInTextSchema, SlideInTextEffect } from "@/remotion/SlideInText/SlideInTextEffect";
+import { bounceTextSchema, BounceTextEffect } from "@/remotion/BounceText/BounceTextEffect";
 
 export const RemotionRoot: React.FC = () => {
   return (
