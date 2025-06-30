@@ -7,6 +7,7 @@ import { FadeInTextEffect, fadeInTextSchema } from '@/remotion/FadeInText/FadeIn
 import { SlideInTextEffect, slideInTextSchema } from '@/remotion/SlideInText/SlideInTextEffect';
 import { BounceTextEffect, bounceTextSchema } from '@/remotion/BounceText/BounceTextEffect';
 import { TemplateEditor } from '@/components/TemplateEditor';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 type TemplateEntry = {
     id: string;
@@ -76,6 +77,7 @@ export default function IntroClient() {
     const [active, setActive] = useState(templates[0]);
     const [props, setProps] = useState(active.defaultProps);
     const [isRendering, setIsRendering] = useState(false);
+    const [tab, setTab] = useState('general');
 
     // Calculate duration based on template type
     const getDuration = () => {
@@ -120,55 +122,80 @@ export default function IntroClient() {
     };
 
     return (
-        <div className="p-8 max-w-4xl mx-auto space-y-8">
-            {/* Template switcher and preview */}
-            <div className="flex gap-4">
-                {templates.map((t) => (
-                    <button
-                        key={t.id}
-                        className={`px-4 py-2 rounded ${t.id === active.id ? 'bg-blue-600 text-white' : 'border'
-                            }`}
-                        onClick={() => {
-                            setActive(t);
-                            setProps(t.defaultProps);
-                        }}
-                    >
-                        {t.id}
-                    </button>
-                ))}
-            </div>
-
-            <Player
-                component={active.comp}
-                inputProps={props}
-                durationInFrames={duration}
-                compositionWidth={1280}
-                compositionHeight={720}
-                fps={30}
-                controls
-                style={{
-                    width: '100%',
-                    maxWidth: 640,
-                    border: '1px solid #444',
-                }}
-            />
-
-            <div className="flex gap-4">
-                <TemplateEditor
-                    schema={active.schema}
-                    defaultValues={props}
-                    onSubmit={handleApply}
+        <div className="flex flex-row gap-8 p-8 max-w-7xl mx-auto min-h-[80vh]">
+            {/* Centered Player */}
+            <div className="flex-1 flex flex-col items-center justify-center">
+                <div className="flex gap-4 mb-6">
+                    {templates.map((t) => (
+                        <button
+                            key={t.id}
+                            className={`px-4 py-2 rounded ${t.id === active.id ? 'bg-blue-600 text-white' : 'border'}`}
+                            onClick={() => {
+                                setActive(t);
+                                setProps(t.defaultProps);
+                            }}
+                        >
+                            {t.id}
+                        </button>
+                    ))}
+                </div>
+                <Player
+                    component={active.comp}
+                    inputProps={props}
+                    durationInFrames={duration}
+                    compositionWidth={1280}
+                    compositionHeight={720}
+                    fps={30}
+                    controls
+                    style={{
+                        width: '100%',
+                        maxWidth: 640,
+                        border: '1px solid #444',
+                        background: '#111',
+                    }}
                 />
-
                 <button
                     onClick={handleRender}
                     disabled={isRendering}
-                    className={`px-4 py-2 rounded ${isRendering ? 'bg-gray-400 text-gray-700' : 'bg-green-600 text-white'
-                        }`}
+                    className={`mt-6 px-4 py-2 rounded ${isRendering ? 'bg-gray-400 text-gray-700' : 'bg-green-600 text-white'}`}
                 >
                     {isRendering ? 'Rendering…' : 'Render & Download'}
                 </button>
             </div>
+            {/* Sidebar with Tabs */}
+            <aside className="w-[340px] min-w-[280px] max-w-[400px] bg-background border rounded-xl shadow-lg p-6 flex flex-col">
+                <Tabs value={tab} onValueChange={setTab} className="flex-1 flex flex-col">
+                    <TabsList className="mb-4">
+                        <TabsTrigger value="general">General</TabsTrigger>
+                        <TabsTrigger value="colors">Colors</TabsTrigger>
+                        <TabsTrigger value="animation">Animation</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="general" className="flex-1">
+                        <TemplateEditor
+                            schema={active.schema}
+                            defaultValues={props}
+                            onSubmit={handleApply}
+                            tab="general"
+                        />
+                    </TabsContent>
+                    <TabsContent value="colors" className="flex-1">
+                        <TemplateEditor
+                            schema={active.schema}
+                            defaultValues={props}
+                            onSubmit={handleApply}
+                            tab="colors"
+                        />
+                    </TabsContent>
+                    <TabsContent value="animation" className="flex-1">
+                        <TemplateEditor
+                            schema={active.schema}
+                            defaultValues={props}
+                            onSubmit={handleApply}
+                            tab="animation"
+                        />
+                    </TabsContent>
+                </Tabs>
+            </aside>
         </div>
     );
 } 
