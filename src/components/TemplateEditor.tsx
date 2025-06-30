@@ -15,12 +15,14 @@ type Props<TSchema extends ZodSchema> = {
     schema: TSchema;
     defaultValues: any;
     onSubmit: (values: any) => Promise<void> | void;
+    tab?: 'general' | 'colors' | 'animation';
 };
 
 export function TemplateEditor<TSchema extends ZodSchema>({
     schema,
     defaultValues,
     onSubmit,
+    tab = 'general',
 }: Props<TSchema>) {
     const form = useForm({
         resolver: zodResolver(schema),
@@ -97,27 +99,36 @@ export function TemplateEditor<TSchema extends ZodSchema>({
         }
     };
 
+    // Group fields by tab
+    const fieldTab = (key: string) => {
+        if (["color", "bgColor"].includes(key)) return "colors";
+        if (["text", "fontSize", "fontFamily", "fontWeight", "direction", "bounce", "bounceCount", "duration", "speed"].includes(key)) return "general";
+        return "animation";
+    };
+
     return (
         <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {Object.entries(defaultValues).map(([key, val]) => (
-                    <FormField
-                        key={key}
-                        control={control}
-                        name={key}
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</FormLabel>
-                                <FormControl>
-                                    {renderField(key, val, field)}
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                ))}
+                {Object.entries(defaultValues)
+                    .filter(([key]) => fieldTab(key) === tab)
+                    .map(([key, val]) => (
+                        <FormField
+                            key={key}
+                            control={control}
+                            name={key}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</FormLabel>
+                                    <FormControl>
+                                        {renderField(key, val, field)}
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    ))}
 
-                <Button type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting} className="w-full">
                     {isSubmitting ? (
                         <div className="flex items-center">
                             <svg className="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
