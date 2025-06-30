@@ -9,17 +9,17 @@ import {
   VIDEO_WIDTH,
 } from "../../types/constants";
 import { NextLogo } from "./MyComp/NextLogo";
-import { typewriterSchema, TypewriterEffect } from "./Typewriter/TypewriterEffect";
-import { fadeInTextSchema, FadeInTextEffect } from "./FadeInText/FadeInTextEffect";
-import { slideInTextSchema, SlideInTextEffect } from "./SlideInText/SlideInTextEffect";
-import { bounceTextSchema, BounceTextEffect } from "./BounceText/BounceTextEffect";
+import { typewriterSchema, TypewriterTemplate } from "./Typewriter/TypewriterTemplate";
+import { fadeInTextSchema, FadeInTextTemplate } from "./FadeInText/FadeInTextTemplate";
+import { slideInTextSchema, SlideInTextTemplate } from "./SlideInText/SlideInTextTemplate";
+import { bounceTextSchema, BounceTextTemplate } from "./BounceText/BounceTextTemplate";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
         id="Typewriter"
-        component={TypewriterEffect}
+        component={TypewriterTemplate}
         durationInFrames={150}
         fps={30}
         width={1280}
@@ -35,7 +35,7 @@ export const RemotionRoot: React.FC = () => {
       />
       <Composition
         id="FadeInText"
-        component={FadeInTextEffect}
+        component={FadeInTextTemplate}
         durationInFrames={180}
         fps={30}
         width={1280}
@@ -53,7 +53,7 @@ export const RemotionRoot: React.FC = () => {
       />
       <Composition
         id="SlideInText"
-        component={SlideInTextEffect}
+        component={SlideInTextTemplate}
         durationInFrames={120}
         fps={30}
         width={1280}
@@ -71,7 +71,7 @@ export const RemotionRoot: React.FC = () => {
       />
       <Composition
         id="BounceText"
-        component={BounceTextEffect}
+        component={BounceTextTemplate}
         durationInFrames={120}
         fps={30}
         width={1280}

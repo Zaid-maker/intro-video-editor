@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { Player } from '@remotion/player';
-import { TypewriterEffect, typewriterSchema } from '@/remotion/Typewriter/TypewriterEffect';
-import { FadeInTextEffect, fadeInTextSchema } from '@/remotion/FadeInText/FadeInTextEffect';
-import { SlideInTextEffect, slideInTextSchema } from '@/remotion/SlideInText/SlideInTextEffect';
-import { BounceTextEffect, bounceTextSchema } from '@/remotion/BounceText/BounceTextEffect';
+import { TypewriterTemplate, typewriterSchema } from '@/remotion/Typewriter/TypewriterTemplate';
+import { FadeInTextTemplate, fadeInTextSchema } from '@/remotion/FadeInText/FadeInTextTemplate';
+import { SlideInTextTemplate, slideInTextSchema } from '@/remotion/SlideInText/SlideInTextTemplate';
+import { BounceTextTemplate, bounceTextSchema } from '@/remotion/BounceText/BounceTextTemplate';
 import { TemplateEditor } from '@/components/TemplateEditor';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
@@ -19,7 +19,7 @@ type TemplateEntry = {
 const templates: TemplateEntry[] = [
     {
         id: "Typewriter",
-        comp: TypewriterEffect,
+        comp: TypewriterTemplate,
         schema: typewriterSchema,
         defaultProps: {
             text: "Hello!",
@@ -31,7 +31,7 @@ const templates: TemplateEntry[] = [
     },
     {
         id: "FadeInText",
-        comp: FadeInTextEffect,
+        comp: FadeInTextTemplate,
         schema: fadeInTextSchema,
         defaultProps: {
             text: "Welcome!",
@@ -45,7 +45,7 @@ const templates: TemplateEntry[] = [
     },
     {
         id: "SlideInText",
-        comp: SlideInTextEffect,
+        comp: SlideInTextTemplate,
         schema: slideInTextSchema,
         defaultProps: {
             text: "Slide In!",
@@ -59,7 +59,7 @@ const templates: TemplateEntry[] = [
     },
     {
         id: "BounceText",
-        comp: BounceTextEffect,
+        comp: BounceTextTemplate,
         schema: bounceTextSchema,
         defaultProps: {
             text: "Bounce!",
@@ -74,9 +74,9 @@ const templates: TemplateEntry[] = [
 ];
 
 const effectOptions = [
-  { id: 'fadein', label: 'Fade In', comp: FadeInTextEffect, schema: fadeInTextSchema },
-  { id: 'slidein', label: 'Slide In', comp: SlideInTextEffect, schema: slideInTextSchema },
-  { id: 'bounce', label: 'Bounce', comp: BounceTextEffect, schema: bounceTextSchema },
+  { id: 'fadein', label: 'Fade In', comp: FadeInTextTemplate, schema: fadeInTextSchema },
+  { id: 'slidein', label: 'Slide In', comp: SlideInTextTemplate, schema: slideInTextSchema },
+  { id: 'bounce', label: 'Bounce', comp: BounceTextTemplate, schema: bounceTextSchema },
 ];
 
 export default function IntroClient() {
