@@ -85,7 +85,7 @@ export default function IntroClient() {
     const [isRendering, setIsRendering] = useState(false);
     const [tab, setTab] = useState('general');
     const [selectedEffects, setSelectedEffects] = useState<string[]>([]);
-    const [effectProps, setEffectProps] = useState({
+    const [effectProps, setEffectProps] = useState<Record<string, any>>({
       fadein: fadeInTextSchema.parse({}),
       slidein: slideInTextSchema.parse({}),
       bounce: bounceTextSchema.parse({}),
