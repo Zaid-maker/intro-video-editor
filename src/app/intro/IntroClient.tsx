@@ -73,11 +73,23 @@ const templates: TemplateEntry[] = [
     },
 ];
 
+const effectOptions = [
+  { id: 'fadein', label: 'Fade In', comp: FadeInTextEffect, schema: fadeInTextSchema },
+  { id: 'slidein', label: 'Slide In', comp: SlideInTextEffect, schema: slideInTextSchema },
+  { id: 'bounce', label: 'Bounce', comp: BounceTextEffect, schema: bounceTextSchema },
+];
+
 export default function IntroClient() {
     const [active, setActive] = useState(templates[0]);
     const [props, setProps] = useState(active.defaultProps);
     const [isRendering, setIsRendering] = useState(false);
     const [tab, setTab] = useState('general');
+    const [selectedEffects, setSelectedEffects] = useState<string[]>([]);
+    const [effectProps, setEffectProps] = useState({
+      fadein: fadeInTextSchema.parse({}),
+      slidein: slideInTextSchema.parse({}),
+      bounce: bounceTextSchema.parse({}),
+    });
 
     // Calculate duration based on template type
     const getDuration = () => {
@@ -121,6 +133,24 @@ export default function IntroClient() {
         setIsRendering(false);
     };
 
+    // Compose the preview component with stacking
+    let PreviewComp = active.comp;
+    let previewProps = props;
+    if (selectedEffects.length > 0) {
+      PreviewComp = selectedEffects.reduceRight((Accum, effectId) => {
+        const effect = effectOptions.find(e => e.id === effectId);
+        if (!effect) return Accum;
+        const EffectComp = effect.comp;
+        const effectPropsForPreview = effectProps[effectId];
+        return (p: any) => (
+          <EffectComp {...effectPropsForPreview}>
+            <Accum {...p} />
+          </EffectComp>
+        );
+      }, active.comp);
+      previewProps = props;
+    }
+
     return (
         <div className="flex flex-row gap-8 p-8 max-w-7xl mx-auto min-h-[80vh]">
             {/* Centered Player */}
@@ -140,8 +170,8 @@ export default function IntroClient() {
                     ))}
                 </div>
                 <Player
-                    component={active.comp}
-                    inputProps={props}
+                    component={PreviewComp}
+                    inputProps={previewProps}
                     durationInFrames={duration}
                     compositionWidth={1280}
                     compositionHeight={720}
@@ -169,6 +199,7 @@ export default function IntroClient() {
                         <TabsTrigger value="general">General</TabsTrigger>
                         <TabsTrigger value="colors">Colors</TabsTrigger>
                         <TabsTrigger value="animation">Animation</TabsTrigger>
+                        <TabsTrigger value="effects">Effects</TabsTrigger>
                     </TabsList>
                     <TabsContent value="general" className="flex-1">
                         <TemplateEditor
@@ -193,6 +224,50 @@ export default function IntroClient() {
                             onSubmit={handleApply}
                             tab="animation"
                         />
+                    </TabsContent>
+                    <TabsContent value="effects" className="flex-1 space-y-4">
+                        <div>
+                          <div className="font-semibold mb-2">Select Effects (Stacked)</div>
+                          <div className="flex flex-col gap-2">
+                            {effectOptions.map((effect) => (
+                              <label key={effect.id} className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  name="effect"
+                                  value={effect.id}
+                                  checked={selectedEffects.includes(effect.id)}
+                                  onChange={e => {
+                                    setSelectedEffects(prev =>
+                                      e.target.checked
+                                        ? [...prev, effect.id]
+                                        : prev.filter(id => id !== effect.id)
+                                    );
+                                  }}
+                                />
+                                {effect.label}
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                        {selectedEffects.length > 0 && (
+                          <div>
+                            <div className="font-semibold mb-2">Effect Settings</div>
+                            {selectedEffects.map(effectId => {
+                              const effect = effectOptions.find(e => e.id === effectId);
+                              if (!effect) return null;
+                              return (
+                                <div key={effectId} className="mb-4 border-b pb-4 last:border-b-0 last:pb-0">
+                                  <div className="font-medium mb-1">{effect.label}</div>
+                                  <TemplateEditor
+                                    schema={effect.schema}
+                                    defaultValues={effectProps[effectId]}
+                                    onSubmit={vals => setEffectProps(prev => ({ ...prev, [effectId]: vals }))}
+                                  />
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
                     </TabsContent>
                 </Tabs>
             </aside>
