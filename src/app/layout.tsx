@@ -2,6 +2,7 @@ import "../../styles/global.css";
 import { Metadata, Viewport } from "next";
 import { Navbar } from "./(landing)/components/Navbar";
 import Sidebar from "./(landing)/components/Sidebar";
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: "Remotion and Next.js",
@@ -33,6 +34,7 @@ export default function RootLayout({
 
           <main className="flex-1 overflow-y-auto p-4 ">
             {children}
+            <Analytics />
           </main>
         </div>
       </body>

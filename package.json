@@ -44,6 +44,7 @@
     "@remotion/renderer": "4.0.319",
     "@remotion/shapes": "4.0.319",
     "@remotion/tailwind-v4": "4.0.319",
+    "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
