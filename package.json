@@ -91,8 +91,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "remotion": "remotionb studio",
-    "render": "remotionb render",
+    "remotion": "remotion studio",
+    "render": "remotion render",
     "deploy": "node deploy.mjs"
   },
   "packageManager": "bun@1.2.15"

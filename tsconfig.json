@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "remotion/webpack-override.mjs"
+    "src/remotion/webpack-override.mjs"
   ],
   "exclude": [
     "node_modules",

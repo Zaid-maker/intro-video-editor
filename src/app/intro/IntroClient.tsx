@@ -18,7 +18,7 @@ type TemplateEntry = {
 
 const templates: TemplateEntry[] = [
     {
-        id: "typewriter",
+        id: "Typewriter",
         comp: TypewriterEffect,
         schema: typewriterSchema,
         defaultProps: {
@@ -93,7 +93,7 @@ export default function IntroClient() {
 
     // Calculate duration based on template type
     const getDuration = () => {
-        if (active.id === "typewriter") {
+        if (active.id === "Typewriter") {
             return props.text.length * props.speed + 60;
         } else if (active.id === "FadeInText") {
             return props.duration * 30 + 60; // duration in seconds * fps + buffer
