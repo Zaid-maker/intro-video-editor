@@ -7,7 +7,7 @@ import { Footer } from "./(landing)/components/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#111113]   ">
+    <main className=" bg-[#111113]p-6   ">
       <Hero />
       <Features />
       <Testimonials />

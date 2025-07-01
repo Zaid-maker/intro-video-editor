@@ -1,77 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { Player } from '@remotion/player';
-import { TypewriterTemplate, typewriterSchema } from '@/remotion/Typewriter/TypewriterTemplate';
+import { TemplateEditor } from '@/components/TemplateEditor';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { templates } from '@/lib/data';
+import { BounceTextTemplate, bounceTextSchema } from '@/remotion/BounceText/BounceTextTemplate';
 import { FadeInTextTemplate, fadeInTextSchema } from '@/remotion/FadeInText/FadeInTextTemplate';
 import { SlideInTextTemplate, slideInTextSchema } from '@/remotion/SlideInText/SlideInTextTemplate';
-import { BounceTextTemplate, bounceTextSchema } from '@/remotion/BounceText/BounceTextTemplate';
-import { TemplateEditor } from '@/components/TemplateEditor';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-
-type TemplateEntry = {
-    id: string;
-    comp: any;
-    schema: any;
-    defaultProps: any;
-};
-
-const templates: TemplateEntry[] = [
-    {
-        id: "Typewriter",
-        comp: TypewriterTemplate,
-        schema: typewriterSchema,
-        defaultProps: {
-            text: "Hello!",
-            speed: 5,
-            color: "#fff",
-            fontSize: 70,
-            bgColor: "#000",
-        },
-    },
-    {
-        id: "FadeInText",
-        comp: FadeInTextTemplate,
-        schema: fadeInTextSchema,
-        defaultProps: {
-            text: "Welcome!",
-            duration: 3,
-            color: "#ffffff",
-            fontSize: 70,
-            bgColor: "#1a1a1a",
-            fontFamily: "Arial, sans-serif",
-            fontWeight: "bold",
-        },
-    },
-    {
-        id: "SlideInText",
-        comp: SlideInTextTemplate,
-        schema: slideInTextSchema,
-        defaultProps: {
-            text: "Slide In!",
-            duration: 2,
-            color: "#ffffff",
-            fontSize: 70,
-            bgColor: "#2d2d2d",
-            direction: "left",
-            bounce: false,
-        },
-    },
-    {
-        id: "BounceText",
-        comp: BounceTextTemplate,
-        schema: bounceTextSchema,
-        defaultProps: {
-            text: "Bounce!",
-            duration: 2,
-            color: "#ffffff",
-            fontSize: 70,
-            bgColor: "#3d3d3d",
-            bounceIntensity: 5,
-            bounceCount: 3,
-        },
-    },
-];
+import { Player } from '@remotion/player';
+import { useState } from 'react';
 
 const effectOptions = [
   { id: 'fadein', label: 'Fade In', comp: FadeInTextTemplate, schema: fadeInTextSchema },
