@@ -12,7 +12,7 @@ export const typewriterSchema = z.object({
 
 type TypewriterProps = z.infer<typeof typewriterSchema>;
 
-export const TypewriterEffect: React.FC<TypewriterProps> = ({
+export const TypewriterTemplate: React.FC<TypewriterProps> = ({
     text,
     speed,
     color,

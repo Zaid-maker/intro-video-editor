@@ -72,10 +72,10 @@ src/
 - Real-time property updates
 
 #### 3. Video Templates (`src/remotion/`)
-- **TypewriterEffect** - Character-by-character text reveal
-- **FadeInTextEffect** - Smooth fade-in with scale animation
-- **SlideInTextEffect** - Slide-in from different directions
-- **BounceTextEffect** - Bouncing text animation
+- **TypewriterTemplate** - Character-by-character text reveal
+- **FadeInTextTemplate** - Smooth fade-in with scale animation
+- **SlideInTextTemplate** - Slide-in from different directions
+- **BounceTextTemplate** - Bouncing text animation
 
 #### 4. API Routes (`src/app/api/`)
 - `/api/render` - Handles video rendering requests

@@ -2,47 +2,44 @@ import React from 'react';
 import { interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 import { z } from 'zod';
 
-export const bounceTextSchema = z.object({
-    text: z.string().default('Bounce!'),
-    duration: z.number().min(1).max(5).default(2),
+export const fadeInTextSchema = z.object({
+    text: z.string().default('Your Fade In Text'),
+    duration: z.number().min(1).max(10).default(3),
     color: z.string().default('#ffffff'),
     fontSize: z.number().default(60),
     bgColor: z.string().default('#000000'),
-    bounceIntensity: z.number().min(1).max(10).default(5),
-    bounceCount: z.number().min(1).max(10).default(3),
+    fontFamily: z.string().default('Arial, sans-serif'),
+    fontWeight: z.string().default('bold'),
 });
 
-type BounceTextProps = z.infer<typeof bounceTextSchema>;
+type FadeInTextProps = z.infer<typeof fadeInTextSchema>;
 
-export const BounceTextEffect: React.FC<BounceTextProps> = ({
+export const FadeInTextTemplate: React.FC<FadeInTextProps> = ({
     text,
     duration,
     color,
     fontSize,
     bgColor,
-    bounceIntensity,
-    bounceCount,
+    fontFamily,
+    fontWeight,
 }) => {
     const frame = useCurrentFrame();
     const { fps } = useVideoConfig();
 
-    const totalDuration = duration * fps;
-    const bounceDuration = totalDuration / (bounceCount + 1);
-    
-    // Calculate bounce animation
-    const bounceProgress = (frame % bounceDuration) / bounceDuration;
-    const bounceHeight = interpolate(
-        bounceProgress,
-        [0, 0.5, 1],
-        [0, bounceIntensity * 10, 0],
+    // Calculate fade in animation
+    const fadeInDuration = duration * fps;
+    const fadeInProgress = interpolate(
+        frame,
+        [0, fadeInDuration],
+        [0, 1],
         { extrapolateRight: 'clamp' }
     );
 
-    // Fade in effect
-    const fadeIn = interpolate(
+    // Add a subtle scale animation
+    const scale = interpolate(
         frame,
-        [0, totalDuration * 0.3],
-        [0, 1],
+        [0, fadeInDuration * 0.5],
+        [0.8, 1],
         { extrapolateRight: 'clamp' }
     );
 
@@ -59,10 +56,10 @@ export const BounceTextEffect: React.FC<BounceTextProps> = ({
                 style={{
                     color,
                     fontSize,
-                    fontFamily: 'Arial, sans-serif',
-                    fontWeight: 'bold',
-                    opacity: fadeIn,
-                    transform: `translateY(-${bounceHeight}px)`,
+                    fontFamily,
+                    fontWeight,
+                    opacity: fadeInProgress,
+                    transform: `scale(${scale})`,
                     textAlign: 'center',
                     margin: 0,
                     textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
@@ -72,4 +69,4 @@ export const BounceTextEffect: React.FC<BounceTextProps> = ({
             </h1>
         </div>
     );
-}; 
+};

@@ -14,7 +14,7 @@ export const slideInTextSchema = z.object({
 
 type SlideInTextProps = z.infer<typeof slideInTextSchema>;
 
-export const SlideInTextEffect: React.FC<SlideInTextProps> = ({
+export const SlideInTextTemplate: React.FC<SlideInTextProps> = ({
     text,
     duration,
     color,
@@ -102,4 +102,4 @@ export const SlideInTextEffect: React.FC<SlideInTextProps> = ({
             </h1>
         </div>
     );
-}; 
+};
