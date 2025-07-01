@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:is(.dark *)); */
 
 /* :root {
   --background: #fff;
@@ -63,7 +63,7 @@
     }
   }
 } */
-
+/* 
 @theme inline {
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -282,4 +282,4 @@
 
 #__next-build-watcher {
   display: none !important;
-}
+} */

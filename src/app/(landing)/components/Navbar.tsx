@@ -5,22 +5,22 @@ import { Icons } from "../../../../assets/Icons.js";
 
 export function Navbar() {
   const [tooltipVisible, setTooltipVisible] = useState(false);
-const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleMouseEnter = () => {
-if (timeoutRef.current) {
-  clearTimeout(timeoutRef.current);
-}    setTooltipVisible(true);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    } setTooltipVisible(true);
   };
 
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setTooltipVisible(false);
-    }, 200); 
+    }, 200);
   };
 
   return (
-    <header className="flex bg-black justify-between items-center py-3 px-4 tracking-wide">
+    <header className="flex bg-[#0C0C0E] justify-between items-center py-3 px-4 tracking-wide">
       <span className="text-white">Welcome Back, {"name"}</span>
 
       <div className="flex space-x-3 items-center justify-center relative">

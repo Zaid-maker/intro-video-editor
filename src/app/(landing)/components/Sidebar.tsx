@@ -4,7 +4,7 @@ import { Icons } from "../../../../assets/Icons";
 
 export default function Sidebar() {
     return (
-        <div className="w-14 h-screen bg-black flex flex-col justify-between items-center py-4">
+        <div className="w-14 h-screen bg-[#0C0C0E] flex flex-col justify-between items-center py-4">
             {/* Top section */}
             <div className="flex flex-col items-center space-y-5">
                 <span className="text-gray-600 text-xs">logo</span>
