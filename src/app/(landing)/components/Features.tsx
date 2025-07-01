@@ -6,13 +6,13 @@ const features = [
 
 export function Features() {
     return (
-        <section className="py-16 px-4 bg-white">
-            <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">How It Works</h3>
+        <section className="py-16 px-4 ">
+            <h3 className="text-3xl font-bold text-center mb-12 text-white">How It Works</h3>
             <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
                 {features.map((f) => (
                     <div key={f.title} className="p-6 bg-gray-50 rounded-lg shadow">
                         <h4 className="text-xl font-semibold mb-2">{f.title}</h4>
-                        <p className="text-gray-600">{f.desc}</p>
+                        <p className="text-white">{f.desc}</p>
                     </div>
                 ))}
             </div>
