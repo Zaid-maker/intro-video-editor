@@ -36,12 +36,31 @@ export const TypewriterTemplate: React.FC<TypewriterProps> = ({
     const fadeStartFrame = Math.min(totalAnimationFrames, durationInFrames - fps); // Start fading 1 second before end
     const fadeEndFrame = Math.min(totalAnimationFrames + fps, durationInFrames); // End fading at video end
 
-    const opacity = interpolate(
+    // Cursor blink: blink every 30 frames (0.5s at 60fps, 1s at 30fps)
+    const blink = Math.floor(frame / (fps / 2)) % 2 === 0;
+    const cursorOpacity = interpolate(
         frame,
         [fadeStartFrame, fadeEndFrame],
         [1, 0],
         { extrapolateRight: 'clamp' }
-    );
+    ) * (blink ? 1 : 0.2);
+
+    // Pop scale for the most recent character
+    let popScale = 1;
+    if (charsToShow > 0 && charsToShow <= text.length) {
+        const charAppearFrame = charsToShow * framesPerChar;
+        // Pop lasts for 6 frames
+        const popDuration = 6;
+        const popStart = charAppearFrame - popDuration;
+        if (frame >= popStart && frame <= charAppearFrame) {
+            popScale = interpolate(
+                frame,
+                [popStart, charAppearFrame],
+                [1.4, 1],
+                { extrapolateRight: 'clamp' }
+            );
+        }
+    }
 
     return (
         <div style={{ flex: 1, backgroundColor: bgColor, width, height, padding: 50 }}>
@@ -53,8 +72,13 @@ export const TypewriterTemplate: React.FC<TypewriterProps> = ({
                     whiteSpace: 'pre-wrap',
                 }}
             >
-                {displayed}
-                <span style={{ opacity }}>|</span>
+                {displayed.slice(0, -1)}
+                {charsToShow > 0 && (
+                    <span style={{ display: 'inline-block', transform: `scale(${popScale})` }}>
+                        {displayed.slice(-1)}
+                    </span>
+                )}
+                <span style={{ opacity: cursorOpacity, transition: 'opacity 0.1s' }}>|</span>
             </span>
         </div>
     );
