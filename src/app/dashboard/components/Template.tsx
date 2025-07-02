@@ -4,6 +4,7 @@ import React from "react";
 import { templates } from "@/lib/data";
 import { IMAGES } from "../../../../assets/Images";
 import Link from "next/link";
+import Image from "next/image";
 
 function Template() {
   return (
@@ -20,7 +21,7 @@ function Template() {
             className=" rounded-xl   cursor-pointer  "
           >
             <div className="w-full  rounded-lg overflow-hidden  mb-3">
-              <img
+              <Image
                 src={IMAGES[`previewPic${index + 1}` as keyof typeof IMAGES]}
                 alt={template.id}
                 className="w-full h-auto hover:scale-125 transition-all ease-in-out object-contain"

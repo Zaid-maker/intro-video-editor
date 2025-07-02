@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Template from "./components/Template";
 
 function Dashboard() {
@@ -6,14 +7,14 @@ function Dashboard() {
       <div className="flex flex-col lg:flex-row w-full gap-6">
         {/* Card 1 */}
         <div className="relative w-full lg:flex-[3] h-auto lg:h-96 rounded-lg bg-[#232327]">
-          <img
+          <Image
             src="/cardLines.webp"
             alt="Background lines"
             className="absolute inset-0 w-full h-48 object-cover opacity-20"
           />
           <div className="relative z-10 p-6 h-full flex flex-col justify-between">
             <div className="flex justify-center mr-5  mb-0 lg:mb-4">
-              <img
+              <Image
                 src="/file1.webp"
                 alt="File icon"
               />
@@ -36,7 +37,7 @@ function Dashboard() {
             </div>
           </div>
           <div className="absolute bottom-0">
-            <img src="cardshadow1.webp" alt="" />
+            <Image src="cardshadow1.webp" alt="" />
           </div>
         </div>
 
@@ -45,7 +46,7 @@ function Dashboard() {
           {/* Card 2 */}
           <div className="relative h-auto lg:h-48 rounded-lg bg-[#232327]">
             <div className="relative z-10 p-6 h-full flex flex-col lg:flex-row items-center gap-4">
-              <img src="/file2.webp" alt="File icon" className="w-24 h-24" />
+              <Image src="/file2.webp" alt="File icon" className="w-24 h-24" />
               <div className="text-center lg:text-left">
                 <h3 className="text-white text-lg font-semibold mb-1">
                   Create Your First Project
@@ -59,7 +60,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="absolute bottom-0">
-              <img src="cardshadow2.webp" alt="" />
+              <Image src="cardshadow2.webp" alt="" />
             </div>
           </div>
 
@@ -67,10 +68,10 @@ function Dashboard() {
           <div className="relative h-auto lg:h-[179px] rounded-lg overflow-hidden bg-[#232327]">
             <div className="relative z-10 p-6 h-full flex flex-col lg:flex-row items-center gap-4">
               <div className="relative">
-                <img src="/shape1.webp" alt="shape1" className="w-12 hidden lg:block absolute -top-5 rotate-[30deg] -left-[35px] h-12" />
-                <img src="/shape2.webp" alt="shape2" className="w-[60px] hidden lg:block absolute -top-10 left-[6px] h-12" />
-                <img src="/shape3.webp" alt="shape3" className="w-[45px] hidden lg:block absolute -top-8 rotate-[-12deg] left-[74px] h-[65px]" />
-                <img src="/file3.webp" alt="File icon" className="w-36 h-32 -ml-3" />
+                <Image src="/shape1.webp" alt="shape1" className="w-12 hidden lg:block absolute -top-5 rotate-[30deg] -left-[35px] h-12" />
+                <Image src="/shape2.webp" alt="shape2" className="w-[60px] hidden lg:block absolute -top-10 left-[6px] h-12" />
+                <Image src="/shape3.webp" alt="shape3" className="w-[45px] hidden lg:block absolute -top-8 rotate-[-12deg] left-[74px] h-[65px]" />
+                <Image src="/file3.webp" alt="File icon" className="w-36 h-32 -ml-3" />
               </div>
               <div className="text-center lg:text-left lg:-ml-10 ml-0 -mt-4">
                 <h3 className="text-white text-lg font-semibold mb-1">
@@ -85,7 +86,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="absolute bottom-0">
-              <img src="cardshadow3.webp" alt="" />
+              <Image src="cardshadow3.webp" alt="" />
             </div>
           </div>
         </div>

@@ -153,13 +153,28 @@ export default function IntroClient() {
                             tab="colors"
                         />
                     </TabsContent>
-                    <TabsContent value="animation" className="flex-1">
-                        <TemplateEditor
-                            schema={active.schema}
-                            defaultValues={props}
-                            onSubmit={handleApply}
-                            tab="animation"
-                        />
+                    <TabsContent value="animation" className="flex-1 space-y-4">
+                        <div className="font-semibold mb-2">Choose Animation Style</div>
+                        <div className="flex flex-col gap-4">
+                            {templates.map((t) => (
+                                <div key={t.id} className={`flex items-center gap-4 p-3 rounded border ${t.id === active.id ? 'border-blue-600 bg-blue-50' : 'border-gray-200'}`}>
+                                    <div className="flex-1">
+                                        <div className="font-medium">{t.id}</div>
+                                        <div className="text-xs text-muted-foreground">{t.description || 'No description.'}</div>
+                                    </div>
+                                    <button
+                                        className={`px-3 py-1 rounded ${t.id === active.id ? 'bg-blue-600 text-white' : 'border'}`}
+                                        onClick={() => {
+                                            setActive(t);
+                                            setProps(t.defaultProps);
+                                        }}
+                                        disabled={t.id === active.id}
+                                    >
+                                        {t.id === active.id ? 'Selected' : 'Select'}
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
                     </TabsContent>
                     <TabsContent value="effects" className="flex-1 space-y-4">
                         <div>

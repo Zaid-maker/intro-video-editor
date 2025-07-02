@@ -8,6 +8,7 @@ type TemplateEntry = {
     comp: any;
     schema: any;
     defaultProps: any;
+    description?: string;
 };
 
 
