@@ -7,9 +7,11 @@ import {
   Settings,
   Chrome,
   Headset,
+  ArrowLeft,
 } from 'lucide-react';
 
 export const Icons = {
+  ArrowLeft,
   UserCircle,
   Bell,
   Plus,
