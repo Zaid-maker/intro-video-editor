@@ -27,9 +27,6 @@ export default function Editor() {
                                     muted
                                 />
                                 <div className="absolute top-4 left-4 w-5 h-5 border-2 border-[#8B43F7] rounded-full" />
-
-
-
                             </div>
                         </div>
 
