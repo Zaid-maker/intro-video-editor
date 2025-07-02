@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import Link from "next/link.js";
-import { Icons } from "../../../../assets/Icons.js";
+import { Icons } from "../../../../assets/Icons";
 
 export function Navbar() {
   const [tooltipVisible, setTooltipVisible] = useState(false);
