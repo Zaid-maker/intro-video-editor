@@ -1,8 +1,6 @@
 import "../../styles/global.css";
 import { Metadata, Viewport } from "next";
-import { Navbar } from "./(landing)/components/Navbar";
-import Sidebar from "./(landing)/components/Sidebar";
-import { Analytics } from "@vercel/analytics/next"
+import AppShell from "./AppShell";
 
 export const metadata: Metadata = {
   title: "Remotion and Next.js",
@@ -22,21 +20,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="flex h-screen overflow-hidden">
-        <aside className=" h-screen ">
-          <Sidebar />
-        </aside>
-
-        <div className="flex-1 flex flex-col">
-          <header className="">
-            <Navbar />
-          </header>
-
-          <main className="flex-1 overflow-y-auto   ">
-            {children}
-            <Analytics />
-          </main>
-        </div>
+      <body>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
