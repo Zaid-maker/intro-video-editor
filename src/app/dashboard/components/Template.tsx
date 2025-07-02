@@ -14,7 +14,7 @@ function Template() {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
-        {templates.map((template, index:number) => (
+        {templates.map((template, index: number) => (
           <Link
             key={template.id}
             href={`/intro`}
@@ -22,8 +22,8 @@ function Template() {
           >
             <div className="w-full  rounded-lg overflow-hidden  mb-3">
               <Image
-                 height={100}
-                 width={100}
+                height={100}
+                width={100}
                 src={IMAGES[`previewPic${index + 1}` as keyof typeof IMAGES]}
                 alt={template.id}
                 className="w-full h-auto hover:scale-125 transition-all ease-in-out object-contain"
