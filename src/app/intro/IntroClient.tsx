@@ -37,8 +37,12 @@ export default function IntroClient() {
             return props.duration * 30 + 60;
         } else if (active.id === "BounceText") {
             return props.duration * 30 + 60;
+        } else if (active.id === "SimpleTitle") {
+            return 150; // Fixed duration from Remotion/Root.tsx
+        } else if (active.id === "LogoReveal") {
+            return 180; // Fixed duration from Remotion/Root.tsx
         }
-        return 150;
+        return 150; // Default duration if not specified
     };
 
     const duration = getDuration();
@@ -109,8 +113,8 @@ export default function IntroClient() {
                     component={PreviewComp}
                     inputProps={previewProps}
                     durationInFrames={duration}
-                    compositionWidth={1280}
-                    compositionHeight={720}
+                    compositionWidth={active.width}
+                    compositionHeight={active.height}
                     fps={30}
                     controls
                     style={{

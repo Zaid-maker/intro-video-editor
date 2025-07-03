@@ -35,35 +35,46 @@ export function TemplateEditor<TSchema extends ZodSchema>({
         formState: { isSubmitting },
     } = form;
 
-    const getFieldType = (key: string, value: any) => {
-        // Check if it's a color field
+    const getFieldType = (key: string, value: any, fieldDefinition: any) => {
+        // Check for zColor object
+        if (
+            typeof value === 'object' &&
+            value !== null &&
+            'r' in value && 'g' in value && 'b' in value && 'a' in value &&
+            Object.keys(value).length === 4
+        ) {
+            return "zColor";
+        }
+        // Check if it's a color field (string starting with #) - keep for compatibility
         if (typeof value === "string" && value.startsWith("#")) {
-            return "color";
+            return "colorString";
         }
-        
-        // Check if it's a boolean field
-        if (typeof value === "boolean") {
-            return "boolean";
+        if (typeof value === "boolean") return "boolean";
+        // A simple way to check for enum: if the schema has an 'enum' or 'options' property
+        // This requires passing more info to getFieldType or making assumptions based on key names
+        if (key === 'direction' && typeof value === "string" && ["left", "right", "top", "bottom"].includes(value)) {
+            return "enumDirection";
         }
-        
-        // Check if it's an enum field (we'll detect this by checking if it's a string with specific values)
-        if (typeof value === "string" && ["left", "right", "top", "bottom"].includes(value)) {
-            return "enum";
+        if (key === 'logoUrl' && typeof value === "string") {
+            return "imageUrl"; // Could be a special input for URLs or file uploads later
         }
-        
-        // Default types
         if (typeof value === "string") return "string";
-        if (typeof value === "number") return "number";
-        
-        return "string";
+        if (typeof value === "number") {
+            if (key === 'logoScale') return 'sliderNumber'; // Example for specific slider
+            return "number";
+        }
+        return "string"; // Default fallback
     };
 
-    const renderField = (key: string, value: any, field: any) => {
-        const fieldType = getFieldType(key, value);
+    const renderField = (key: string, value: any, field: any, fieldDefinition: any) => {
+        const fieldType = getFieldType(key, value, fieldDefinition);
         
         switch (fieldType) {
-            case "color":
-                return <ColorPicker value={field.value} onChange={field.onChange} />;
+            case "zColor": // Handles {r,g,b,a} from zColor()
+            case "colorString": // Handles hex strings like "#RRGGBB"
+                // Assuming ColorPicker can handle both {r,g,b,a} objects and hex strings,
+                // or it converts/expects one. If zColor is always an object, ensure ColorPicker takes it.
+                return <ColorPicker value={field.value} onChange={field.onChange} isRgba />;
             case "boolean":
                 return (
                     <Checkbox
@@ -71,11 +82,11 @@ export function TemplateEditor<TSchema extends ZodSchema>({
                         onCheckedChange={field.onChange}
                     />
                 );
-            case "enum":
+            case "enumDirection":
                 return (
                     <Select value={field.value} onValueChange={field.onChange}>
                         <SelectTrigger>
-                            <SelectValue />
+                            <SelectValue placeholder="Select direction" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="left">Left</SelectItem>
@@ -85,13 +96,28 @@ export function TemplateEditor<TSchema extends ZodSchema>({
                         </SelectContent>
                     </Select>
                 );
-            case "number":
+            case "imageUrl":
+                 return <Input {...field} type="url" placeholder="https://example.com/logo.png" />;
+            case "sliderNumber": // For specific numeric inputs like logoScale
+                 return (
+                    <div className="flex items-center gap-2">
+                        <Slider
+                            value={[field.value]}
+                            onValueChange={(v) => field.onChange(v[0])}
+                            min={0.1} // Example min for scale
+                            max={2}   // Example max for scale
+                            step={0.05} // Example step
+                        />
+                        <span className="text-sm w-12 text-right">{field.value.toFixed(2)}</span>
+                    </div>
+                );
+            case "number": // Generic number input, could be a slider or text input
                 return (
-                    <Slider
-                        value={[field.value]}
-                        onValueChange={(v) => field.onChange(v[0])}
-                        min={1}
-                        max={200}
+                    <Input
+                        type="number"
+                        value={field.value}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                        step={key.includes('Intensity') || key.includes('Count') ? "1" : "0.1"} // Guess step based on name
                     />
                 );
             default:
@@ -99,11 +125,14 @@ export function TemplateEditor<TSchema extends ZodSchema>({
         }
     };
 
-    // Group fields by tab
+    // Group fields by tab - this might need to be more dynamic or configurable
     const fieldTab = (key: string) => {
-        if (["color", "bgColor"].includes(key)) return "colors";
-        if (["text", "fontSize", "fontFamily", "fontWeight", "direction", "bounce", "bounceCount", "duration", "speed"].includes(key)) return "general";
-        return "animation";
+        if (key.toLowerCase().includes('color') || key.toLowerCase().includes('bgcolor')) return "colors";
+        if (["text", "titletext", "subtitletext", "taglinetext", "fontsize", "fontfamily", "fontweight", "logourl", "logoscale"].includes(key.toLowerCase())) return "general";
+        // Add more specific categorizations if needed
+        // For example, 'duration', 'speed', 'intensity', 'count' could be 'animation'
+        if (["duration", "speed", "bounceintensity", "bouncecount", "direction", "bounce"].includes(key.toLowerCase())) return "animation";
+        return "general"; // Default tab
     };
 
     return (

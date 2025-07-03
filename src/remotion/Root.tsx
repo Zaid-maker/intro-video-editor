@@ -35,10 +35,44 @@ import {
 } from "./OldSchoolText/OldSchoolTextTemplate";
 import { neonTextSchema, NeonTextTemplate } from "./NeonText/NeonTextTemplate";
 import { funTextSchema, FunTextTemplate } from "./FunText/FunTextTemplate";
+import {SimpleTitle, simpleTitleSchema} from './SimpleTitle/SimpleTitleTemplate';
+import {LogoReveal, logoRevealSchema} from './LogoReveal/LogoRevealTemplate';
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+				id="SimpleTitle"
+				component={SimpleTitle}
+				durationInFrames={150}
+				fps={30}
+				width={1920}
+				height={1080}
+				schema={simpleTitleSchema}
+				defaultProps={{
+					titleText: 'Welcome to Our Channel!',
+					subtitleText: 'Subscribe for more updates.',
+					titleColor: {r: 255, g: 255, b: 255, a: 1},
+					subtitleColor: {r: 200, g: 200, b: 200, a: 1},
+					backgroundColor: {r: 34, g: 102, b: 221, a: 1},
+				}}
+			/>
+			<Composition
+				id="LogoReveal"
+				component={LogoReveal}
+				durationInFrames={180}
+				fps={30}
+				width={1920}
+				height={1080}
+				schema={logoRevealSchema}
+				defaultProps={{
+					taglineText: 'Innovative Solutions',
+					taglineColor: {r: 230, g: 230, b: 230, a: 1},
+					backgroundColor: {r: 20, g: 20, b: 30, a: 1},
+					logoScale: 1,
+					// logoUrl: staticFile('public/default-logo.png'), // Add a default logo to public
+				}}
+			/>
       <Composition
         id="Typewriter"
         component={TypewriterTemplate}

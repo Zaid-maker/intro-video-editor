@@ -6,6 +6,11 @@ import { neonTextSchema, NeonTextTemplate } from "@/remotion/NeonText/NeonTextTe
 import { oldSchoolTextSchema, OldSchoolTextTemplate } from "@/remotion/OldSchoolText/OldSchoolTextTemplate";
 import { slideInTextSchema, SlideInTextTemplate } from "@/remotion/SlideInText/SlideInTextTemplate";
 import { typewriterSchema, TypewriterTemplate } from "@/remotion/Typewriter/TypewriterTemplate";
+import { SimpleTitle, simpleTitleSchema } from "@/remotion/SimpleTitle/SimpleTitleTemplate";
+import { LogoReveal, logoRevealSchema } from "@/remotion/LogoReveal/LogoRevealTemplate";
+import { staticFile } from "remotion";
+
+import { VIDEO_HEIGHT, VIDEO_WIDTH } from "@/types/constants";
 
 type TemplateEntry = {
     id: string;
@@ -13,6 +18,8 @@ type TemplateEntry = {
     schema: any;
     defaultProps: any;
     description?: string;
+    width: number;
+    height: number;
 };
 
 export const templates: TemplateEntry[] = [
@@ -21,6 +28,8 @@ export const templates: TemplateEntry[] = [
         id: "Typewriter",
         comp: TypewriterTemplate,
         schema: typewriterSchema,
+        width: VIDEO_WIDTH, // 1280
+        height: VIDEO_HEIGHT, // 720
         defaultProps: {
             text: "Hello!",
             speed: 5,
@@ -33,6 +42,8 @@ export const templates: TemplateEntry[] = [
         id: "FadeInText",
         comp: FadeInTextTemplate,
         schema: fadeInTextSchema,
+        width: VIDEO_WIDTH,
+        height: VIDEO_HEIGHT,
         defaultProps: {
             text: "Welcome!",
             duration: 3,
@@ -47,6 +58,8 @@ export const templates: TemplateEntry[] = [
         id: "SlideInText",
         comp: SlideInTextTemplate,
         schema: slideInTextSchema,
+        width: VIDEO_WIDTH,
+        height: VIDEO_HEIGHT,
         defaultProps: {
             text: "Slide In!",
             duration: 2,
@@ -61,6 +74,8 @@ export const templates: TemplateEntry[] = [
         id: "BounceText",
         comp: BounceTextTemplate,
         schema: bounceTextSchema,
+        width: VIDEO_WIDTH,
+        height: VIDEO_HEIGHT,
         defaultProps: {
             text: "Bounce!",
             duration: 2,
@@ -75,6 +90,8 @@ export const templates: TemplateEntry[] = [
         id: "FluidText",
         comp: FluidTextTemplate,
         schema: fluidTextSchema,
+        width: VIDEO_WIDTH,
+        height: VIDEO_HEIGHT,
         defaultProps: {
             text: "Fluid Animation",
             duration: 4,
@@ -89,6 +106,8 @@ export const templates: TemplateEntry[] = [
         id: "OldSchoolText",
         comp: OldSchoolTextTemplate,
         schema: oldSchoolTextSchema,
+        width: VIDEO_WIDTH,
+        height: VIDEO_HEIGHT,
         defaultProps: {
             text: "Old School Cool",
             duration: 3,
@@ -102,6 +121,8 @@ export const templates: TemplateEntry[] = [
         id: "NeonText",
         comp: NeonTextTemplate,
         schema: neonTextSchema,
+        width: VIDEO_WIDTH,
+        height: VIDEO_HEIGHT,
         defaultProps: {
             text: "Neon Glow",
             duration: 4,
@@ -115,6 +136,8 @@ export const templates: TemplateEntry[] = [
         id: "FunText",
         comp: FunTextTemplate,
         schema: funTextSchema,
+        width: VIDEO_WIDTH,
+        height: VIDEO_HEIGHT,
         defaultProps: {
             text: "So Much Fun!",
             duration: 3,
@@ -124,6 +147,36 @@ export const templates: TemplateEntry[] = [
             jumpHeight: 30,
             rotationRange: 20,
         },
+    },
+    {
+        id: "SimpleTitle",
+        comp: SimpleTitle,
+        schema: simpleTitleSchema,
+        width: 1920,
+        height: 1080,
+        defaultProps: {
+            titleText: 'My Awesome Title',
+            subtitleText: 'A catchy subtitle here',
+            titleColor: { r: 255, g: 255, b: 255, a: 1 },
+            subtitleColor: { r: 200, g: 200, b: 200, a: 1 },
+            backgroundColor: { r: 20, g: 30, b: 100, a: 1 },
+        },
+        description: "A clean title and subtitle animation.",
+    },
+    {
+        id: "LogoReveal",
+        comp: LogoReveal,
+        schema: logoRevealSchema,
+        width: 1920,
+        height: 1080,
+        defaultProps: {
+            logoUrl: staticFile('logo.webp'), // Make sure public/logo.webp exists
+            taglineText: 'Your Company Tagline',
+            taglineColor: { r: 220, g: 220, b: 220, a: 1 },
+            backgroundColor: { r: 15, g: 15, b: 25, a: 1 },
+            logoScale: 1,
+        },
+        description: "Reveals a logo with an animated tagline.",
     },
 ];
 

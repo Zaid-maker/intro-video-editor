@@ -4,12 +4,18 @@ This guide will help you create your own custom intro video templates for the in
 
 ## 📋 Current Templates
 
-Your intro video editor now includes 4 templates:
+Your intro video editor now includes 10 templates:
 
 1. **Typewriter** - Character-by-character text reveal
 2. **FadeInText** - Smooth fade-in with scale animation
 3. **SlideInText** - Slide-in from different directions with optional bounce
 4. **BounceText** - Bouncing text animation with configurable intensity
+5. **FluidText** - Text with a fluid/wave animation.
+6. **OldSchoolText** - Retro text with scanlines.
+7. **NeonText** - Glowing neon text effect.
+8. **FunText** - Playful text with jumping and rotation.
+9. **SimpleTitle** - Clean title and subtitle animation.
+10. **LogoReveal** - Reveals a logo with an animated tagline.
 
 ## 🛠️ How to Create Your Own Template
 
@@ -102,27 +108,46 @@ import { yourEffectSchema, YourEffect } from "./YourEffect/YourEffect";
 
 ### Step 3: Add to Template List
 
-Update `src/app/intro/page.tsx` to include your template:
+Update `src/lib/data.tsx` to include your template. Ensure you import your component and schema.
 
 ```typescript
-import { YourEffect, yourEffectSchema } from '@/remotion/YourEffect/YourEffect';
+// src/lib/data.tsx
+import { YourEffect, yourEffectSchema } from '@/remotion/YourEffect/YourEffect'; // Adjust path as needed
+// ... other imports
 
-const templates: TemplateEntry[] = [
+// Define the type for template entries if not already broadly defined
+// (It is already defined in the actual src/lib/data.tsx)
+// type TemplateEntry = {
+//   id: string;
+//   comp: React.FC<any>;
+//   schema: z.ZodSchema<any>;
+//   defaultProps: any;
+//   description?: string;
+//   width: number;
+//   height: number;
+// };
+
+export const templates: TemplateEntry[] = [
     // ... existing templates
     {
-        id: "YourEffect",
+        id: "YourEffect", // Should match the ID in Root.tsx
         comp: YourEffect,
         schema: yourEffectSchema,
+        width: 1280, // Specify the composition width
+        height: 720, // Specify the composition height
         defaultProps: {
+            // These should match the schema and Root.tsx defaults
             text: "Your Template!",
             duration: 3,
-            color: "#ffffff",
+            color: "#ffffff", // Or {r:255, g:255, b:255, a:1} if using zColor
             fontSize: 70,
-            bgColor: "#1a1a1a",
+            bgColor: "#1a1a1a", // Or {r:26, g:26, b:26, a:1}
         },
+        description: "A brief description of what your template does.",
     },
 ];
 ```
+**Note:** Ensure the `id`, `width`, `height`, and `defaultProps` in `src/lib/data.tsx` are consistent with what you defined in `src/remotion/Root.tsx` for the composition.
 
 ## 🎨 Animation Techniques
 
@@ -165,33 +190,60 @@ const bounceHeight = interpolate(
 );
 ```
 
-## 🔧 Supported Field Types
+## 🔧 Supported Field Types by `TemplateEditor`
 
-The `TemplateEditor` automatically detects and renders appropriate form controls:
+The `TemplateEditor` component (`src/components/TemplateEditor.tsx`) attempts to render appropriate form controls based on the property's key and its value in `defaultValues` (derived from your Zod schema's defaults).
 
-- **Strings starting with #** → Color picker
-- **Boolean values** → Checkbox
-- **Numbers** → Slider (min: 1, max: 200)
-- **Enum strings** → Select dropdown
-- **Regular strings** → Text input
+- **`zColor()` from `@remotion/zod-types`**: Rendered as a `<ColorPicker />`.
+    - Example: `titleColor: zColor().default({r: 255, g: 255, b: 255, a: 1})`
+- **Hex Color Strings**: Strings starting with `#` are also treated as colors and rendered with `<ColorPicker />`.
+    - Example: `legacyColor: z.string().default('#FF0000')`
+- **Boolean Values**: Rendered as a `<Checkbox />`.
+    - Example: `useAdvancedFeature: z.boolean().default(true)`
+- **Numbers**:
+    - If the key matches specific names (e.g., `logoScale`), it can be rendered as a `<Slider />` with custom `min`, `max`, and `step`.
+    - Otherwise, rendered as a standard HTML number input. The default step is guessed based on the key name (e.g., "Intensity" or "Count" might get step 1).
+    - Example: `speed: z.number().default(5)`
+    - Example for specific slider: `logoScale: z.number().min(0.1).max(2).default(1)`
+- **Enum Strings**: If the key is `direction` and value is one of "left", "right", "top", "bottom", it's rendered as a `<Select />` dropdown. (This can be expanded for other enum-like fields if needed by modifying `TemplateEditor.tsx`).
+    - Example: `slideDirection: z.enum(['left', 'right']).default('left')`
+- **Image/File URLs**: If the key is `logoUrl`, it's rendered as a URL-optimized text input.
+    - Example: `logoUrl: z.string().url().default(staticFile('default-logo.png'))`
+- **Regular Strings**: Rendered as a standard text `<Input />`.
+    - Example: `mainText: z.string().default('Hello World')`
 
-### Field Type Examples
+### Field Type Examples in Zod Schema
 
 ```typescript
-// Color field
-color: z.string().default('#ffffff'),
+import { z } from 'zod';
+import { zColor } from '@remotion/zod-types'; // Import for color objects
+import { staticFile } from 'remotion'; // For default static file paths
 
-// Boolean field
-bounce: z.boolean().default(false),
+export const yourEffectSchema = z.object({
+    // Text input
+    titleText: z.string().default('My Title'),
 
-// Number field
-fontSize: z.number().default(60),
+    // Color object (preferred for new templates)
+    mainColor: zColor().default({ r: 255, g: 100, b: 50, a: 1 }),
 
-// Enum field
-direction: z.enum(['left', 'right', 'top', 'bottom']).default('left'),
+    // Legacy hex color string
+    accentColorHex: z.string().startsWith('#').default('#3498DB'),
 
-// String field
-text: z.string().default('Your Text'),
+    // Boolean checkbox
+    enableShadow: z.boolean().default(false),
+
+    // Number (generic input, could be slider if key is special-cased in TemplateEditor)
+    animationSpeed: z.number().default(1.5),
+
+    // Number (customized slider in TemplateEditor due to key 'logoScale')
+    imageScale: z.number().min(0.5).max(3).default(1), // Schema definition
+
+    // Enum (customized dropdown in TemplateEditor due to key 'direction')
+    entryDirection: z.enum(['left', 'right', 'top', 'bottom']).default('left'),
+
+    // URL input (customized in TemplateEditor due to key 'logoUrl')
+    backgroundImageUrl: z.string().url().optional(), // .default(staticFile('background.jpg')),
+});
 ```
 
 ## 📝 Template Examples
