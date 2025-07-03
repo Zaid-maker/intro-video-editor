@@ -7,7 +7,6 @@ import { oldSchoolTextSchema, OldSchoolTextTemplate } from "@/remotion/OldSchool
 import { slideInTextSchema, SlideInTextTemplate } from "@/remotion/SlideInText/SlideInTextTemplate";
 import { typewriterSchema, TypewriterTemplate } from "@/remotion/Typewriter/TypewriterTemplate";
 import { Icons } from "../../assets/Icons";
-import { EmptyTemplate, emptyTemplateSchema } from "@/remotion/EmptyTemplate/EmptyTemplate";
 
 type TemplateEntry = {
     id: string;
@@ -150,6 +149,50 @@ export const COLORS = ["#F59E0B", "#8B43F7", "#ffffff", "#000000", "#22D3EE", "#
 export const ANIMATIONS = ['fade', 'slide', 'zoom', 'bounce', 'flip'];
 export const TRANSITIONS = ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'];
 
+
+export const features = [
+    {
+      icon: <Icons.Video className="w-8 h-8" />,
+      title: "20+ Premium Templates",
+      description: "Hand-crafted templates for every brand and style"
+    },
+    {
+      icon: <Icons.Palette className="w-8 h-8" />,
+      title: "Real-time Customization",
+      description: "See your changes instantly with live preview"
+    },
+    {
+      icon: <Icons.Download className="w-8 h-8" />,
+      title: "Instant Download",
+      description: "Export in 4K quality within seconds"
+    },
+    {
+      icon: <Icons.Clock className="w-8 h-8" />,
+      title: "Lightning Fast",
+      description: "Create professional intros in under 2 minutes"
+    }
+  ];
+
+  export  const testimonials = [
+    {
+      name: "Sarah Chen",
+      role: "Content Creator",
+      text: "This tool completely transformed my video content. The templates are incredible!",
+      rating: 5
+    },
+    {
+      name: "Marcus Rodriguez",
+      role: "Brand Designer",
+      text: "Finally, a tool that makes professional intros accessible to everyone.",
+      rating: 5
+    },
+    {
+      name: "Lisa Park",
+      role: "YouTuber",
+      text: "My subscribers love the new intros. Quality is absolutely amazing.",
+      rating: 5
+    }
+  ];
 
 export const features = [
     {
