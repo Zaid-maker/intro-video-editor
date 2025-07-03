@@ -11,7 +11,6 @@ type TemplateEntry = {
     description?: string;
 };
 
-
 export const templates: TemplateEntry[] = [
     {
 
@@ -69,8 +68,6 @@ export const templates: TemplateEntry[] = [
         },
     },
 ];
-
-
 
 export const FONTS = ['inter', 'poppins', 'roboto', 'lato', 'montserrat'];
 export const FONT_WEIGHTS = [

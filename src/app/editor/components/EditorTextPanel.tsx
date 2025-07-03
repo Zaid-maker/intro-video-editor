@@ -6,9 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Upload, Volume2, Music, Image } from "lucide-react";
-import { FONT_WEIGHTS, FONTS , FONT_SIZES , COLORS ,  TRANSITIONS , ANIMATIONS} from "@/lib/data";
-
-
+import { FONT_WEIGHTS, FONTS, FONT_SIZES, COLORS, TRANSITIONS, ANIMATIONS } from "@/lib/data";
 
 export default function EditorTextPanel() {
     return (
@@ -50,7 +48,7 @@ export default function EditorTextPanel() {
                     {/* Font Properties */}
                     <div className="space-y-3">
                         <h3 className="text-xs sm:text-sm text-muted-foreground">Font Properties</h3>
-                        
+
                         {/* Font Family and Weight - Side by side on larger screens */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>

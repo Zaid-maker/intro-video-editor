@@ -16,7 +16,7 @@ export default function Editor() {
                         Back
                     </Button>
                 </Link>
-                
+
                 <div className="flex flex-col xl:flex-row gap-4 sm:gap-6 h-[calc(100vh-120px)]">
                     {/* Video Section */}
                     <div className="flex-1 flex flex-col gap-3 sm:gap-4 min-w-0">
