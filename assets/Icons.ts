@@ -8,9 +8,11 @@ import {
   Chrome,
   Headset,
   ArrowLeft,
+  Play, Zap, Download, Star, ArrowRight, ChevronDown, Video, Palette, MousePointer, Clock
 } from 'lucide-react';
 
 export const Icons = {
+  Play, Zap, Download, Star, ArrowRight, ChevronDown, Video, Palette, MousePointer, Clock,
   ArrowLeft,
   UserCircle,
   Bell,

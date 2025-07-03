@@ -1,22 +1,128 @@
+"use client"
+import React, { useState, useEffect } from 'react';
+import { Icons } from '../../../../assets/Icons';
+import Image from 'next/image';
+import { IMAGES } from '../../../../assets/Images';
+import Testimonials from './Testimonials';
+import Features from './Features';
+import Demo from './Demo';
+import CTA from './CTA';
 import Link from 'next/link';
 
-export function Hero() {
-    return (
-        <section className="flex flex-col items-center justify-center text-center py-32 px-4 bg-gradient-to-br from-indigo-600 to-purple-700">
-            <h2 className="text-5xl md:text-6xl font-extrabold text-white mb-4">
-                Create Stunning Video Intros
-            </h2>
-            <p className="max-w-xl text-lg md:text-xl text-indigo-100 mb-8">
-                Choose from 20+ templates, customize live, and download your intro—all in one tool.
-            </p>
-            <Link
-                href="/intro"
-                className="inline-block bg-white text-indigo-700 font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition"
-            >
-                Start Building
-            </Link>
-        </section>
-    );
+export default function Hero() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    setIsVisible(true);
+    
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  
+
+  return (
+    <div className="min-h-screen bg-black text-white overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0">
+        <div 
+          className="absolute w-96 h-96 bg-gradient-to-r from-purple-600/20 to-indigo-600/20 rounded-full blur-3xl transition-all duration-1000 ease-out"
+          style={{
+            left: mousePosition.x - 192,
+            top: mousePosition.y - 192,
+          }}
+        />
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-r from-[#8b43f7]/10 to-purple-600/10 rounded-full blur-2xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-indigo-600/10 to-[#8b43f7]/10 rounded-full blur-2xl animate-pulse delay-1000" />
+      </div>
+
+      {/* Navigation */}
+      <nav className="relative z-10 flex items-center justify-between px-6 py-4 backdrop-blur-sm bg-black/30">
+        <div className="flex items-center space-x-2">
+          
+<Image
+  src={IMAGES.logo}
+  height={100}
+  width={100}
+  className="h-10 w-10 object-contain"
+  alt="logo"
+/>       
+        </div>
+     
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative z-10 min-h-screen flex items-center justify-center px-6">
+        <div className={`text-center max-w-6xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#8b43f7]/20 to-purple-600/20 rounded-full border border-[#8b43f7]/30 mb-8">
+            <Icons.Zap className="w-4 h-4 mr-2 text-[#8b43f7]" />
+            <span className="text-sm mt-4 text-gray-300">Create Professional Video Intros in Minutes</span>
+          </div>
+          
+          <h1 className="text-6xl md:text-8xl font-black mb-6 leading-tight">
+            <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+              Craft Stunning
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-[#8b43f7] to-purple-600 bg-clip-text text-transparent">
+              Video Intros
+            </span>
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Transform your content with cinematic intros. Choose from 20+ premium templates, 
+            customize in real-time, and download in 4K quality—all without any design experience.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+            <button className="group relative bg-gradient-to-r from-[#8b43f7] to-purple-600 px-8 py-4 rounded-2xl text-lg font-semibold hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105">
+              <Link href="/dashboard" className="flex items-center">
+                <Icons.Play className="w-5 h-5 mr-2" />
+                Start Creating Now
+                <Icons.ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#8b43f7] to-purple-600 rounded-2xl blur opacity-0 group-hover:opacity-50 transition-opacity -z-10" />
+            </button>
+            
+            <button className="group px-8 py-4 rounded-2xl text-lg font-semibold border-2 border-gray-700 hover:border-[#8b43f7] transition-all duration-300 hover:bg-[#8b43f7]/10">
+              <span className="flex items-center">
+                <Icons.MousePointer className="w-5 h-5 mr-2" />
+                View Demo
+              </span>
+            </button>
+          </div>
+          
+          <div className="flex items-center justify-center space-x-8 text-gray-500">
+            <div className="flex items-center">
+              <div className="flex -space-x-2">
+                {[...Array(5)].map((_, i) => (
+                  <Icons.Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+              <span className="ml-2 text-sm">4.9/5 from 10,000+ users</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <Icons.ChevronDown className="w-8 h-8 text-gray-500" />
+        </div>
+      </section>
+
+<Features />      
+<Demo />
+
+  <Testimonials/>
+
+       <CTA/>
+    
+
+ 
+    </div>
+  );
 }
-
-
