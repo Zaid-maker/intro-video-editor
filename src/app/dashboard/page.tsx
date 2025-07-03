@@ -24,7 +24,7 @@ function Dashboard() {
                 alt="File icon"
               />
             </div>
-            <div className="text-center lg:absolute lg:bottom-20 -lg:mt-0 -mt-6 left-32 lg:left-44 xl:left-[335px]">
+            <div className="text-center lg:absolute lg:bottom-20 -lg:mt-0 -mt-6 left-32 lg:left-44 xl:left-[12rem] 2xl:left-[25rem]">
               <h3 className="text-white text-2xl font-semibold mb-2">
                 Start with your own file
               </h3>
@@ -83,7 +83,7 @@ function Dashboard() {
                 <Image height={100}
                   width={100} src="/shape3.webp" alt="shape3" className="w-[45px] hidden lg:block absolute -top-8 rotate-[-12deg] left-[74px] h-[65px]" />
                 <Image height={100}
-                  width={100} src="/file3.webp" alt="File icon" className="w-36 h-32 -ml-3" />
+                  width={100} src="/file3.webp" alt="File icon" className="w-36 h-28 -ml-3" />
               </div>
               <div className="text-center lg:text-left lg:-ml-10 ml-0 -mt-4">
                 <h3 className="text-white text-lg font-semibold mb-1">

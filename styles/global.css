@@ -283,3 +283,17 @@
 #__next-build-watcher {
   display: none !important;
 } */
+
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #8B43F7;
+  border-radius: 6px;
+}

@@ -69,3 +69,19 @@ export const templates: TemplateEntry[] = [
         },
     },
 ];
+
+
+
+export const FONTS = ['inter', 'poppins', 'roboto', 'lato', 'montserrat'];
+export const FONT_WEIGHTS = [
+    { label: 'Thin', value: '100' },
+    { label: 'Light', value: '300' },
+    { label: 'Regular', value: '400' },
+    { label: 'Medium', value: '500' },
+    { label: 'Bold', value: '700' },
+    { label: 'Black', value: '900' }
+];
+export const FONT_SIZES = ["12", "14", "16", "18", "20", "24", "32"];
+export const COLORS = ["#F59E0B", "#8B43F7", "#ffffff", "#000000", "#22D3EE", "#4ADE80", "#F43F5E", "#3B82F6"];
+export const ANIMATIONS = ['fade', 'slide', 'zoom', 'bounce', 'flip'];
+export const TRANSITIONS = ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'];
