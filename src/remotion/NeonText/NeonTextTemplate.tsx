@@ -35,10 +35,20 @@ export const NeonTextTemplate: React.FC<NeonTextProps> = ({
         { extrapolateRight: 'clamp' }
     );
 
-    const glowColor = color.replace('#', '');
-    const r = parseInt(glowColor.substring(0, 2), 16);
-    const g = parseInt(glowColor.substring(2, 4), 16);
-    const b = parseInt(glowColor.substring(4, 6), 16);
+    let textShadowValue = 'none';
+    if (/^#[0-9a-fA-F]{6}$/.test(color)) {
+        const glowColor = color.substring(1);
+        const r = parseInt(glowColor.substring(0, 2), 16);
+        const g = parseInt(glowColor.substring(2, 4), 16);
+        const b = parseInt(glowColor.substring(4, 6), 16);
+
+        textShadowValue = `
+            0 0 ${glowIntensity}px rgba(${r}, ${g}, ${b}, 0.8),
+            0 0 ${glowIntensity * 2}px rgba(${r}, ${g}, ${b}, 0.6),
+            0 0 ${glowIntensity * 3}px rgba(${r}, ${g}, ${b}, 0.4),
+            0 0 ${glowIntensity * 4}px rgba(${r}, ${g}, ${b}, 0.2)
+        `;
+    }
 
     return (
         <>
@@ -59,12 +69,7 @@ export const NeonTextTemplate: React.FC<NeonTextProps> = ({
                         textAlign: 'center',
                         margin: 0,
                         opacity: flicker,
-                        textShadow: `
-                        0 0 ${glowIntensity}px rgba(${r}, ${g}, ${b}, 0.8),
-                        0 0 ${glowIntensity * 2}px rgba(${r}, ${g}, ${b}, 0.6),
-                        0 0 ${glowIntensity * 3}px rgba(${r}, ${g}, ${b}, 0.4),
-                        0 0 ${glowIntensity * 4}px rgba(${r}, ${g}, ${b}, 0.2)
-                    `,
+                        textShadow: textShadowValue,
                     }}
                 >
                     {text}
