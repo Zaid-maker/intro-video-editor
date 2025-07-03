@@ -7,6 +7,7 @@ import { oldSchoolTextSchema, OldSchoolTextTemplate } from "@/remotion/OldSchool
 import { slideInTextSchema, SlideInTextTemplate } from "@/remotion/SlideInText/SlideInTextTemplate";
 import { typewriterSchema, TypewriterTemplate } from "@/remotion/Typewriter/TypewriterTemplate";
 import { Icons } from "../../assets/Icons";
+import { EmptyTemplate, emptyTemplateSchema } from "@/remotion/EmptyTemplate/EmptyTemplate";
 
 type TemplateEntry = {
     id: string;
