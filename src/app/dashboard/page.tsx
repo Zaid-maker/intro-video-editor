@@ -99,7 +99,7 @@ function Dashboard() {
                 <Image height={100}
                   width={100} src="/shape2.webp" alt="shape2" className="w-[60px] hidden lg:block absolute -top-10 left-[6px] h-12" />
                 <Image height={100}
-                  width={100} src="/shape3.webp" alt="shape3" className="w-[45px] hidden lg:block absolute -top-8 rotate-[-12deg] left-[74px] h-[65px]" />
+                  width={100} src="/shape3.webp" alt="shape3" className="w-[45px] hidden lg:block absolute -top-8 rotate-[-6deg] left-[68px] h-[65px]" />
               <Image
   height={100}
   width={100}
@@ -108,8 +108,8 @@ function Dashboard() {
   className="w-28 h-24 sm:w-36 sm:h-28"
 />
               </div>
-<div className=" absolute left-1/2 text-left sm:-ml-6 ml-0 -mt-2 sm:-mt-4">
-                <h3 className="text-white  text-lg font-semibold mb-1">
+<div className="text-center sm:text-left  ml-3 -mt-2 sm:-mt-4">
+                <h3 className="text-white  text-md font-semibold mb-1">
                   Explore Templates and Start Kickstarting Your Project
                 </h3>
                 <p className="text-gray-300 lg:text-sm text-xs   mb-2">
