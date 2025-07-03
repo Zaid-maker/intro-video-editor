@@ -19,7 +19,7 @@ export default function IntroClient() {
     // Start with the Empty template
     const [active, setActive] = useState(templates[0]);
     const [props, setProps] = useState(templates[0].defaultProps);
-    const [isRendering, setIsRendering] = useState(false);
+    // const [isRendering, setIsRendering] = useState(false);
     const [tab, setTab] = useState('general');
     const [selectedEffects, setSelectedEffects] = useState<string[]>([]);
     const [effectProps, setEffectProps] = useState<Record<string, any>>({
@@ -49,26 +49,26 @@ export default function IntroClient() {
         setProps(values);
     };
 
-    const handleRender = async () => {
-        setIsRendering(true);
+    // const handleRender = async () => {
+    //     setIsRendering(true);
 
-        const res = await fetch('/api/render', {
-            method: 'POST',
-            body: JSON.stringify({
-                templateId: active.id,
-                inputProps: props,
-            }),
-        });
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+    //     const res = await fetch('/api/render', {
+    //         method: 'POST',
+    //         body: JSON.stringify({
+    //             templateId: active.id,
+    //             inputProps: props,
+    //         }),
+    //     });
+    //     const blob = await res.blob();
+    //     const url = URL.createObjectURL(blob);
+    //     const a = document.createElement('a');
 
-        a.href = url;
-        a.download = `${active.id}.mp4`;
-        a.click();
-        URL.revokeObjectURL(url);
-        setIsRendering(false);
-    };
+    //     a.href = url;
+    //     a.download = `${active.id}.mp4`;
+    //     a.click();
+    //     URL.revokeObjectURL(url);
+    //     setIsRendering(false);
+    // };
 
     // Compose the preview component with stacking
     let PreviewComp = active.comp;
