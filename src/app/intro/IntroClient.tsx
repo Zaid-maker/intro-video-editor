@@ -10,21 +10,22 @@ import { Player } from '@remotion/player';
 import { useState } from 'react';
 
 const effectOptions = [
-  { id: 'fadein', label: 'Fade In', comp: FadeInTextTemplate, schema: fadeInTextSchema },
-  { id: 'slidein', label: 'Slide In', comp: SlideInTextTemplate, schema: slideInTextSchema },
-  { id: 'bounce', label: 'Bounce', comp: BounceTextTemplate, schema: bounceTextSchema },
+    { id: 'fadein', label: 'Fade In', comp: FadeInTextTemplate, schema: fadeInTextSchema },
+    { id: 'slidein', label: 'Slide In', comp: SlideInTextTemplate, schema: slideInTextSchema },
+    { id: 'bounce', label: 'Bounce', comp: BounceTextTemplate, schema: bounceTextSchema },
 ];
 
 export default function IntroClient() {
+    // Start with the Empty template
     const [active, setActive] = useState(templates[0]);
-    const [props, setProps] = useState(active.defaultProps);
+    const [props, setProps] = useState(templates[0].defaultProps);
     const [isRendering, setIsRendering] = useState(false);
     const [tab, setTab] = useState('general');
     const [selectedEffects, setSelectedEffects] = useState<string[]>([]);
     const [effectProps, setEffectProps] = useState<Record<string, any>>({
-      fadein: fadeInTextSchema.parse({}),
-      slidein: slideInTextSchema.parse({}),
-      bounce: bounceTextSchema.parse({}),
+        fadein: fadeInTextSchema.parse({}),
+        slidein: slideInTextSchema.parse({}),
+        bounce: bounceTextSchema.parse({}),
     });
 
     // Calculate duration based on template type
@@ -73,38 +74,24 @@ export default function IntroClient() {
     let PreviewComp = active.comp;
     let previewProps = props;
     if (selectedEffects.length > 0) {
-      PreviewComp = selectedEffects.reduceRight((Accum, effectId) => {
-        const effect = effectOptions.find(e => e.id === effectId);
-        if (!effect) return Accum;
-        const EffectComp = effect.comp;
-        const effectPropsForPreview = effectProps[effectId];
-        return (p: any) => (
-          <EffectComp {...effectPropsForPreview}>
-            <Accum {...p} />
-          </EffectComp>
-        );
-      }, active.comp);
-      previewProps = props;
+        PreviewComp = selectedEffects.reduceRight((Accum, effectId) => {
+            const effect = effectOptions.find(e => e.id === effectId);
+            if (!effect) return Accum;
+            const EffectComp = effect.comp;
+            const effectPropsForPreview = effectProps[effectId];
+            return (p: any) => (
+                <EffectComp {...effectPropsForPreview}>
+                    <Accum {...p} />
+                </EffectComp>
+            );
+        }, active.comp);
+        previewProps = props;
     }
 
     return (
         <div className="flex flex-row gap-8 p-8 max-w-7xl mx-auto min-h-[80vh]">
             {/* Centered Player */}
             <div className="flex-1 flex flex-col items-center justify-center">
-                <div className="flex gap-4 mb-6">
-                    {templates.map((t) => (
-                        <button
-                            key={t.id}
-                            className={`px-4 py-2 rounded ${t.id === active.id ? 'bg-blue-600 text-white' : 'border'}`}
-                            onClick={() => {
-                                setActive(t);
-                                setProps(t.defaultProps);
-                            }}
-                        >
-                            {t.id}
-                        </button>
-                    ))}
-                </div>
                 <Player
                     component={PreviewComp}
                     inputProps={previewProps}
@@ -120,22 +107,17 @@ export default function IntroClient() {
                         background: '#111',
                     }}
                 />
-                <button
-                    onClick={handleRender}
-                    disabled={isRendering}
-                    className={`mt-6 px-4 py-2 rounded ${isRendering ? 'bg-gray-400 text-gray-700' : 'bg-green-600 text-white'}`}
-                >
-                    {isRendering ? 'Rendering…' : 'Render & Download'}
-                </button>
+                {/* Render & Download button removed as per request */}
             </div>
             {/* Sidebar with Tabs */}
-            <aside className="w-[340px] min-w-[280px] max-w-[400px] bg-background border rounded-xl shadow-lg p-6 flex flex-col">
-                <Tabs value={tab} onValueChange={setTab} className="flex-1 flex flex-col">
-                    <TabsList className="mb-4">
-                        <TabsTrigger value="general">General</TabsTrigger>
-                        <TabsTrigger value="colors">Colors</TabsTrigger>
-                        <TabsTrigger value="animation">Animation</TabsTrigger>
-                        <TabsTrigger value="effects">Effects</TabsTrigger>
+            <aside className="w-full xl:w-auto xl:min-w-[320px] xl:max-w-[400px] bg-[#0C0C0E] text-white p-3 sm:p-4 rounded-lg sm:rounded-xl space-y-3 sm:space-y-4 h-fit max-h-[calc(100vh-120px)] custom-scrollbar overflow-y-auto shadow-lg border border-[#232327]">
+                <Tabs value={tab} onValueChange={setTab} className="flex-1 flex flex-col h-[calc(100vh-180px)] min-h-[500px]">
+                    <TabsList className="w-full justify-start gap-1 sm:gap-2 bg-[#1c1c1e] p-1 rounded-md mb-4">
+                        <TabsTrigger value="general" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 flex-1 data-[state=active]:bg-[#8B43F7] data-[state=active]:text-white rounded-md transition-colors">General</TabsTrigger>
+                        <TabsTrigger value="colors" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 flex-1 data-[state=active]:bg-[#8B43F7] data-[state=active]:text-white rounded-md transition-colors">Colors</TabsTrigger>
+                        <TabsTrigger value="animation" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 flex-1 data-[state=active]:bg-[#8B43F7] data-[state=active]:text-white rounded-md transition-colors">Animation</TabsTrigger>
+                        <TabsTrigger value="effects" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 flex-1 data-[state=active]:bg-[#8B43F7] data-[state=active]:text-white rounded-md transition-colors">Effects</TabsTrigger>
+                        <TabsTrigger value="export" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 flex-1 data-[state=active]:bg-[#8B43F7] data-[state=active]:text-white rounded-md transition-colors">Export</TabsTrigger>
                     </TabsList>
                     <TabsContent value="general" className="flex-1">
                         <TemplateEditor
@@ -156,7 +138,7 @@ export default function IntroClient() {
                     <TabsContent value="animation" className="flex-1 space-y-4">
                         <div className="font-semibold mb-2">Choose Animation Style</div>
                         <div className="flex flex-col gap-4">
-                            {templates.map((t) => (
+                            {templates.filter(t => t.id !== 'Empty').map((t) => (
                                 <div key={t.id} className={`flex items-center gap-4 p-3 rounded border ${t.id === active.id ? 'border-blue-600 bg-blue-50' : 'border-gray-200'}`}>
                                     <div className="flex-1">
                                         <div className="font-medium">{t.id}</div>
@@ -177,47 +159,51 @@ export default function IntroClient() {
                         </div>
                     </TabsContent>
                     <TabsContent value="effects" className="flex-1 space-y-4">
+                        <TabsContent value="export" className="flex-1">
+                            <div className="font-semibold mb-2">Export</div>
+                            <div className="text-gray-500 text-sm">Export and download options will appear here.</div>
+                        </TabsContent>
                         <div>
-                          <div className="font-semibold mb-2">Select Effects (Stacked)</div>
-                          <div className="flex flex-col gap-2">
-                            {effectOptions.map((effect) => (
-                              <label key={effect.id} className="flex items-center gap-2 cursor-pointer">
-                                <input
-                                  type="checkbox"
-                                  name="effect"
-                                  value={effect.id}
-                                  checked={selectedEffects.includes(effect.id)}
-                                  onChange={e => {
-                                    setSelectedEffects(prev =>
-                                      e.target.checked
-                                        ? [...prev, effect.id]
-                                        : prev.filter(id => id !== effect.id)
-                                    );
-                                  }}
-                                />
-                                {effect.label}
-                              </label>
-                            ))}
-                          </div>
+                            <div className="font-semibold mb-2">Select Effects (Stacked)</div>
+                            <div className="flex flex-col gap-2">
+                                {effectOptions.map((effect) => (
+                                    <label key={effect.id} className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            name="effect"
+                                            value={effect.id}
+                                            checked={selectedEffects.includes(effect.id)}
+                                            onChange={e => {
+                                                setSelectedEffects(prev =>
+                                                    e.target.checked
+                                                        ? [...prev, effect.id]
+                                                        : prev.filter(id => id !== effect.id)
+                                                );
+                                            }}
+                                        />
+                                        {effect.label}
+                                    </label>
+                                ))}
+                            </div>
                         </div>
                         {selectedEffects.length > 0 && (
-                          <div>
-                            <div className="font-semibold mb-2">Effect Settings</div>
-                            {selectedEffects.map(effectId => {
-                              const effect = effectOptions.find(e => e.id === effectId);
-                              if (!effect) return null;
-                              return (
-                                <div key={effectId} className="mb-4 border-b pb-4 last:border-b-0 last:pb-0">
-                                  <div className="font-medium mb-1">{effect.label}</div>
-                                  <TemplateEditor
-                                    schema={effect.schema}
-                                    defaultValues={effectProps[effectId]}
-                                    onSubmit={vals => setEffectProps(prev => ({ ...prev, [effectId]: vals }))}
-                                  />
-                                </div>
-                              );
-                            })}
-                          </div>
+                            <div>
+                                <div className="font-semibold mb-2">Effect Settings</div>
+                                {selectedEffects.map(effectId => {
+                                    const effect = effectOptions.find(e => e.id === effectId);
+                                    if (!effect) return null;
+                                    return (
+                                        <div key={effectId} className="mb-4 border-b pb-4 last:border-b-0 last:pb-0">
+                                            <div className="font-medium mb-1">{effect.label}</div>
+                                            <TemplateEditor
+                                                schema={effect.schema}
+                                                defaultValues={effectProps[effectId]}
+                                                onSubmit={vals => setEffectProps(prev => ({ ...prev, [effectId]: vals }))}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         )}
                     </TabsContent>
                 </Tabs>

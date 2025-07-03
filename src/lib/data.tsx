@@ -16,9 +16,16 @@ type TemplateEntry = {
     description?: string;
 };
 
+
 export const templates: TemplateEntry[] = [
     {
-
+        id: "Empty",
+        comp: EmptyTemplate,
+        schema: emptyTemplateSchema,
+        defaultProps: {},
+        description: "Start from scratch with an empty intro video.",
+    },
+    {
         id: "Typewriter",
         comp: TypewriterTemplate,
         schema: typewriterSchema,

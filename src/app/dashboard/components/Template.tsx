@@ -22,10 +22,10 @@ function Template() {
           >
             <div className="w-full  rounded-lg overflow-hidden  mb-3">
               <Image
-                height={100}
-                width={100}
                 src={IMAGES[`previewPic${index + 1}` as keyof typeof IMAGES]}
                 alt={template.id}
+                height={100}
+                width={100}
                 className="w-full h-auto hover:scale-125 transition-all ease-in-out object-contain"
               />
             </div>
