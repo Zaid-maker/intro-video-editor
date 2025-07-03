@@ -19,7 +19,12 @@ export default function IntroClient() {
     // Start with the Empty template
     const [active, setActive] = useState(templates[0]);
     const [props, setProps] = useState(templates[0].defaultProps);
-    // const [isRendering, setIsRendering] = useState(false);
+    {/* <TabsTrigger
+                           value="export"
+                           className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 flex-1 data-[state=active]:bg-[#8B43F7] data-[state=active]:text-white rounded-md transition-colors"
+                         >
+                           Export
+                         </TabsTrigger> */}
     const [tab, setTab] = useState('general');
     const [selectedEffects, setSelectedEffects] = useState<string[]>([]);
     const [effectProps, setEffectProps] = useState<Record<string, any>>({
