@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import Template from "./components/Template";
 
 function Dashboard() {
@@ -17,11 +19,10 @@ function Dashboard() {
           <div className="relative z-10 p-6 h-full flex flex-col justify-between">
             <div className="flex justify-center mr-5  mb-0 lg:mb-4">
               <Image
-                height={130}
-                width={130}
-
                 src="/file1.webp"
                 alt="File icon"
+                height={130}
+                width={130}
               />
             </div>
             <div className="text-center lg:absolute lg:bottom-20 -lg:mt-0 -mt-6 left-32 lg:left-44 xl:left-[12rem] 2xl:left-[25rem]">
@@ -61,9 +62,14 @@ function Dashboard() {
                 <p className="text-gray-300 text-sm mb-2">
                   Create your first project, discover tons of templates and generate any video you want.
                 </p>
-                <button className="px-4 py-2 rounded text-white text-sm font-medium bg-[#8B43F7]" >
-                  Create Project
-                </button>
+                {/* TODO: Add a form or Model to allow users to add name to there project. */}
+                <Link href="/intro" passHref legacyBehavior>
+                  <Button
+                    className="bg-[#8B43F7] text-white text-sm font-medium rounded px-4 py-2 transition-colors duration-200 hover:bg-[#a366fa] cursor-pointer"
+                  >
+                    Create Project
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="absolute bottom-0">

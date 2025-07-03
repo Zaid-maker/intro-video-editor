@@ -5,6 +5,8 @@ export const IMAGES = {
   previewPic4: '/previewPic4.webp',
   previewPic5: '/previewPic5.webp',
   previewPic6: '/previewPic6.webp',
+  previewPic7: '/previewPic6.webp',
+  previewPic8: '/previewPic5.webp',
 } as const;
 
 export type ImageKey = keyof typeof IMAGES;

@@ -6,6 +6,7 @@ import { neonTextSchema, NeonTextTemplate } from "@/remotion/NeonText/NeonTextTe
 import { oldSchoolTextSchema, OldSchoolTextTemplate } from "@/remotion/OldSchoolText/OldSchoolTextTemplate";
 import { slideInTextSchema, SlideInTextTemplate } from "@/remotion/SlideInText/SlideInTextTemplate";
 import { typewriterSchema, TypewriterTemplate } from "@/remotion/Typewriter/TypewriterTemplate";
+import { EmptyTemplate, emptyTemplateSchema } from "@/remotion/EmptyTemplate/EmptyTemplate";
 
 type TemplateEntry = {
     id: string;
@@ -15,9 +16,16 @@ type TemplateEntry = {
     description?: string;
 };
 
+
 export const templates: TemplateEntry[] = [
     {
-
+        id: "Empty",
+        comp: EmptyTemplate,
+        schema: emptyTemplateSchema,
+        defaultProps: {},
+        description: "Start from scratch with an empty intro video.",
+    },
+    {
         id: "Typewriter",
         comp: TypewriterTemplate,
         schema: typewriterSchema,
