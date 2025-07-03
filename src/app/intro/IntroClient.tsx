@@ -111,7 +111,7 @@ export default function IntroClient() {
             </div>
             {/* Sidebar with Tabs */}
             <aside className="w-full xl:w-auto xl:min-w-[320px] xl:max-w-[400px] bg-[#0C0C0E] text-white p-3 sm:p-4 rounded-lg sm:rounded-xl space-y-3 sm:space-y-4 h-fit max-h-[calc(100vh-120px)] custom-scrollbar overflow-y-auto shadow-lg border border-[#232327]">
-                <Tabs value={tab} onValueChange={setTab} className="flex-1 flex flex-col">
+                <Tabs value={tab} onValueChange={setTab} className="flex-1 flex flex-col h-[calc(100vh-180px)] min-h-[500px]">
                     <TabsList className="w-full justify-start gap-1 sm:gap-2 bg-[#1c1c1e] p-1 rounded-md mb-4">
                         <TabsTrigger value="general" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 flex-1 data-[state=active]:bg-[#8B43F7] data-[state=active]:text-white rounded-md transition-colors">General</TabsTrigger>
                         <TabsTrigger value="colors" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 flex-1 data-[state=active]:bg-[#8B43F7] data-[state=active]:text-white rounded-md transition-colors">Colors</TabsTrigger>
