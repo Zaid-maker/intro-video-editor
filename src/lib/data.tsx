@@ -1,5 +1,9 @@
 import { bounceTextSchema, BounceTextTemplate } from "@/remotion/BounceText/BounceTextTemplate";
 import { fadeInTextSchema, FadeInTextTemplate } from "@/remotion/FadeInText/FadeInTextTemplate";
+import { fluidTextSchema, FluidTextTemplate } from "@/remotion/FluidText/FluidTextTemplate";
+import { funTextSchema, FunTextTemplate } from "@/remotion/FunText/FunTextTemplate";
+import { neonTextSchema, NeonTextTemplate } from "@/remotion/NeonText/NeonTextTemplate";
+import { oldSchoolTextSchema, OldSchoolTextTemplate } from "@/remotion/OldSchoolText/OldSchoolTextTemplate";
 import { slideInTextSchema, SlideInTextTemplate } from "@/remotion/SlideInText/SlideInTextTemplate";
 import { typewriterSchema, TypewriterTemplate } from "@/remotion/Typewriter/TypewriterTemplate";
 
@@ -65,6 +69,60 @@ export const templates: TemplateEntry[] = [
             bgColor: "#3d3d3d",
             bounceIntensity: 5,
             bounceCount: 3,
+        },
+    },
+    {
+        id: "FluidText",
+        comp: FluidTextTemplate,
+        schema: fluidTextSchema,
+        defaultProps: {
+            text: "Fluid Animation",
+            duration: 4,
+            color: "#ffffff",
+            fontSize: 70,
+            bgColor: "#111111",
+            waveIntensity: 10,
+            waveSpeed: 5,
+        },
+    },
+    {
+        id: "OldSchoolText",
+        comp: OldSchoolTextTemplate,
+        schema: oldSchoolTextSchema,
+        defaultProps: {
+            text: "Old School Cool",
+            duration: 3,
+            color: "#f0f0f0",
+            fontSize: 80,
+            bgColor: "#333333",
+            scanlineIntensity: 0.1,
+        },
+    },
+    {
+        id: "NeonText",
+        comp: NeonTextTemplate,
+        schema: neonTextSchema,
+        defaultProps: {
+            text: "Neon Glow",
+            duration: 4,
+            color: "#00ffff",
+            fontSize: 90,
+            bgColor: "#000000",
+            glowIntensity: 10,
+        },
+    },
+    {
+        id: "FunText",
+        comp: FunTextTemplate,
+        schema: funTextSchema,
+        defaultProps: {
+            text: "So Much Fun!",
+            duration: 3,
+            color: "#ff69b4",
+            fontSize: 80,
+            bgColor: "#f0f8ff",
+            jumpHeight: 30,
+            rotationRange: 20,
         },
     },
 ];
