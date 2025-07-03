@@ -101,7 +101,7 @@ export default function EditorTextPanel() {
                         <div>
                             <Label className="text-xs mb-2">Letter Spacing</Label>
                             <div className="flex items-center gap-2 sm:gap-3">
-                                <Slider defaultValue={[5]} min={0} max={20} step={1} className="flex-1 text-[#8B43F7]" />
+                                <Slider defaultValue={[5]} min={0} max={20} step={1} className="flex-1 bg-white text-[#8B43F7]" />
                                 <span className="text-xs text-muted-foreground min-w-[40px]">+1.5%</span>
                             </div>
                         </div>
@@ -187,7 +187,7 @@ export default function EditorTextPanel() {
                         <div>
                             <Label className="text-xs mb-2">Duration (seconds)</Label>
                             <div className="flex items-center gap-2">
-                                <Slider defaultValue={[2]} min={0.5} max={5} step={0.1} className="flex-1" />
+                                <Slider defaultValue={[2]} min={0.5} max={5} step={0.1} className="flex-1 bg-white" />
                                 <span className="text-xs text-muted-foreground min-w-[30px]">2.0s</span>
                             </div>
                         </div>
@@ -271,7 +271,7 @@ export default function EditorTextPanel() {
                         <div>
                             <Label className="text-xs mb-2">Volume</Label>
                             <div className="flex items-center gap-2">
-                                <Slider defaultValue={[70]} min={0} max={100} step={5} className="flex-1" />
+                                <Slider defaultValue={[70]} min={0} max={100} step={5} className="flex-1 bg-white" />
                                 <span className="text-xs text-muted-foreground min-w-[30px]">70%</span>
                             </div>
                         </div>
