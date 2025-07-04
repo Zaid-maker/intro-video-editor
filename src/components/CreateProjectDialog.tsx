@@ -107,10 +107,10 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-700">
         <DialogHeader>
-          <DialogTitle>Create New Project</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-gray-900 dark:text-white text-lg font-semibold">Create New Project</DialogTitle>
+          <DialogDescription className="text-gray-600 dark:text-gray-300">
             Give your project a name and select a template to get started.
           </DialogDescription>
         </DialogHeader>
@@ -121,18 +121,19 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Project Name</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-gray-200 font-medium">Project Name</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="Enter project name" 
                       {...field}
                       disabled={isLoading}
+                      className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="text-gray-500 dark:text-gray-400 text-sm">
                     Choose a descriptive name for your project
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage className="text-red-600 dark:text-red-400" />
                 </FormItem>
               )}
             />
@@ -141,29 +142,33 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
               name="templateId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Template</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-gray-200 font-medium">Template</FormLabel>
                   <Select 
                     onValueChange={field.onChange} 
                     defaultValue={field.value}
                     disabled={isLoading}
                   >
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a template" />
+                      <SelectTrigger className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
+                        <SelectValue placeholder="Select a template" className="text-gray-500 dark:text-gray-400" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
                       {templates.map((template) => (
-                        <SelectItem key={template.id} value={template.id}>
+                        <SelectItem 
+                          key={template.id} 
+                          value={template.id}
+                          className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700"
+                        >
                           {template.id}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormDescription>
+                  <FormDescription className="text-gray-500 dark:text-gray-400 text-sm">
                     Choose the template for your intro video
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage className="text-red-600 dark:text-red-400" />
                 </FormItem>
               )}
             />
@@ -172,31 +177,37 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description (Optional)</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-gray-200 font-medium">Description (Optional)</FormLabel>
                   <FormControl>
                     <Textarea 
                       placeholder="Describe your project..." 
                       {...field}
                       disabled={isLoading}
+                      className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 min-h-[80px]"
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="text-gray-500 dark:text-gray-400 text-sm">
                     Add a brief description of your project
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage className="text-red-600 dark:text-red-400" />
                 </FormItem>
               )}
             />
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-end space-x-2 pt-4 border-t border-gray-200 dark:border-gray-700">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setIsOpen(false)}
                 disabled={isLoading}
+                className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isLoading}>
+              <Button 
+                type="submit" 
+                disabled={isLoading}
+                className="bg-[#8B43F7] hover:bg-[#a366fa] text-white border-0"
+              >
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Create Project
               </Button>
