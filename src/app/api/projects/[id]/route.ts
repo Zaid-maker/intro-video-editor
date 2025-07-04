@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { UpdateProjectRequest, ProjectResponse } from '@/types/schema';
+import { UpdateProjectRequest } from '@/types/schema';
 import { templates } from '@/lib/data';
-import { projectStore } from '@/lib/project-store';
+import { projectService } from '@/lib/project-service';
+import { getCurrentUserId } from '@/lib/auth-utils';
 
 // GET - Get a specific project
 export async function GET(
@@ -11,7 +12,16 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const project = projectStore.get(id);
+    const userId = await getCurrentUserId();
+    
+    if (!userId) {
+      return NextResponse.json(
+        { type: 'error', message: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const project = await projectService.getProject(id, userId);
     
     if (!project) {
       return NextResponse.json(
@@ -24,7 +34,8 @@ export async function GET(
       type: 'success',
       data: project,
     });
-  } catch {
+  } catch (error) {
+    console.error('Error fetching project:', error);
     return NextResponse.json(
       { type: 'error', message: 'Failed to fetch project' },
       { status: 500 }
@@ -39,7 +50,16 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const existingProject = projectStore.get(id);
+    const userId = await getCurrentUserId();
+    
+    if (!userId) {
+      return NextResponse.json(
+        { type: 'error', message: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const existingProject = await projectService.getProject(id, userId);
     
     if (!existingProject) {
       return NextResponse.json(
@@ -63,16 +83,14 @@ export async function PUT(
     }
 
     // Update project
-    const updatedProject: z.infer<typeof ProjectResponse> = {
-      ...existingProject,
-      name: updateData.name ?? existingProject.name,
-      templateId: updateData.templateId ?? existingProject.templateId,
-      properties: updateData.properties ?? existingProject.properties,
-      description: updateData.description ?? existingProject.description,
-      updatedAt: new Date(),
-    };
+    const updatedProject = await projectService.updateProject(id, updateData, userId);
 
-    projectStore.set(id, updatedProject);
+    if (!updatedProject) {
+      return NextResponse.json(
+        { type: 'error', message: 'Failed to update project' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
       type: 'success',
@@ -86,6 +104,7 @@ export async function PUT(
       );
     }
     
+    console.error('Error updating project:', error);
     return NextResponse.json(
       { type: 'error', message: 'Failed to update project' },
       { status: 500 }
@@ -100,7 +119,16 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const project = projectStore.get(id);
+    const userId = await getCurrentUserId();
+    
+    if (!userId) {
+      return NextResponse.json(
+        { type: 'error', message: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const project = await projectService.getProject(id, userId);
     
     if (!project) {
       return NextResponse.json(
@@ -109,13 +137,21 @@ export async function DELETE(
       );
     }
 
-    projectStore.delete(id);
+    const deleted = await projectService.deleteProject(id, userId);
+
+    if (!deleted) {
+      return NextResponse.json(
+        { type: 'error', message: 'Failed to delete project' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
       type: 'success',
       data: { message: 'Project deleted successfully', id },
     });
-  } catch {
+  } catch (error) {
+    console.error('Error deleting project:', error);
     return NextResponse.json(
       { type: 'error', message: 'Failed to delete project' },
       { status: 500 }

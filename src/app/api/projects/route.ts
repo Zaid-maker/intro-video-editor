@@ -3,17 +3,27 @@ import { z } from 'zod';
 import { CreateProjectRequest, ProjectResponse } from '@/types/schema';
 import { executeApi } from '@/helpers/api-response';
 import { templates } from '@/lib/data';
-import { projectStore, generateProjectId } from '@/lib/project-store';
+import { projectService } from '@/lib/project-service';
+import { getCurrentUserId } from '@/lib/auth-utils';
 
-// GET - List all projects
+// GET - List all projects for the current user
 export async function GET() {
   try {
-    const allProjects = projectStore.getAll();
+    const userId = await getCurrentUserId();
+    if (!userId) {
+      return NextResponse.json(
+        { type: 'error', message: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const allProjects = await projectService.getUserProjects(userId);
     return NextResponse.json({
       type: 'success',
       data: allProjects,
     });
-  } catch {
+  } catch (error) {
+    console.error('Error fetching projects:', error);
     return NextResponse.json(
       { type: 'error', message: 'Failed to fetch projects' },
       { status: 500 }
@@ -25,6 +35,12 @@ export async function GET() {
 export const POST = executeApi<z.infer<typeof ProjectResponse>, typeof CreateProjectRequest>(
   CreateProjectRequest,
   async (req, body) => {
+    // Check authentication
+    const userId = await getCurrentUserId();
+    if (!userId) {
+      throw new Error('Authentication required');
+    }
+
     // Validate template exists
     const template = templates.find(t => t.id === body.templateId);
     if (!template) {
@@ -38,21 +54,13 @@ export const POST = executeApi<z.infer<typeof ProjectResponse>, typeof CreatePro
     };
 
     // Create new project
-    const projectId = generateProjectId();
-    const now = new Date();
-    
-    const newProject: z.infer<typeof ProjectResponse> = {
-      id: projectId,
+    const newProject = await projectService.createProject({
       name: body.name,
       templateId: body.templateId,
       properties: mergedProperties,
       description: body.description,
-      createdAt: now,
-      updatedAt: now,
-    };
-
-    // Store project
-    projectStore.set(projectId, newProject);
+      userId,
+    });
 
     return newProject;
   }

@@ -92,6 +92,12 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
         // Redirect to editor with project ID
         router.push(`/intro?projectId=${result.data.id}`);
       } else {
+        if (response.status === 401) {
+          // Handle authentication error
+          alert('You need to be logged in to create projects. Please sign in first.');
+          // You might want to redirect to login page here
+          return;
+        }
         throw new Error(result.message || 'Failed to create project');
       }
     } catch (error) {
