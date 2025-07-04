@@ -7,7 +7,8 @@ import { BounceTextTemplate, bounceTextSchema } from '@/remotion/BounceText/Boun
 import { FadeInTextTemplate, fadeInTextSchema } from '@/remotion/FadeInText/FadeInTextTemplate';
 import { SlideInTextTemplate, slideInTextSchema } from '@/remotion/SlideInText/SlideInTextTemplate';
 import { Player } from '@remotion/player';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 const effectOptions = [
     { id: 'fadein', label: 'Fade In', comp: FadeInTextTemplate, schema: fadeInTextSchema },
@@ -16,9 +17,14 @@ const effectOptions = [
 ];
 
 export default function IntroClient() {
+    const searchParams = useSearchParams();
+    const projectId = searchParams.get('projectId');
+    
     // Start with the Empty template
     const [active, setActive] = useState(templates[0]);
     const [props, setProps] = useState(templates[0].defaultProps);
+    const [currentProject, setCurrentProject] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(!!projectId);
     {/* <TabsTrigger
                            value="export"
                            className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 flex-1 data-[state=active]:bg-[#8B43F7] data-[state=active]:text-white rounded-md transition-colors"
@@ -32,6 +38,42 @@ export default function IntroClient() {
         slidein: slideInTextSchema.parse({}),
         bounce: bounceTextSchema.parse({}),
     });
+
+    // Load project if projectId is provided
+    useEffect(() => {
+        if (projectId) {
+            loadProject(projectId);
+        }
+    }, [projectId]);
+
+    const loadProject = async (id: string) => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`/api/projects/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to load project');
+            }
+            
+            const result = await response.json();
+            if (result.type === 'success') {
+                const project = result.data;
+                setCurrentProject(project);
+                
+                // Find the template
+                const template = templates.find(t => t.id === project.templateId);
+                if (template) {
+                    setActive(template);
+                    setProps(project.properties);
+                }
+            } else {
+                console.error('Failed to load project:', result.message);
+            }
+        } catch (error) {
+            console.error('Error loading project:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     // Calculate duration based on template type
     const getDuration = () => {
@@ -52,6 +94,36 @@ export default function IntroClient() {
     const handleApply = async (values: any) => {
         await new Promise((r) => setTimeout(r, 300)); // simulate latency
         setProps(values);
+        
+        // Auto-save project if it exists
+        if (currentProject) {
+            await updateProject(values);
+        }
+    };
+
+    const updateProject = async (newProperties: any) => {
+        if (!currentProject) return;
+        
+        try {
+            const response = await fetch(`/api/projects/${currentProject.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    properties: newProperties,
+                }),
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                if (result.type === 'success') {
+                    setCurrentProject(result.data);
+                }
+            }
+        } catch (error) {
+            console.error('Error updating project:', error);
+        }
     };
 
     // const handleRender = async () => {
@@ -93,10 +165,33 @@ export default function IntroClient() {
         previewProps = props;
     }
 
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[80vh]">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8B43F7] mx-auto mb-4"></div>
+                    <p className="text-gray-400">Loading project...</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="flex flex-row gap-8 p-8 max-w-7xl mx-auto min-h-[80vh]">
-            {/* Centered Player */}
-            <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="flex flex-col gap-4 p-8 max-w-7xl mx-auto min-h-[80vh]">
+            {/* Project Title */}
+            {currentProject && (
+                <div className="mb-4">
+                    <h1 className="text-2xl font-bold text-white mb-1">{currentProject.name}</h1>
+                    {currentProject.description && (
+                        <p className="text-gray-400 text-sm">{currentProject.description}</p>
+                    )}
+                    <p className="text-gray-500 text-xs mt-1">Template: {currentProject.templateId}</p>
+                </div>
+            )}
+            
+            <div className="flex flex-row gap-8">
+                {/* Centered Player */}
+                <div className="flex-1 flex flex-col items-center justify-center">
                 <Player
                     component={PreviewComp}
                     inputProps={previewProps}
@@ -213,6 +308,7 @@ export default function IntroClient() {
                     </TabsContent>
                 </Tabs>
             </aside>
+            </div>
         </div>
     );
 } 

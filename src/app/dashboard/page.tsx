@@ -1,7 +1,9 @@
+'use client';
+
 import Image from "next/image";
 import Template from "./components/Template";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { CreateProjectDialog } from "@/components/CreateProjectDialog";
 
 function Dashboard() {
   return (
@@ -67,14 +69,13 @@ function Dashboard() {
                 <p className="text-gray-300 text-sm mb-2">
                   Create your first project, discover tons of templates and generate any video you want.
                 </p>
-                {/* TODO: Add a form or Model to allow users to add name to there project. */}
-                <Link href="/intro" passHref legacyBehavior>
+                <CreateProjectDialog>
                   <Button
                     className="bg-[#8B43F7] text-white text-sm font-medium rounded px-4 py-2 transition-colors duration-200 hover:bg-[#a366fa] cursor-pointer"
                   >
                     Create Project
                   </Button>
-                </Link>
+                </CreateProjectDialog>
               </div>
             </div>
             <div className="absolute bottom-0">
