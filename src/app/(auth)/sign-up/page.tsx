@@ -1,3 +1,4 @@
+import { SignUpView } from '@/components/views/SignUpView'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -13,7 +14,7 @@ const Page = async () => {
     }
 
     return (
-        <div>Page</div>
+        <SignUpView />
     )
 }
 
