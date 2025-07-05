@@ -64,7 +64,7 @@ export default function Hero() {
             <span className="text-sm  text-gray-300">Create Professional Video Intros in Minutes</span>
           </div>
 
-          <h1 className="lg:text-6xl  tex-4xl font-black mb-6 leading-tight">
+          <h1 className="lg:text-6xl text-4xl font-black mb-6 leading-tight">
             <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
               Craft Stunning
             </span>
