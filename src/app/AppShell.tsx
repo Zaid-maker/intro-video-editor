@@ -1,6 +1,5 @@
 "use client";
 import { usePathname } from "next/navigation";
-import Sidebar from "./(landing)/components/Sidebar";
 import { Navbar } from "./(landing)/components/Navbar";
 import { Analytics } from "@vercel/analytics/next";
 
