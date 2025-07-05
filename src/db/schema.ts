@@ -64,7 +64,7 @@ export const project = pgTable("project", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   templateId: text("template_id").notNull(),
-  properties: jsonb("properties").notNull().$default({}),
+  properties: jsonb("properties").notNull().$defaultFn(() => ({})),
   description: text("description"),
   userId: text("user_id")
     .notNull()
