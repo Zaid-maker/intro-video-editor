@@ -10,7 +10,7 @@ export default function Sidebar() {
             {/* Top section */}
             <div className="flex flex-col items-center space-y-5">
                <Link href='/'>
-                <Image src="/logo.webp" alt="logo" width={25} height={24} className="mt-1"/>
+                <Image src="/logo.webp" alt="logo"  className="mt-1"/>
                </Link>
                 <div className=" mt-6 space-y-4">
 

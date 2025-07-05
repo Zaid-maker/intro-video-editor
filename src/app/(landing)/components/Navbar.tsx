@@ -21,7 +21,12 @@ export function Navbar() {
 
   return (
     <header className="flex bg-[#0C0C0E] justify-between items-center py-3 px-4 tracking-wide">
+                            <div className="flex items-center justify-center space-x-1">
+
+                                      <img src="/logo.webp"  alt="Logo"  />
+
       <span className="text-white">Welcome Back, {"name"}</span>
+                            </div>
 
       <div className="flex space-x-3 items-center justify-center relative">
         <Link href="/intro" className="rounded-lg text-white bg-[#8B43F7] px-4 py-2">
