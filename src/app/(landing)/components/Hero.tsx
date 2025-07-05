@@ -59,9 +59,9 @@ export default function Hero() {
       {/* Hero Section */}
       <section className="relative z-10 min-h-screen flex items-center justify-center px-6">
         <div className={`text-center max-w-6xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#8b43f7]/20 to-purple-600/20 rounded-full border border-[#8b43f7]/30 mb-8">
+          <div className="inline-flex items-end px-4 py-1 bg-gradient-to-r from-[#8b43f7]/20 to-purple-600/20 rounded-full border border-[#8b43f7]/30 mb-8">
             <Icons.Zap className="w-4 h-4 mr-2 text-[#8b43f7]" />
-            <span className="text-sm mt-4 text-gray-300">Create Professional Video Intros in Minutes</span>
+            <span className="text-sm  text-gray-300">Create Professional Video Intros in Minutes</span>
           </div>
 
           <h1 className="text-6xl md:text-8xl font-black mb-6 leading-tight">
@@ -97,16 +97,7 @@ export default function Hero() {
             </button>
           </div>
 
-          <div className="flex items-center justify-center space-x-8 text-gray-500">
-            <div className="flex items-center">
-              <div className="flex -space-x-2">
-                {[...Array(5)].map((_, i) => (
-                  <Icons.Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <span className="ml-2 text-sm">4.9/5 from 10,000+ users</span>
-            </div>
-          </div>
+
         </div>
 
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">

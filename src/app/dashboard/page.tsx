@@ -28,11 +28,11 @@ function Dashboard() {
                 alt="File icon"
               />
             </div>
-            <div className="text-center lg:absolute lg:bottom-20 -lg:mt-0 -mt-6 left-32 lg:left-44 xl:left-[12rem] 2xl:left-[25rem]">
-              <h3 className="text-white text-2xl font-semibold mb-2">
+            <div className=" lg:absolute lg:bottom-20 -lg:mt-0 -mt-6 left-32 lg:left-52 xl:left-[19rem] 2xl:left-[25rem]">
+              <h3 className="text-white text-md lg:text-2xl font-semibold mb-2">
                 Start with your own file
               </h3>
-              <p className="text-gray-300 lg:text-lg text-sm lg:w-96 mb-4">
+              <p className="text-gray-300 lg:text-lg text-xs lg:w-96 mb-4">
                 Upload your videos or images, select a template and see what brainstorm is capable to do.
               </p>
               <button className="px-4 py-2 bg-[#8B43F7] rounded-lg text-white text-xs font-medium">
@@ -88,21 +88,26 @@ function Dashboard() {
           <div className="relative h-auto lg:h-[179px] rounded-lg overflow-hidden bg-[#232327]">
             <div className="relative z-10 p-6 h-full flex flex-col lg:flex-row items-center gap-4">
               <div className="relative">
-                <Image height={100}
+                {/* <Image height={100}
                   width={100} src="/shape1.webp" alt="shape1" className="w-12 hidden lg:block absolute -top-5 rotate-[30deg] -left-[35px] h-12" />
-                <Image height={100}
-                  width={100} src="/shape2.webp" alt="shape2" className="w-[60px] hidden lg:block absolute -top-10 left-[6px] h-12" />
-                <Image height={100}
-                  width={100} src="/shape3.webp" alt="shape3" className="w-[45px] hidden lg:block absolute -top-8 rotate-[-6deg] left-[68px] h-[65px]" />
+              <Image
+  height={100}
+  width={100}
+  src="/shape2.webp"
+  alt="shape2"
+  className="hidden lg:block absolute -top-10 h-12 w-[30px] lg:w-[40px] xl:w-[48px] 2xl:w-[55px] left-[6px] lg:left-[20px] xl:left-[28px]"
+/>
+<Image height={100}
+                  width={100} src="/shape3.webp" alt="shape3" className="w-[45px] hidden lg:block absolute -top-8 rotate-[-6deg] left-[68px] h-[65px]" /> */}
                 <Image
                   height={100}
                   width={100}
                   src="/file3.webp"
                   alt="file3"
-                  className="w-28 h-24 sm:w-36 sm:h-28"
+                  className="lg:w-24 lg:h-24 h-20 2xl:w-[90px] w-20 md:w-24 md:h-24 "
                 />
               </div>
-              <div className="text-center sm:text-left  ml-3 -mt-2 sm:-mt-4">
+              <div className=" text-center lg:text-left   -mt-2 sm:-mt-4">
                 <h3 className="text-white  text-md font-semibold mb-1">
                   Explore Templates and Start Kickstarting Your Project
                 </h3>
