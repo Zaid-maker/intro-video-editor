@@ -1,15 +1,14 @@
 'use client';
 
+import { CreateProjectDialog } from "@/components/CreateProjectDialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatDistanceToNow } from "date-fns";
+import { ArrowRight, Folder } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Template from "./components/Template";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CreateProjectDialog } from "@/components/CreateProjectDialog";
-import { AppLayout } from "@/components/AppLayout";
-import { formatDistanceToNow } from "date-fns";
-import { Folder, ArrowRight } from "lucide-react";
 
 interface RecentProject {
   id: string;
@@ -30,7 +29,7 @@ function Dashboard() {
     try {
       const response = await fetch('/api/projects');
       const result = await response.json();
-      
+
       if (result.type === 'success') {
         // Get the 3 most recently updated projects
         const recent = result.data
@@ -46,9 +45,8 @@ function Dashboard() {
   };
 
   return (
-    <AppLayout>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row w-full gap-6">
+    <>
+      <div className="flex flex-col lg:flex-row w-full gap-6">
         {/* Card 1 */}
         <div className="relative w-full lg:flex-[3] h-auto lg:h-96 rounded-lg bg-[#232327]">
           <Image
@@ -178,7 +176,7 @@ function Dashboard() {
             </Button>
           </Link>
         </div>
-        
+
         {isLoadingProjects ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
@@ -236,8 +234,7 @@ function Dashboard() {
       </div>
 
       <Template />
-      </div>
-    </AppLayout>
+    </>
   );
 }
 

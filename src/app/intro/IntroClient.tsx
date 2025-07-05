@@ -2,14 +2,13 @@
 
 import { TemplateEditor } from '@/components/TemplateEditor';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AppLayout } from '@/components/AppLayout';
 import { templates } from '@/lib/data';
 import { BounceTextTemplate, bounceTextSchema } from '@/remotion/BounceText/BounceTextTemplate';
 import { FadeInTextTemplate, fadeInTextSchema } from '@/remotion/FadeInText/FadeInTextTemplate';
 import { SlideInTextTemplate, slideInTextSchema } from '@/remotion/SlideInText/SlideInTextTemplate';
 import { Player } from '@remotion/player';
-import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const effectOptions = [
     { id: 'fadein', label: 'Fade In', comp: FadeInTextTemplate, schema: fadeInTextSchema },
@@ -178,7 +177,6 @@ export default function IntroClient() {
     }
 
     return (
-        <AppLayout>
         <div className="flex flex-col gap-4 p-8 max-w-7xl mx-auto min-h-[80vh]">
             {/* Project Title */}
             {currentProject && (
@@ -312,6 +310,5 @@ export default function IntroClient() {
                 </aside>
             </div>
         </div>
-        </AppLayout>
     );
 } 
