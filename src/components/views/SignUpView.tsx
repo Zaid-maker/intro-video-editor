@@ -110,30 +110,33 @@ export const SignUpView = () => {
         );
     };
 
-    return (
-        <div className="flex flex-col gap-6">
-            <Card className="overflow-hidden p-0">
-                <CardContent className="grid p-0 md:grid-cols-2">
+   return (
+    <div className=" bg-gradient-to-br min-h-screen from-black via-gray-900 to-black flex items-center justify-center p-4">
+        <div className="">
+            <Card className="bg-gray-900/50 backdrop-blur-sm border-gray-800  overflow-hidden">
+                <CardContent className="grid p-0 grid-cols-1">
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-8">
-                            <div className="flex flex-col gap-6">
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="p-8 ">
+                            <div className="flex flex-col gap-4">
                                 <div className="flex flex-col items-center text-center">
-                                    <h1 className="text-2xl font-bold">Let&apos;s get started</h1>
-                                    <p className="text-muted-foreground text-balance">
+                                    <h1 className="text-3xl font-bold text-white mb-2">Let&apos;s get started</h1>
+                                    <p className="text-gray-400 text-balance">
                                         Create your account
                                     </p>
                                 </div>
-                                <div className="grid gap-3">
+                                
+                                <div className="grid gap-4">
                                     <FormField
                                         control={form.control}
                                         name="name"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Name</FormLabel>
+                                                <FormLabel className="text-gray-300">Name</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="text"
                                                         placeholder="John Doe"
+                                                        className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500/20"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -142,17 +145,19 @@ export const SignUpView = () => {
                                         )}
                                     />
                                 </div>
-                                <div className="grid gap-3">
+                                
+                                <div className="grid gap-4">
                                     <FormField
                                         control={form.control}
                                         name="email"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Email</FormLabel>
+                                                <FormLabel className="text-gray-300">Email</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="email"
                                                         placeholder="m@example.com"
+                                                        className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500/20"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -161,17 +166,19 @@ export const SignUpView = () => {
                                         )}
                                     />
                                 </div>
-                                <div className="grid gap-3">
+                                
+                                <div className="grid gap-4">
                                     <FormField
                                         control={form.control}
                                         name="password"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Password</FormLabel>
+                                                <FormLabel className="text-gray-300">Password</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="password"
                                                         placeholder="********"
+                                                        className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500/20"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -180,17 +187,19 @@ export const SignUpView = () => {
                                         )}
                                     />
                                 </div>
-                                <div className="grid gap-3">
+                                
+                                <div className="grid gap-4">
                                     <FormField
                                         control={form.control}
                                         name="confirmPassword"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Confirm Password</FormLabel>
+                                                <FormLabel className="text-gray-300">Confirm Password</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="password"
                                                         placeholder="********"
+                                                        className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500/20"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -199,47 +208,59 @@ export const SignUpView = () => {
                                         )}
                                     />
                                 </div>
+                                
                                 {!!error && (
-                                    <Alert className="bg-destructive/10 border-none">
-                                        <OctagonAlertIcon className="h-4 w-4 !text-destructive" />
-                                        <AlertTitle>{error}</AlertTitle>
+                                    <Alert className="bg-red-500/10 border-red-500/20 backdrop-blur-sm">
+                                        <OctagonAlertIcon className="h-4 w-4 text-red-400" />
+                                        <AlertTitle className="text-red-400">{error}</AlertTitle>
                                     </Alert>
                                 )}
-                                <Button disabled={pending} type="submit" className="w-full">
-                                    Sign Up
+                                
+                                <Button 
+                                    disabled={pending} 
+                                    type="submit" 
+                                    className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
+                                >
+                                    {pending ? "Signing Up..." : "Sign Up"}
                                 </Button>
-                                <div className="after-border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-                                    <span className="bg-card text-muted-foreground relative z-10 px-2">
+                                
+                                <div className="relative text-center text-sm">
+                                    <div className="absolute inset-0 flex items-center">
+                                        <div className="w-full border-t border-gray-700"></div>
+                                    </div>
+                                    <span className="bg-gray-900 text-gray-400 px-4 relative">
                                         Or continue with
                                     </span>
                                 </div>
+                                
                                 <div className="grid grid-cols-2 gap-4">
                                     <Button
                                         disabled={pending}
                                         onClick={() => onSocial("google")}
-                                        variant={"outline"}
+                                        variant="outline"
                                         type="button"
-                                        className="w-full"
+                                        className="w-full bg-gray-800 border-gray-700 text-white hover:bg-gray-700 hover:border-gray-600 transition-all duration-200"
                                     >
-                                        <FaGoogle />
+                                        <FaGoogle className="mr-2" />
                                         Google
                                     </Button>
                                     <Button
                                         disabled={pending}
                                         onClick={() => onSocial("github")}
-                                        variant={"outline"}
+                                        variant="outline"
                                         type="button"
-                                        className="w-full"
+                                        className="w-full bg-gray-800 border-gray-700 text-white hover:bg-gray-700 hover:border-gray-600 transition-all duration-200"
                                     >
-                                        <FaGithub />
+                                        <FaGithub className="mr-2" />
                                         GitHub
                                     </Button>
                                 </div>
-                                <div className="text-center text-sm">
+                                
+                                <div className="text-center text-sm text-gray-400">
                                     Already have an account?{" "}
                                     <Link
                                         href="/sign-in"
-                                        className="underline underline-offset-4"
+                                        className="text-purple-400 hover:text-purple-300 underline underline-offset-4 transition-colors"
                                     >
                                         Sign In
                                     </Link>
@@ -248,17 +269,21 @@ export const SignUpView = () => {
                         </form>
                     </Form>
 
-                    <div className="bg-radial from-sidebar-accent to-sidebar relative hidden md:flex flex-col gap-y-4 items-center justify-center">
-                        <img src="/logo.webp" alt="Logo" className="h-[92px] w-[92px]" />
-                        <p className="text-2xl font-semibold text-white">Meet.AI</p>
-                    </div>
+                
                 </CardContent>
             </Card>
 
-            <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-                By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-                and <a href="#">Privacy Policy</a>
+            <div className="text-gray-400 text-center text-xs text-balance mt-6">
+                By clicking continue, you agree to our{" "}
+                <a href="#" className="text-purple-400 hover:text-purple-300 underline underline-offset-4 transition-colors">
+                    Terms of Service
+                </a>{" "}
+                and{" "}
+                <a href="#" className="text-purple-400 hover:text-purple-300 underline underline-offset-4 transition-colors">
+                    Privacy Policy
+                </a>
             </div>
         </div>
-    );
+    </div>
+);
 };
