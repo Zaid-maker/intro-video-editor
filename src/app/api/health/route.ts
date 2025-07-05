@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import { getCurrentUserId, requireUserId } from '@/lib/auth-utils';
+import { sql } from 'drizzle-orm';
 
 export async function GET() {
   try {
     // Test database connection
-    const result = await db.execute('SELECT 1 as test');
+    await db.execute(sql`SELECT 1 as test`);
     
     // Test auth
     const userId = await getCurrentUserId();
