@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@neondatabase/serverless": "1.0.0",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
@@ -45,10 +46,12 @@
     "@remotion/shapes": "4.0.319",
     "@remotion/tailwind-v4": "4.0.319",
     "@vercel/analytics": "^1.5.0",
+    "better-auth": "^1.2.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
+    "drizzle-orm": "0.43.1",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.0",
     "input-otp": "^1.4.2",
@@ -60,6 +63,7 @@
     "react-day-picker": "^9.7.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.59.0",
+    "react-icons": "^5.5.0",
     "react-resizable-panels": "^3.0.3",
     "recharts": "^3.0.2",
     "remotion": "4.0.319",
@@ -78,6 +82,7 @@
     "@types/web": "0.0.166",
     "autoprefixer": "10.4.20",
     "dotenv": "16.0.3",
+    "drizzle-kit": "0.31.1",
     "eslint": "9.19.0",
     "eslint-config-next": "15.1.6",
     "ignore-loader": "^0.1.2",
@@ -94,7 +99,11 @@
     "lint": "next lint",
     "remotion": "remotion studio",
     "render": "remotion render",
-    "deploy": "node deploy.mjs"
+    "deploy": "node deploy.mjs",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
-  "packageManager": "bun@1.2.15"
+  "packageManager": "bun@1.2.18"
 }

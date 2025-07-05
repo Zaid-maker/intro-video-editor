@@ -1,9 +1,9 @@
 import { features } from '../../../lib/data';
 
 export default function Features() {
-    return (
-        <>
-        <section id="features" className="relative z-10 py-32 px-6">
+  return (
+    <>
+      <section id="features" className="relative z-10  px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-5xl md:text-6xl font-black mb-6">
@@ -15,7 +15,7 @@ export default function Features() {
               Everything you need to create professional video intros that captivate your audience
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="group relative">
@@ -32,6 +32,6 @@ export default function Features() {
           </div>
         </div>
       </section>
-        </>
-    )
+    </>
+  )
 }
