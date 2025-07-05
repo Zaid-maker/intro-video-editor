@@ -32,24 +32,32 @@ export interface UpdateProjectData {
 export class ProjectService {
   // Create a new project
   async createProject(data: CreateProjectData): Promise<ProjectData> {
-    const projectId = generateProjectId();
-    const now = new Date();
+    try {
+      const projectId = generateProjectId();
+      const now = new Date();
 
-    const [newProject] = await db
-      .insert(project)
-      .values({
-        id: projectId,
-        name: data.name,
-        templateId: data.templateId,
-        properties: data.properties,
-        description: data.description,
-        userId: data.userId,
-        createdAt: now,
-        updatedAt: now,
-      })
-      .returning();
+      console.log('Inserting project into database:', { projectId, userId: data.userId });
 
-    return newProject as ProjectData;
+      const [newProject] = await db
+        .insert(project)
+        .values({
+          id: projectId,
+          name: data.name,
+          templateId: data.templateId,
+          properties: data.properties,
+          description: data.description,
+          userId: data.userId,
+          createdAt: now,
+          updatedAt: now,
+        })
+        .returning();
+
+      console.log('Successfully created project:', newProject);
+      return newProject as ProjectData;
+    } catch (error) {
+      console.error('Database error creating project:', error);
+      throw new Error(`Failed to create project: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   }
 
   // Get all projects for a user

@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { UpdateProjectRequest } from '@/types/schema';
 import { templates } from '@/lib/data';
 import { projectService } from '@/lib/project-service';
-import { getCurrentUserId } from '@/lib/auth-utils';
+import { requireUserId } from '@/lib/auth-utils';
 
 // GET - Get a specific project
 export async function GET(
@@ -12,15 +12,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const userId = await getCurrentUserId();
-    
-    if (!userId) {
-      return NextResponse.json(
-        { type: 'error', message: 'Authentication required' },
-        { status: 401 }
-      );
-    }
-
+    const userId = await requireUserId();
     const project = await projectService.getProject(id, userId);
     
     if (!project) {
@@ -36,6 +28,14 @@ export async function GET(
     });
   } catch (error) {
     console.error('Error fetching project:', error);
+    
+    if (error instanceof Error && error.message.includes('Authentication required')) {
+      return NextResponse.json(
+        { type: 'error', message: error.message },
+        { status: 401 }
+      );
+    }
+    
     return NextResponse.json(
       { type: 'error', message: 'Failed to fetch project' },
       { status: 500 }
@@ -50,15 +50,7 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const userId = await getCurrentUserId();
-    
-    if (!userId) {
-      return NextResponse.json(
-        { type: 'error', message: 'Authentication required' },
-        { status: 401 }
-      );
-    }
-
+    const userId = await requireUserId();
     const existingProject = await projectService.getProject(id, userId);
     
     if (!existingProject) {
@@ -119,15 +111,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const userId = await getCurrentUserId();
-    
-    if (!userId) {
-      return NextResponse.json(
-        { type: 'error', message: 'Authentication required' },
-        { status: 401 }
-      );
-    }
-
+    const userId = await requireUserId();
     const project = await projectService.getProject(id, userId);
     
     if (!project) {

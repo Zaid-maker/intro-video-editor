@@ -102,7 +102,8 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
       }
     } catch (error) {
       console.error('Error creating project:', error);
-      // You might want to show a toast notification here
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+      alert(`Failed to create project: ${errorMessage}`);
     } finally {
       setIsLoading(false);
     }
