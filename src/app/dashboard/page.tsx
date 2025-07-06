@@ -8,7 +8,15 @@ import { ArrowRight, Folder } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { z } from "zod";
 import Template from "./components/Template";
+
+const RecentProjectSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  templateId: z.string(),
+  updatedAt: z.string(),
+});
 
 interface RecentProject {
   id: string;
@@ -20,6 +28,7 @@ interface RecentProject {
 function Dashboard() {
   const [recentProjects, setRecentProjects] = useState<RecentProject[]>([]);
   const [isLoadingProjects, setIsLoadingProjects] = useState(true);
+  const [projectsError, setProjectsError] = useState<string | null>(null);
 
   useEffect(() => {
     loadRecentProjects();
@@ -32,13 +41,14 @@ function Dashboard() {
 
       if (result.type === 'success') {
         // Get the 3 most recently updated projects
-        const recent = result.data
-          .sort((a: any, b: any) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+        const recent = (result.data as RecentProject[])
+          .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
           .slice(0, 3);
         setRecentProjects(recent);
       }
     } catch (error) {
       console.error('Error loading recent projects:', error);
+      setProjectsError('Failed to load recent projects');
     } finally {
       setIsLoadingProjects(false);
     }
