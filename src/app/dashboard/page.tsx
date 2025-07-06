@@ -1,11 +1,58 @@
 'use client';
 
-import Image from "next/image";
-import Template from "./components/Template";
-import { Button } from "@/components/ui/button";
 import { CreateProjectDialog } from "@/components/CreateProjectDialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatDistanceToNow } from "date-fns";
+import { ArrowRight, Folder } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { z } from "zod";
+import Template from "./components/Template";
+
+// Zod schema for runtime validation of RecentProject
+export const RecentProjectSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  templateId: z.string(),
+  updatedAt: z.string(),
+});
+
+export type RecentProject = z.infer<typeof RecentProjectSchema>;
 
 function Dashboard() {
+  const [recentProjects, setRecentProjects] = useState<RecentProject[]>([]);
+  const [isLoadingProjects, setIsLoadingProjects] = useState(true);
+  const [projectsError, setProjectsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadRecentProjects();
+  }, []);
+
+  const loadRecentProjects = async () => {
+    try {
+      const response = await fetch('/api/projects');
+      const result = await response.json();
+
+      if (result.type === 'success') {
+        // Get the 3 most recently updated projects
+        const recent = (result.data as RecentProject[])
+          .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+          .slice(0, 3);
+        setRecentProjects(recent);
+        setProjectsError(null);
+      } else {
+        setProjectsError('Failed to load recent projects.');
+      }
+    } catch (error) {
+      setProjectsError('Failed to load recent projects.');
+      console.error('Error loading recent projects:', error);
+    } finally {
+      setIsLoadingProjects(false);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col lg:flex-row w-full gap-6">
@@ -125,6 +172,89 @@ function Dashboard() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Recent Projects Section */}
+      <div className="mt-12">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-white">Recent Projects</h2>
+          <Link href="/projects">
+            <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-800">
+              View All
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </Link>
+        </div>
+
+        {isLoadingProjects ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="bg-[#232327] border-gray-700">
+                <CardHeader>
+                  <div className="h-4 bg-gray-600 rounded animate-pulse mb-2" />
+                  <div className="h-3 bg-gray-700 rounded animate-pulse w-2/3" />
+                </CardHeader>
+                <CardContent>
+                  <div className="h-3 bg-gray-700 rounded animate-pulse" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : projectsError ? (
+          <Card className="bg-[#232327] border-gray-700">
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                <Folder className="w-8 h-8 text-gray-500" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Error</h3>
+              <p className="text-gray-400 text-center mb-4">
+                {projectsError}
+              </p>
+              <Button className="bg-[#8B43F7] hover:bg-[#a366fa] text-white" onClick={loadRecentProjects}>
+                Retry
+              </Button>
+            </CardContent>
+          </Card>
+        ) : recentProjects.length === 0 ? (
+          <Card className="bg-[#232327] border-gray-700">
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                <Folder className="w-8 h-8 text-gray-500" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">No projects yet</h3>
+              <p className="text-gray-400 text-center mb-4">
+                Create your first project to get started with video creation.
+              </p>
+              <CreateProjectDialog>
+                <Button className="bg-[#8B43F7] hover:bg-[#a366fa] text-white">
+                  Create First Project
+                </Button>
+              </CreateProjectDialog>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {recentProjects.map((project) => (
+              <Card key={project.id} className="bg-[#232327] border-gray-700 hover:border-gray-600 transition-colors">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg truncate">
+                    {project.name}
+                  </CardTitle>
+                  <CardDescription className="text-gray-400">
+                    {project.templateId} • Updated {formatDistanceToNow(new Date(project.updatedAt))} ago
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link href={`/intro?projectId=${project.id}`}>
+                    <Button variant="outline" className="w-full border-gray-600 text-gray-300 hover:bg-gray-800">
+                      Open Project
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
 
       <Template />

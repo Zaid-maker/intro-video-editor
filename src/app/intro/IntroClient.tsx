@@ -7,8 +7,8 @@ import { BounceTextTemplate, bounceTextSchema } from '@/remotion/BounceText/Boun
 import { FadeInTextTemplate, fadeInTextSchema } from '@/remotion/FadeInText/FadeInTextTemplate';
 import { SlideInTextTemplate, slideInTextSchema } from '@/remotion/SlideInText/SlideInTextTemplate';
 import { Player } from '@remotion/player';
-import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const effectOptions = [
     { id: 'fadein', label: 'Fade In', comp: FadeInTextTemplate, schema: fadeInTextSchema },
