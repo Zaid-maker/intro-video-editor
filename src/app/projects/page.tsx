@@ -4,6 +4,7 @@ import { CreateProjectDialog } from '@/components/CreateProjectDialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { formatDistanceToNow } from 'date-fns';
 import { Folder, Play, Plus, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -25,6 +26,8 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Project | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -53,10 +56,6 @@ export default function ProjectsPage() {
   };
 
   const handleDeleteProject = async (projectId: string) => {
-    if (!confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
-      return;
-    }
-
     setIsDeleting(projectId);
     try {
       const response = await fetch(`/api/projects/${projectId}`, {
@@ -74,6 +73,8 @@ export default function ProjectsPage() {
       alert('Failed to delete project');
     } finally {
       setIsDeleting(null);
+      setDeleteTarget(null);
+      setShowDeleteDialog(false);
     }
   };
 
@@ -166,7 +167,10 @@ export default function ProjectsPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleDeleteProject(project.id)}
+                  onClick={() => {
+                    setDeleteTarget(project);
+                    setShowDeleteDialog(true);
+                  }}
                   disabled={isDeleting === project.id}
                   className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
                 >
@@ -176,6 +180,41 @@ export default function ProjectsPage() {
                     <Trash2 className="w-4 h-4" />
                   )}
                 </Button>
+                {/* Delete Confirmation Dialog */}
+                <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Delete Project</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to delete <span className="font-semibold text-white">{deleteTarget?.name}</span>? This action cannot be undone.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setShowDeleteDialog(false);
+                          setDeleteTarget(null);
+                        }}
+                        className="border-gray-600 text-gray-300 hover:bg-gray-800"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        onClick={() => deleteTarget && handleDeleteProject(deleteTarget.id)}
+                        disabled={isDeleting === deleteTarget?.id}
+                        className="bg-red-600 text-white hover:bg-red-700"
+                      >
+                        {isDeleting === deleteTarget?.id ? (
+                          <div className="w-4 h-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                        ) : (
+                          'Delete'
+                        )}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </CardFooter>
             </Card>
           ))}
