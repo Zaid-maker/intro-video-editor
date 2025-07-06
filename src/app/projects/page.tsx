@@ -8,15 +8,18 @@ import { formatDistanceToNow } from 'date-fns';
 import { Folder, Play, Plus, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { z } from 'zod'
 
-interface Project {
-  id: string;
-  name: string;
-  templateId: string;
-  description?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+export const ProjectSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  templateId: z.string(),
+  description: z.string().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export type Project = z.infer<typeof ProjectSchema>;
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);

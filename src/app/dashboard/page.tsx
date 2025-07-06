@@ -11,19 +11,15 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import Template from "./components/Template";
 
-const RecentProjectSchema = z.object({
+// Zod schema for runtime validation of RecentProject
+export const RecentProjectSchema = z.object({
   id: z.string(),
   name: z.string(),
   templateId: z.string(),
   updatedAt: z.string(),
 });
 
-interface RecentProject {
-  id: string;
-  name: string;
-  templateId: string;
-  updatedAt: string;
-}
+export type RecentProject = z.infer<typeof RecentProjectSchema>;
 
 function Dashboard() {
   const [recentProjects, setRecentProjects] = useState<RecentProject[]>([]);
