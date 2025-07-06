@@ -10,6 +10,7 @@ import { Folder, Play, Plus, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { z } from 'zod'
+import { toast } from 'sonner';
 
 export const ProjectSchema = z.object({
   id: z.string(),
@@ -66,11 +67,15 @@ export default function ProjectsPage() {
       if (result.type === 'success') {
         setProjects(projects.filter(p => p.id !== projectId));
       } else {
-        alert('Failed to delete project: ' + result.message);
+        toast.error('Failed to delete project', {
+          description: result.message || 'An error occurred while deleting the project.',
+        });
       }
     } catch (error) {
       console.error('Error deleting project:', error);
-      alert('Failed to delete project');
+      toast.error('Failed to delete project', {
+        description: 'An error occurred while deleting the project.',
+      });
     } finally {
       setIsDeleting(null);
       setDeleteTarget(null);

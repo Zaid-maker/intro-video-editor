@@ -1,6 +1,7 @@
 import "../../styles/global.css";
 import { Metadata, Viewport } from "next";
 import AppShell from "./AppShell";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Remotion and Next.js",
@@ -21,7 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AppShell>{children}</AppShell>
+        <AppShell>
+          {children}
+          <Toaster />
+        </AppShell>
       </body>
     </html>
   );
