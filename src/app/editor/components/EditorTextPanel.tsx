@@ -7,22 +7,8 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Upload, Volume2, Music, Image } from "lucide-react";
 import { FONT_WEIGHTS, FONTS, FONT_SIZES, COLORS, TRANSITIONS, ANIMATIONS } from "@/lib/data";
-import { z } from "zod";
+import { TextProps } from "../schema";
 
-const textPropsSchema = z.object({
-    title: z.string().optional(),
-    body: z.string().optional(),
-    fontFamily: z.enum(FONTS).default("inter"),
-    fontWeight: z.enum(FONT_WEIGHTS.map(fw => fw.value)).default("400"),
-    fontSize: z.string().default("16"),
-    color: z.string().default("#ffffff"),
-    backgroundColor: z.string().default("#000000"),
-    letterSpacing: z.number().min(0).max(20).default(5),
-    opacity: z.number().min(0).max(100).default(100),
-    textAlign: z.enum(["left", "center", "right"]).default("left"),
-})
-
-export type TextProps = z.infer<typeof textPropsSchema>;
 export const DefaultTextProps: TextProps = {
     title: "Default Title - Change Me",
     body: "Default body text goes here. You can edit this to add your own content.",
@@ -159,8 +145,6 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                         className="w-5 h-5 sm:w-6 sm:h-6 rounded-full cursor-pointer border border-gray-600 hover:scale-110 transition-transform"
                                         style={{ backgroundColor: color }}
                                         onClick={() => setTextProps((prev) => ({ ...prev, color: color }))}
-                                    />
-                                ))}
                                     />
                                 ))}
                             </div>

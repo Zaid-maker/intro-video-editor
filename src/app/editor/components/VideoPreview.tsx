@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
-import { type TextProps } from "./EditorTextPanel";
+import { TextProps } from "../schema"
 
-export default function VideoPreview({ textProps} : { textProps: TextProps }) {
+export default function VideoPreview({ textProps }: { textProps: TextProps }) {
   const styles: React.CSSProperties = useMemo(() => {
     const baseStyle: React.CSSProperties = {}
     baseStyle.fontFamily = textProps.fontFamily;
@@ -29,7 +29,7 @@ export default function VideoPreview({ textProps} : { textProps: TextProps }) {
         muted
       />
       <div className="absolute top-2 sm:top-4 left-2 sm:left-4 w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#8B43F7] rounded-full" />
-      <div className="absolute top-2" style={styles}> { textProps.body }</div>
+      <div className="absolute top-2" style={styles}> {textProps.body}</div>
     </>
   )
 }
