@@ -2,12 +2,21 @@ import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
+interface LayoutProps {
+    children: React.ReactNode;
+}
 
-    if (!session) redirect("/sign-in");
+export default async function Layout({ children }: LayoutProps) {
+    try {
+        const session = await auth.api.getSession({
+            headers: await headers(),
+        });
+
+        if (!session) redirect("/sign-in");
+    } catch (error) {
+        console.error('Error fetching session:', error);
+        redirect("/sign-in");
+    }
 
     return (
         <div className='bg-[#111113] p-6 w-screen h-screen overflow-hidden'>
