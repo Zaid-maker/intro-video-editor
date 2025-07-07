@@ -1,39 +1,86 @@
-"use client";
-
-import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 import { Icons } from "../../../../assets/Icons";
 import Link from "next/link";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+    const { data } = authClient.useSession();
+
+    const handleLogout = () => {
+        // Add logout logic here
+        console.log("Logout");
+        onClose();
+    };
+
     return (
-        <div className="w-14 h-screen bg-[#0C0C0E] flex flex-col justify-between items-center py-4">
-            {/* Top section */}
-            <div className="flex flex-col items-center space-y-5">
-               <Link href='/'>
-                <Image src="/logo.webp" alt="logo"  className="mt-1"/>
-               </Link>
-                <div className=" mt-6 space-y-4">
+        <>
+            {/* Overlay */}
+            {isOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+                    onClick={onClose}
+                />
+            )}
 
-                    <div className="p-2  rounded-full bg-white/30 backdrop-blur-md">
-                        <Icons.Plus className="text-white w-6 h-6 " />
+            {/* Sidebar */}
+            <div className={`fixed left-0 top-0 h-full w-72 bg-[#0C0C0E] border-r border-white/10 transform transition-transform duration-300 z-50 md:hidden ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                }`}>
+                <div className="p-4">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center space-x-2">
+                            <Icons.Video className="w-6 h-6 text-[#8B43F7]" />
+                            <span className="text-white font-semibold">VideoGen</span>
+                        </div>
+                        <button onClick={onClose} className="text-white/70 hover:text-white">
+                            <Icons.XIcon className="w-5 h-5" />
+                        </button>
                     </div>
 
-                    <Icons.Blocks className="text-gray-600 ml-2 w-6 h-6" />
-                    <div className="p-2  rounded-full bg-white/30 backdrop-blur-md">
-                        <Icons.PanelLeft className="text-white w-6 h-6" />
+                    {/* User Info */}
+                    <div className="mb-8 p-3 bg-white/5 rounded-lg">
+                        <div className="flex items-center space-x-3">
+                            <Icons.UserCircle className="w-8 h-8 text-white" />
+                            <div>
+                                <p className="text-white text-sm font-medium">
+                                    {data?.user ? data.user.name : "Guest User"}
+                                </p>
+                                <p className="text-white/50 text-xs">
+                                    {data?.user ? "Premium Member" : "Free Account"}
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <Icons.Mail className="text-gray-600 ml-2 w-6 h-6" />
-                    <Icons.Power className="text-gray-600 ml-2 w-6 h-6" />
-                    <Icons.BookOpen className="text-gray-600 ml-2 w-6 h-6" />
+
+                    {/* Navigation */}
+                    <nav className="space-y-2">
+                        <Link
+                            href="/intro"
+                            className="flex items-center space-x-3 px-3 py-3 rounded-lg bg-[#8B43F7] text-white"
+                            onClick={onClose}
+                        >
+                            <Icons.Video className="w-5 h-5" />
+                            <span>Create Video</span>
+                        </Link>
+
+                        <Link
+                            href="/settings"
+                            className="flex items-center space-x-3 px-3 py-3 rounded-lg text-white/70 hover:text-white hover:bg-white/5"
+                            onClick={onClose}
+                        >
+                            <Icons.Settings className="w-5 h-5" />
+                            <span>Settings</span>
+                        </Link>
+
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center space-x-3 px-3 py-3 rounded-lg text-white/70 hover:text-white hover:bg-white/5 w-full text-left"
+                        >
+                            <Icons.LogOut className="w-5 h-5" />
+                            <span>Logout</span>
+                        </button>
+                    </nav>
                 </div>
             </div>
-
-            {/* Bottom section */}
-            <div className="flex flex-col items-center space-y-5">
-                <Icons.Chrome className="text-gray-600 w-6 h-6" />
-                <Icons.Headset className="text-gray-600 w-6 h-6" />
-                <Icons.Settings className="text-gray-600 w-6 h-6" />
-            </div>
-        </div>
+        </>
     );
 }

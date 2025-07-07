@@ -1,9 +1,9 @@
 import { Icons } from "../../../../assets/Icons";
 
-export default function CTA(){
-    return (
-        <>
-          <section className="relative z-10 py-32 px-6 bg-gradient-to-b from-black to-gray-900">
+export default function CTA() {
+  return (
+    <>
+      <section className="relative z-10 py-32 px-6 bg-gradient-to-b from-black to-gray-900">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-6xl font-black mb-8">
             <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -22,6 +22,6 @@ export default function CTA(){
           </button>
         </div>
       </section>
-        </>
-    )
+    </>
+  )
 }

@@ -1,6 +1,6 @@
 import {
   Bell, Plus, UserCircle, Blocks,
-  PanelLeft,
+
   Mail,
   Power,
   BookOpen,
@@ -8,10 +8,16 @@ import {
   Chrome,
   Headset,
   ArrowLeft,
-  Play, Zap, Download, Star, ArrowRight, ChevronDown, Video, Palette, MousePointer, Clock
+  Play, Zap, Download, Star, ArrowRight, ChevronDown, Video, Palette, MousePointer, Clock,
+  LogOut,
+  PanelLeft,
+  XIcon
 } from 'lucide-react';
 
 export const Icons = {
+  LogOut,
+  PanelLeft,
+  XIcon,
   Play, Zap, Download, Star, ArrowRight, ChevronDown, Video, Palette, MousePointer, Clock,
   ArrowLeft,
   UserCircle,
@@ -23,7 +29,6 @@ export const Icons = {
   BookOpen,
   Mail,
   Power,
-  PanelLeft,
   Blocks,
 } as const;
 

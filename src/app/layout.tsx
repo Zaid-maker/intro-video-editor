@@ -2,6 +2,7 @@ import "../../styles/global.css";
 import { Metadata, Viewport } from "next";
 import AppShell from "./AppShell";
 import { Toaster } from "sonner";
+import Navbar from "./(landing)/components/Navbar";
 
 export const metadata: Metadata = {
   title: "Advance Remotion Editor",
@@ -23,6 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AppShell>
+          <header>
+            <Navbar />
+          </header>
           {children}
           <Toaster />
         </AppShell>

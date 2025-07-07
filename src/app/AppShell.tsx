@@ -1,6 +1,5 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { Navbar } from "./(landing)/components/Navbar";
 import { Analytics } from "@vercel/analytics/next";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -18,13 +17,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* <aside className="h-screen">
-        <Sidebar />
-      </aside> */}
+
       <div className="flex-1 flex flex-col">
-        <header>
-          <Navbar />
-        </header>
+
         <main className="flex-1 overflow-y-auto">
           {children}
           <Analytics />
