@@ -1,10 +1,15 @@
+'use client';
+
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, SkipBack, SkipForward } from "lucide-react";
 import { Icons } from "../../../assets/Icons";
 import Link from "next/link";
-import EditorTextPanel from "./components/EditorTextPanel";
+import EditorTextPanel, { type TextProps, DefaultTextProps } from "./components/EditorTextPanel";
+import VideoPreview from "./components/VideoPreview";
 
 export default function Editor() {
+  const [textProps, setTextProps] = useState<TextProps>(DefaultTextProps);
     return (
         <>
             <div className="bg-[#111113] p-2 sm:p-4 min-h-screen">
@@ -24,14 +29,7 @@ export default function Editor() {
                         <div className="bg-[#111] rounded-lg sm:rounded-2xl overflow-hidden shadow-lg flex-1">
                             <div className="relative w-full h-full min-h-[200px] sm:min-h-[300px] lg:min-h-[400px] bg-black">
                                 {/* Placeholder for future Remotion/HTML5 Video */}
-                                <video
-                                    className="w-full h-full object-cover"
-                                    src="/placeholder-video.mp4"
-                                    controls={false}
-                                    autoPlay={false}
-                                    muted
-                                />
-                                <div className="absolute top-2 sm:top-4 left-2 sm:left-4 w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#8B43F7] rounded-full" />
+                              <VideoPreview textProps={textProps} />
                             </div>
                         </div>
 
@@ -64,7 +62,7 @@ export default function Editor() {
 
                     {/* Settings Panel */}
                     <div className="w-full xl:w-auto xl:min-w-[320px] xl:max-w-[400px]">
-                        <EditorTextPanel />
+                        <EditorTextPanel textProps={textProps} setTextProps={setTextProps}/>
                     </div>
                 </div>
             </div>
