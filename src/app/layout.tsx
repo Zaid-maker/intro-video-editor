@@ -4,8 +4,8 @@ import AppShell from "./AppShell";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Remotion and Next.js",
-  description: "Remotion and Next.js",
+  title: "Advance Remotion Editor",
+  description: "A powerful editor for Remotion projects"
 };
 
 export const viewport: Viewport = {
