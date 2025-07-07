@@ -10,38 +10,38 @@ import { FONT_WEIGHTS, FONTS, FONT_SIZES, COLORS, TRANSITIONS, ANIMATIONS } from
 import { z } from "zod";
 
 const textPropsSchema = z.object({
-  title: z.string().optional(),
-  body: z.string().optional(),
-  fontFamily: z.enum(FONTS).default("inter"),
-  fontWeight: z.enum(FONT_WEIGHTS.map(fw => fw.value)).default("400"),
-  fontSize: z.string().default("16"),
-  color: z.string().default("#ffffff"),
-  backgroundColor: z.string().default("#000000"),
-  letterSpacing: z.number().min(0).max(20).default(5),
-  opacity: z.number().min(0).max(100).default(100),
-  textAlign: z.enum(["left", "center", "right"]).default("left"),
+    title: z.string().optional(),
+    body: z.string().optional(),
+    fontFamily: z.enum(FONTS).default("inter"),
+    fontWeight: z.enum(FONT_WEIGHTS.map(fw => fw.value)).default("400"),
+    fontSize: z.string().default("16"),
+    color: z.string().default("#ffffff"),
+    backgroundColor: z.string().default("#000000"),
+    letterSpacing: z.number().min(0).max(20).default(5),
+    opacity: z.number().min(0).max(100).default(100),
+    textAlign: z.enum(["left", "center", "right"]).default("left"),
 })
 
 export type TextProps = z.infer<typeof textPropsSchema>;
 export const DefaultTextProps: TextProps = {
-  title: "Default Title - Change Me",
-  body: "Default body text goes here. You can edit this to add your own content.",
-  fontFamily: FONTS[0],
-  fontWeight: FONT_WEIGHTS[2].value, // Default to 'Regular'
-  fontSize: "16",
-  color: "#ffffff",
-  backgroundColor: "#000000",
-  letterSpacing: 5,
-  opacity: 100,
-  textAlign: "left",
+    title: "Default Title - Change Me",
+    body: "Default body text goes here. You can edit this to add your own content.",
+    fontFamily: FONTS[0],
+    fontWeight: FONT_WEIGHTS[2].value, // Default to 'Regular'
+    fontSize: "16",
+    color: "#ffffff",
+    backgroundColor: "#000000",
+    letterSpacing: 5,
+    opacity: 100,
+    textAlign: "left",
 }
 
 export type EditorTextPanelProps = {
-  textProps: TextProps;
-  setTextProps: React.Dispatch<React.SetStateAction<TextProps>>;
+    textProps: TextProps;
+    setTextProps: React.Dispatch<React.SetStateAction<TextProps>>;
 }
 
-export default function EditorTextPanel({textProps, setTextProps}: EditorTextPanelProps) {
+export default function EditorTextPanel({ textProps, setTextProps }: EditorTextPanelProps) {
     return (
         <div className="bg-[#0C0C0E] text-white w-full lg:w-80 xl:w-96 p-3 sm:p-4 rounded-lg sm:rounded-xl space-y-3 sm:space-y-4 h-fit max-h-[calc(100vh-120px)] custom-scrollbar overflow-y-auto">
             <Tabs defaultValue="text">
@@ -58,16 +58,16 @@ export default function EditorTextPanel({textProps, setTextProps}: EditorTextPan
                         <div>
                             <Label htmlFor="content1-title" className="text-xs mb-2">Review Title</Label>
                             <Input id="content1-title" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
-                defaultValue={textProps.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) =>  {
-                  setTextProps((prev) => ({ ...prev, title: e.target.value }));
-              }}/>
+                                defaultValue={textProps.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    setTextProps((prev) => ({ ...prev, title: e.target.value }));
+                                }} />
                         </div>
                         <div>
                             <Label htmlFor="content1-body" className="text-xs mb-2">Review Body</Label>
                             <Textarea id="content1-body" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm resize-none" rows={3}
-                defaultValue={textProps.body} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                  setTextProps((prev) => ({ ...prev, body: e.target.value }));
-                }}/>
+                                defaultValue={textProps.body} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                    setTextProps((prev) => ({ ...prev, body: e.target.value }));
+                                }} />
                         </div>
                     </div>
 
@@ -142,10 +142,10 @@ export default function EditorTextPanel({textProps, setTextProps}: EditorTextPan
                             <Label className="text-xs mb-2">Letter Spacing</Label>
                             <div className="flex items-center gap-2 sm:gap-3">
                                 <Slider value={[5]} min={0}
-                  max={20}
-                  step={1}
-                  className="flex-1 bg-white text-[#8B43F7]"
-                  onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, letterSpacing: v[0] })) } } />
+                                    max={20}
+                                    step={1}
+                                    className="flex-1 bg-white text-[#8B43F7]"
+                                    onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, letterSpacing: v[0] })) }} />
                                 <span className="text-xs text-muted-foreground min-w-[40px]">+1.5%</span>
                             </div>
                         </div>
@@ -158,9 +158,9 @@ export default function EditorTextPanel({textProps, setTextProps}: EditorTextPan
                                         key={i}
                                         className="w-5 h-5 sm:w-6 sm:h-6 rounded-full cursor-pointer border border-gray-600 hover:scale-110 transition-transform"
                                         style={{ backgroundColor: color }}
-                                      onClick={() => setTextProps((prev) => ({ ...prev, color: color }))}
-                                        />
-                                    ))}
+                                        onClick={() => setTextProps((prev) => ({ ...prev, color: color }))}
+                                    />
+                                ))}
                                     />
                                 ))}
                             </div>
@@ -182,7 +182,7 @@ export default function EditorTextPanel({textProps, setTextProps}: EditorTextPan
                                             key={i}
                                             className="w-6 h-6 rounded cursor-pointer border border-gray-600 hover:scale-110 transition-transform"
                                             style={{ backgroundColor: color }}
-                      onClick={() => setTextProps((prev) => ({ ...prev, backgroundColor: color }))}
+                                            onClick={() => setTextProps((prev) => ({ ...prev, backgroundColor: color }))}
                                         />
                                     ))}
                                 </div>
@@ -191,8 +191,8 @@ export default function EditorTextPanel({textProps, setTextProps}: EditorTextPan
                                 <Label className="text-xs mb-2">Opacity</Label>
                                 <div className="flex items-center gap-2">
                                     <Slider defaultValue={[100]} min={0} max={100} step={5} className="flex-1"
-                    onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, opacity: v[0] })) } }
-                  />
+                                        onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, opacity: v[0] })) }}
+                                    />
                                     <span className="text-xs text-muted-foreground min-w-[35px]">100%</span>
                                 </div>
                             </div>
