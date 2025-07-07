@@ -2,7 +2,11 @@ import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-export default async function layout({ children }: { children: React.ReactNode }) {
+interface LayoutProps {
+    children: React.ReactNode;
+}
+
+export default async function layout({ children }: LayoutProps) {
     try {
         const session = await auth.api.getSession({
             headers: await headers(),
