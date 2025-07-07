@@ -9,19 +9,8 @@ import { formatDistanceToNow } from 'date-fns';
 import { Folder, Play, Plus, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { z } from 'zod'
 import { toast } from 'sonner';
-
-export const ProjectSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  templateId: z.string(),
-  description: z.string().optional(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
-
-export type Project = z.infer<typeof ProjectSchema>;
+import { Project, ProjectSchema } from './schema';
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -41,7 +30,17 @@ export default function ProjectsPage() {
       const result = await response.json();
 
       if (result.type === 'success') {
-        setProjects(result.data);
+        const validated = (result.data as unknown[])
+          .map(item => {
+            try {
+              return ProjectSchema.parse(item);
+            } catch (e) {
+              console.error('Invalid project data:', e);
+              return null;
+            }
+          })
+          .filter((item): item is Project => item !== null);
+        setProjects(validated);
       } else {
         console.error('Failed to load projects:', result.message);
       }
