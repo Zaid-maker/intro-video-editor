@@ -9,7 +9,7 @@ export default async function layout({ children }: { children: React.ReactNode }
     if (!session) redirect("/sign-in");
 
     return (
-        <div className='bg-[#111113] p-6 w-screen h-screen overflow-hidden'>
+        <div className='bg-[#111113] p-6 min-h-screen'>
             {children}
         </div>
     );
