@@ -8,18 +8,8 @@ import { ArrowRight, Folder } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { z } from "zod";
 import Template from "./components/Template";
-
-// Zod schema for runtime validation of RecentProject
-export const RecentProjectSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  templateId: z.string(),
-  updatedAt: z.string(),
-});
-
-export type RecentProject = z.infer<typeof RecentProjectSchema>;
+import { RecentProject, RecentProjectSchema } from './schema';
 
 function Dashboard() {
   const [recentProjects, setRecentProjects] = useState<RecentProject[]>([]);
@@ -38,6 +28,7 @@ function Dashboard() {
       if (result.type === 'success') {
         // Get the 3 most recently updated projects
         const recent = (result.data as RecentProject[])
+          .map(item => RecentProjectSchema.parse(item))
           .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
           .slice(0, 3);
         setRecentProjects(recent);
