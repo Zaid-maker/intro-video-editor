@@ -19,6 +19,7 @@ const textPropsSchema = z.object({
   backgroundColor: z.string().default("#000000"),
   letterSpacing: z.number().min(0).max(20).default(5),
   opacity: z.number().min(0).max(100).default(100),
+  textAlign: z.enum(["left", "center", "right"]).default("left"),
 })
 
 export type TextProps = z.infer<typeof textPropsSchema>;
@@ -32,6 +33,7 @@ export const DefaultTextProps: TextProps = {
   backgroundColor: "#000000",
   letterSpacing: 5,
   opacity: 100,
+  textAlign: "left",
 }
 
 export type EditorTextPanelProps = {
@@ -56,14 +58,14 @@ export default function EditorTextPanel({textProps, setTextProps}: EditorTextPan
                         <div>
                             <Label htmlFor="content1-title" className="text-xs mb-2">Review Title</Label>
                             <Input id="content1-title" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
-                defaultValue={textProps.title} onChange={(e: React.ChangeEvent<HTMLInputEvent>) =>  {
+                defaultValue={textProps.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) =>  {
                   setTextProps((prev) => ({ ...prev, title: e.target.value }));
               }}/>
                         </div>
                         <div>
                             <Label htmlFor="content1-body" className="text-xs mb-2">Review Body</Label>
                             <Textarea id="content1-body" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm resize-none" rows={3}
-                defaultValue={textProps.body} onChange={(e: React.ChangeEvent<HTMLInputEvent>) => {
+                defaultValue={textProps.body} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                   setTextProps((prev) => ({ ...prev, body: e.target.value }));
                 }}/>
                         </div>
@@ -90,7 +92,7 @@ export default function EditorTextPanel({textProps, setTextProps}: EditorTextPan
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <Label htmlFor="font-family" className="text-xs mb-2">Font Family</Label>
-                                <Select defaultValue="inter"value={textProps.fontFamily} onValueChange={(value) => { setTextProps((prev) => ({ ...prev, fontFamily: value })) }}>
+                                <Select value={textProps.fontFamily} onValueChange={(value) => { setTextProps((prev) => ({ ...prev, fontFamily: value })) }}>
                                     <SelectTrigger className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm">
                                         <SelectValue placeholder="Select font" />
                                     </SelectTrigger>
@@ -106,7 +108,7 @@ export default function EditorTextPanel({textProps, setTextProps}: EditorTextPan
 
                             <div>
                                 <Label htmlFor="font-weight" className="text-xs mb-2">Font Weight</Label>
-                                <Select defaultValue="400" value={textProps.fontWeight} onValueChange={(value) => { setTextProps((prev) => ({ ...prev, fontWeight: value })) }}>
+                                <Select value={textProps.fontWeight} onValueChange={(value) => { setTextProps((prev) => ({ ...prev, fontWeight: value })) }}>
                                     <SelectTrigger className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm">
                                         <SelectValue placeholder="Select weight" />
                                     </SelectTrigger>
@@ -139,7 +141,7 @@ export default function EditorTextPanel({textProps, setTextProps}: EditorTextPan
                         <div>
                             <Label className="text-xs mb-2">Letter Spacing</Label>
                             <div className="flex items-center gap-2 sm:gap-3">
-                                <Slider defaultValue={[5]} min={0}
+                                <Slider value={[5]} min={0}
                   max={20}
                   step={1}
                   className="flex-1 bg-white text-[#8B43F7]"
