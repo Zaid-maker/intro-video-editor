@@ -23,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AppShell>
+
           {children}
           <Toaster />
         </AppShell>

@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { Navbar } from "./(landing)/components/Navbar";
+import  Navbar  from "./(landing)/components/Navbar";
 import { Analytics } from "@vercel/analytics/next";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {

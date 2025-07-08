@@ -1,8 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { Icons } from '../../../../assets/Icons';
-import Image from 'next/image';
-import { IMAGES } from '../../../../assets/Images';
 import Testimonials from './Testimonials';
 import Features from './Features';
 import Demo from './Demo';
@@ -41,20 +39,7 @@ export default function Hero() {
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-indigo-600/10 to-[#8b43f7]/10 rounded-full blur-2xl animate-pulse delay-1000" />
       </div>
 
-      {/* Navigation */}
-      <nav className="relative z-10 flex items-center justify-between px-6 py-4 backdrop-blur-sm bg-black/30">
-        <div className="flex items-center space-x-2">
 
-          <Image
-            src={IMAGES.logo}
-            height={100}
-            width={100}
-            className="h-10 w-10 object-contain"
-            alt="logo"
-          />
-        </div>
-
-      </nav>
 
       {/* Hero Section */}
       <section className="relative z-10 min-h-screen flex items-center justify-center px-6">
