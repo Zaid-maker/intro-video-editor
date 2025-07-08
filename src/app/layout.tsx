@@ -14,6 +14,13 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
+/**
+ * Defines the root layout for the application, wrapping all pages with the main app shell and global providers.
+ *
+ * Renders the provided children inside the `AppShell` component and includes a global toast notification system.
+ *
+ * @param children - The content to be rendered within the application layout
+ */
 export default function RootLayout({
   children,
 }: {
@@ -23,6 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AppShell>
+
           {children}
           <Toaster />
         </AppShell>

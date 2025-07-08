@@ -1,14 +1,17 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { Icons } from '../../../../assets/Icons';
-import Image from 'next/image';
-import { IMAGES } from '../../../../assets/Images';
 import Testimonials from './Testimonials';
 import Features from './Features';
 import Demo from './Demo';
 import CTA from './CTA';
 import Link from 'next/link';
 
+/**
+ * Renders the animated hero section of the landing page with interactive background effects, call-to-action buttons, and supporting feature components.
+ *
+ * The hero section features a mouse-following gradient background, fade-in animation, and interactive UI elements. Additional sections for features, demo, testimonials, and call-to-action are included below the hero area.
+ */
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -41,20 +44,7 @@ export default function Hero() {
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-indigo-600/10 to-[#8b43f7]/10 rounded-full blur-2xl animate-pulse delay-1000" />
       </div>
 
-      {/* Navigation */}
-      <nav className="relative z-10 flex items-center justify-between px-6 py-4 backdrop-blur-sm bg-black/30">
-        <div className="flex items-center space-x-2">
 
-          <Image
-            src={IMAGES.logo}
-            height={100}
-            width={100}
-            className="h-10 w-10 object-contain"
-            alt="logo"
-          />
-        </div>
-
-      </nav>
 
       {/* Hero Section */}
       <section className="relative z-10 min-h-screen flex items-center justify-center px-6">

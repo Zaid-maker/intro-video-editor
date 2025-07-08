@@ -8,10 +8,12 @@ import {
   Chrome,
   Headset,
   ArrowLeft,
-  Play, Zap, Download, Star, ArrowRight, ChevronDown, Video, Palette, MousePointer, Clock
+  Play, Zap, Download, Star, ArrowRight, ChevronDown, Video, Palette, MousePointer, Clock,
+  LogOut
 } from 'lucide-react';
 
 export const Icons = {
+  LogOut,
   Play, Zap, Download, Star, ArrowRight, ChevronDown, Video, Palette, MousePointer, Clock,
   ArrowLeft,
   UserCircle,
