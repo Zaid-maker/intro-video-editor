@@ -7,6 +7,11 @@ import Demo from './Demo';
 import CTA from './CTA';
 import Link from 'next/link';
 
+/**
+ * Renders the animated hero section of the landing page with interactive background effects, call-to-action buttons, and supporting feature components.
+ *
+ * The hero section features a mouse-following gradient background, fade-in animation, and interactive UI elements. Additional sections for features, demo, testimonials, and call-to-action are included below the hero area.
+ */
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
