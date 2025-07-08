@@ -7,6 +7,13 @@ import { IMAGES } from "../../../../assets/Images";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+/**
+ * Renders a fixed navigation bar that displays a logo, a personalized welcome message, and user-specific navigation options for authenticated users.
+ *
+ * Shows a "Create Project" link and a user icon with a hover-activated tooltip containing a logout button. Handles user session state, displays navigation options based on authentication, and redirects to the sign-in page upon logout.
+ *
+ * Returns `null` while session data is loading or if no user is authenticated.
+ */
 export default function Navbar() {
   const router = useRouter()
   const [tooltipVisible, setTooltipVisible] = useState(false);
