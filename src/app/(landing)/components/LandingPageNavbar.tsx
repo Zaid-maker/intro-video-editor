@@ -72,9 +72,20 @@ const LandingPageNavbar = () => {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 cursor-pointer">
+              <button
+                type="button"
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#8B43F7]"
+                aria-label="Open user menu"
+                tabIndex={0}
+                onClick={() => setTooltipVisible(v => !v)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setTooltipVisible(v => !v);
+                  }
+                }}
+              >
                 <Icons.UserCircle className="size-6 text-white" />
-              </div>
+              </button>
 
               {tooltipVisible && (
                 <div
