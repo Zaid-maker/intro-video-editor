@@ -12,14 +12,13 @@ const LandingPageNavbar = () => {
   const router = useRouter();
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { data, isPending, error } = authClient.useSession();
-  if (error) {
-    console.log(error)
-  }
+  const { data, isPending } = authClient.useSession();
+
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
-    } setTooltipVisible(true);
+    }
+    setTooltipVisible(true);
   };
 
   const handleMouseLeave = () => {
@@ -31,6 +30,7 @@ const LandingPageNavbar = () => {
   if (isPending) {
     return <div className="px-6 py-4 bg-[#0C0C0E] border-b border-white/10" />;
   }
+
   const handleLogout = async () => {
     try {
       await authClient.signOut({
@@ -77,8 +77,28 @@ const LandingPageNavbar = () => {
               </div>
 
               {tooltipVisible && (
-                <div className="absolute right-0  top-12 z-50 bg-white text-black shadow-xl rounded-lg py-2 w-28 border border-gray-200">
-                  <button onClick={handleLogout} className="flex cursor-pointer items-center px-4 py-2.5 hover:bg-gray-50 transition-colors duration-150 w-full text-left">
+                <div
+                  className="absolute right-0 top-12 z-50 bg-white text-black shadow-xl rounded-lg py-2 w-28 border border-gray-200"
+                  role="tooltip"
+                  aria-label="User menu"
+                  tabIndex={-1}
+                  onKeyDown={e => {
+                    if (e.key === 'Escape') {
+                      setTooltipVisible(false);
+                    }
+                  }}
+                >
+                  <button
+                    onClick={handleLogout}
+                    className="flex cursor-pointer items-center px-4 py-2.5 hover:bg-gray-50 transition-colors duration-150 w-full text-left focus:outline-none focus:bg-gray-100"
+                    tabIndex={0}
+                    aria-label="Logout"
+                    onKeyDown={e => {
+                      if (e.key === 'Escape') {
+                        setTooltipVisible(false);
+                      }
+                    }}
+                  >
                     <Icons.LogOut className="size-4 mr-3 text-gray-600" />
                     Logout
                   </button>
