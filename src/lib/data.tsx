@@ -6,6 +6,9 @@ import { neonTextSchema, NeonTextTemplate } from "@/remotion/NeonText/NeonTextTe
 import { oldSchoolTextSchema, OldSchoolTextTemplate } from "@/remotion/OldSchoolText/OldSchoolTextTemplate";
 import { slideInTextSchema, SlideInTextTemplate } from "@/remotion/SlideInText/SlideInTextTemplate";
 import { typewriterSchema, TypewriterTemplate } from "@/remotion/Typewriter/TypewriterTemplate";
+import { particleExplosionSchema, ParticleExplosionTemplate } from "@/remotion/ParticleExplosion/ParticleExplosionTemplate";
+import { text3DSchema, Text3DTemplate } from "@/remotion/Text3D/Text3DTemplate";
+import { glitchTextSchema, GlitchTextTemplate } from "@/remotion/GlitchText/GlitchTextTemplate";
 import { Icons } from "../../assets/Icons";
 import { EmptyTemplate, emptyTemplateSchema } from "@/remotion/EmptyTemplate/EmptyTemplate";
 
@@ -135,6 +138,73 @@ export const templates: TemplateEntry[] = [
             bgColor: "#f0f8ff",
             jumpHeight: 30,
             rotationRange: 20,
+        },
+    },
+    {
+        id: "ParticleExplosion",
+        comp: ParticleExplosionTemplate,
+        schema: particleExplosionSchema,
+        defaultProps: {
+            text: "BOOM!",
+            duration: 4,
+            color: "#ff4444",
+            fontSize: 100,
+            bgColor: "#000000",
+            particleCount: 200,
+            explosionRadius: 300,
+            explosionIntensity: 1.5,
+            particleSize: 3,
+            gravity: 0.5,
+            fadeSpeed: 0.8,
+            colorVariation: true,
+            sparkles: true,
+            shockwave: true,
+            textBehavior: "shatter",
+        },
+    },
+    {
+        id: "Text3D",
+        comp: Text3DTemplate,
+        schema: text3DSchema,
+        defaultProps: {
+            text: "3D TEXT",
+            duration: 4,
+            color: "#00aaff",
+            fontSize: 120,
+            bgColor: "#000000",
+            depth: 20,
+            rotationX: 0,
+            rotationY: 0,
+            rotationZ: 0,
+            perspective: 1000,
+            lightIntensity: 1,
+            shadowIntensity: 0.8,
+            metallic: false,
+            animated: true,
+            rotationSpeed: 1,
+            colorGradient: true,
+            environmentReflection: false,
+        },
+    },
+    {
+        id: "GlitchText",
+        comp: GlitchTextTemplate,
+        schema: glitchTextSchema,
+        defaultProps: {
+            text: "GLITCH",
+            duration: 4,
+            color: "#00ff00",
+            fontSize: 100,
+            bgColor: "#000000",
+            glitchIntensity: 1,
+            glitchSpeed: 1,
+            digitalNoise: true,
+            colorChannels: true,
+            dataCorruption: true,
+            scanlines: true,
+            staticNoise: true,
+            textCorruption: true,
+            glitchType: "digital",
         },
     },
 ];
