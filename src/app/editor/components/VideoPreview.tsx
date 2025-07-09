@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { TextProps } from "../schema";
 
 interface VideoPreviewProps {
@@ -7,7 +7,7 @@ interface VideoPreviewProps {
   currentTime?: number;
 }
 
-export default function VideoPreview({ textProps, isPlaying = false, currentTime = 0 }: VideoPreviewProps) {
+const VideoPreview = memo(function VideoPreview({ textProps, isPlaying = false, currentTime = 0 }: VideoPreviewProps) {
   // Create preview styles based on template and settings
   const previewStyles = useMemo(() => {
     const baseStyles: React.CSSProperties = {
@@ -244,4 +244,6 @@ export default function VideoPreview({ textProps, isPlaying = false, currentTime
       </div>
     </div>
   );
-}
+});
+
+export default VideoPreview;
