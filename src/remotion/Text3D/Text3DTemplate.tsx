@@ -109,15 +109,18 @@ export const Text3DTemplate: React.FC<Text3DProps> = ({
         }
         
         const timeProgress = frame / totalDuration;
+        const smoothProgress = Math.sin(timeProgress * Math.PI); // Smooth animation curve
         
         return {
-            rotateX: rotationX + Math.sin(frame * rotationSpeed / 20) * 20,
-            rotateY: rotationY + frame * rotationSpeed,
-            rotateZ: rotationZ + Math.cos(frame * rotationSpeed / 30) * 10,
+            rotateX: rotationX + Math.sin(frame * rotationSpeed / 20) * 20 * smoothProgress,
+            rotateY: rotationY + frame * rotationSpeed * smoothProgress,
+            rotateZ: rotationZ + Math.cos(frame * rotationSpeed / 30) * 10 * smoothProgress,
         };
     };
 
     const rotations = getAnimatedRotations();
+    const timeProgress = frame / totalDuration;
+    const smoothProgress = Math.sin(timeProgress * Math.PI); // Smooth animation curve
 
     // Create environment reflection effect
     const createEnvironmentReflection = () => {
@@ -154,9 +157,12 @@ export const Text3DTemplate: React.FC<Text3DProps> = ({
     const createFloatingParticles = () => {
         const particles = [];
         
+        // Scale particle radius based on video dimensions
+        const baseRadius = Math.min(width, height) * 0.15;
+        
         for (let i = 0; i < 20; i++) {
             const angle = (i / 20) * Math.PI * 2;
-            const radius = 200 + Math.sin(frame / 30 + i) * 50;
+            const radius = baseRadius + Math.sin(frame / 30 + i) * (baseRadius * 0.25);
             const particleX = Math.cos(angle) * radius;
             const particleY = Math.sin(angle) * radius;
             const particleZ = Math.sin(frame / 20 + i) * 100;
@@ -166,7 +172,7 @@ export const Text3DTemplate: React.FC<Text3DProps> = ({
                 [-1, 1],
                 [0.2, 0.8],
                 { extrapolateRight: 'clamp' }
-            );
+            ) * smoothProgress;
             
             particles.push(
                 <div
