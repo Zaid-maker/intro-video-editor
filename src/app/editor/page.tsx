@@ -41,7 +41,7 @@ export default function Editor() {
                 intervalRef.current = null;
             }
         };
-    }, [isPlaying, currentTime, duration]);
+    }, [isPlaying, currentTime]);
 
     // Control functions
     const togglePlayPause = () => {
@@ -94,9 +94,9 @@ export default function Editor() {
                         {/* Controls */}
                         <div className="flex flex-col items-center gap-2 w-full py-2">
                             <div className="flex justify-center items-center gap-3 sm:gap-6">
-                                <Button 
-                                    size="icon" 
-                                    variant="ghost" 
+                                <Button
+                                    size="icon"
+                                    variant="ghost"
                                     className="text-white w-8 h-8 sm:w-10 sm:h-10 hover:bg-white/10"
                                     onClick={skipBackward}
                                 >
@@ -113,9 +113,9 @@ export default function Editor() {
                                         <Play className="w-5 h-5 sm:w-6 sm:h-6" />
                                     )}
                                 </Button>
-                                <Button 
-                                    size="icon" 
-                                    variant="ghost" 
+                                <Button
+                                    size="icon"
+                                    variant="ghost"
                                     className="text-white w-8 h-8 sm:w-10 sm:h-10 hover:bg-white/10"
                                     onClick={skipForward}
                                 >
@@ -130,7 +130,7 @@ export default function Editor() {
                                     style={{ width: `${progressPercentage}%` }}
                                 ></div>
                             </div>
-                            
+
                             {/* Time Display */}
                             <div className="text-white text-xs sm:text-sm opacity-70">
                                 {Math.floor(currentTime)}s / {duration}s
