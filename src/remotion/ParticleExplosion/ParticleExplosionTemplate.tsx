@@ -67,15 +67,20 @@ export const ParticleExplosionTemplate: React.FC<ParticleExplosionProps> = ({
             const velocity = (random2 * 0.5 + 0.5) * explosionRadius * explosionIntensity;
             const particleLife = 1 + random3 * 2; // 1-3 seconds
             
-            // Calculate particle position
-            const particleX = Math.cos(angle) * velocity * explosionTime;
-            const particleY = Math.sin(angle) * velocity * explosionTime - 
+            // Calculate particle position with boundary constraints
+            const baseX = Math.cos(angle) * velocity * explosionTime;
+            const baseY = Math.sin(angle) * velocity * explosionTime - 
                 gravity * explosionTime * explosionTime * 200;
             
-            // Particle opacity and size
+            // Keep particles within video boundaries
+            const particleX = Math.max(-width/2, Math.min(width/2, baseX));
+            const particleY = Math.max(-height/2, Math.min(height/2, baseY));
+            
+            // Particle opacity and size with total duration awareness
+            const maxLife = Math.min(particleLife * fadeSpeed, (totalDuration / fps) - 0.5);
             const particleOpacity = interpolate(
                 explosionTime,
-                [0, particleLife * fadeSpeed],
+                [0, maxLife],
                 [1, 0],
                 { extrapolateRight: 'clamp' }
             );
