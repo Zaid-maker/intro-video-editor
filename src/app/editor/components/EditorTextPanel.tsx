@@ -6,20 +6,35 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Upload, Volume2, Music, Image } from "lucide-react";
-import { FONT_WEIGHTS, FONTS, FONT_SIZES, COLORS, TRANSITIONS, ANIMATIONS } from "@/lib/data";
+import { FONT_WEIGHTS, FONTS, FONT_SIZES, COLORS, TRANSITIONS, templates } from "@/lib/data";
 import { TextProps } from "../schema";
 
 export const DefaultTextProps: TextProps = {
+    templateId: "Typewriter",
+    text: "Your Text Here",
     title: "Default Title - Change Me",
     body: "Default body text goes here. You can edit this to add your own content.",
     fontFamily: FONTS[0],
     fontWeight: FONT_WEIGHTS[2].value, // Default to 'Regular'
-    fontSize: "16",
+    fontSize: 70,
     color: "#ffffff",
     backgroundColor: "#000000",
     letterSpacing: 5,
     opacity: 100,
     textAlign: "left",
+    animationType: "fade",
+    transition: "ease",
+    duration: 3,
+    speed: 5,
+    fadeType: "simple",
+    slideType: "simple",
+    direction: "left",
+    easing: "easeOut",
+    rotationEffect: false,
+    scaleEffect: false,
+    colorShift: false,
+    glowEffect: false,
+    particleEffect: false,
 }
 
 export type EditorTextPanelProps = {
@@ -38,20 +53,52 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                 </TabsList>
 
                 <TabsContent value="text" className="space-y-4 sm:space-y-6 pt-3 sm:pt-4">
+                    {/* Template Selection */}
+                    <div className="space-y-2">
+                        <h3 className="text-xs sm:text-sm text-muted-foreground">Template</h3>
+                        <div>
+                            <Label htmlFor="template-select" className="text-xs mb-2">Choose Template</Label>
+                            <Select value={textProps.templateId} onValueChange={(value) => { setTextProps((prev) => ({ ...prev, templateId: value })) }}>
+                                <SelectTrigger className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm">
+                                    <SelectValue placeholder="Select template" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {templates.map((template) => (
+                                        <SelectItem className="bg-gray-600 text-white text-xs sm:text-sm" key={template.id} value={template.id}>
+                                            {template.id}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+
+                    {/* Main Text */}
+                    <div className="space-y-2">
+                        <h3 className="text-xs sm:text-sm text-muted-foreground">Main Text</h3>
+                        <div>
+                            <Label htmlFor="main-text" className="text-xs mb-2">Text Content</Label>
+                            <Input id="main-text" placeholder="Your text here" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
+                                value={textProps.text} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    setTextProps((prev) => ({ ...prev, text: e.target.value }));
+                                }} />
+                        </div>
+                    </div>
+
                     {/* Content 1 */}
                     <div className="space-y-2">
-                        <h3 className="text-xs sm:text-sm text-muted-foreground">Content 1</h3>
+                        <h3 className="text-xs sm:text-sm text-muted-foreground">Additional Content</h3>
                         <div>
-                            <Label htmlFor="content1-title" className="text-xs mb-2">Review Title</Label>
-                            <Input id="content1-title" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
-                                defaultValue={textProps.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            <Label htmlFor="content1-title" className="text-xs mb-2">Title (Optional)</Label>
+                            <Input id="content1-title" placeholder="Title text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
+                                value={textProps.title || ""} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                     setTextProps((prev) => ({ ...prev, title: e.target.value }));
                                 }} />
                         </div>
                         <div>
-                            <Label htmlFor="content1-body" className="text-xs mb-2">Review Body</Label>
-                            <Textarea id="content1-body" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm resize-none" rows={3}
-                                defaultValue={textProps.body} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                            <Label htmlFor="content1-body" className="text-xs mb-2">Body Text (Optional)</Label>
+                            <Textarea id="content1-body" placeholder="Body text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm resize-none" rows={3}
+                                value={textProps.body || ""} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                                     setTextProps((prev) => ({ ...prev, body: e.target.value }));
                                 }} />
                         </div>
@@ -115,8 +162,12 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 {FONT_SIZES.map((size) => (
                                     <button
                                         key={size}
-                                        className="text-xs px-1.5 sm:px-2 py-1 rounded bg-[#2c2c2e] text-white hover:bg-[#3a3a3c] transition-colors"
-                                        onClick={() => setTextProps((prev) => ({ ...prev, fontSize: size }))}
+                                        className={`text-xs px-1.5 sm:px-2 py-1 rounded transition-colors ${
+                                            textProps.fontSize === parseInt(size) 
+                                                ? 'bg-[#8B43F7] text-white' 
+                                                : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
+                                        }`}
+                                        onClick={() => setTextProps((prev) => ({ ...prev, fontSize: parseInt(size) }))}
                                     >
                                         {size}px
                                     </button>
@@ -127,12 +178,12 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <div>
                             <Label className="text-xs mb-2">Letter Spacing</Label>
                             <div className="flex items-center gap-2 sm:gap-3">
-                                <Slider value={[5]} min={0}
+                                <Slider value={[textProps.letterSpacing]} min={0}
                                     max={20}
                                     step={1}
                                     className="flex-1 bg-white text-[#8B43F7]"
                                     onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, letterSpacing: v[0] })) }} />
-                                <span className="text-xs text-muted-foreground min-w-[40px]">+1.5%</span>
+                                <span className="text-xs text-muted-foreground min-w-[40px]">{textProps.letterSpacing}px</span>
                             </div>
                         </div>
 
@@ -186,17 +237,83 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                     {/* Animation */}
                     <div className="space-y-3">
                         <h3 className="text-xs sm:text-sm text-muted-foreground">Animation</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        
+                        {/* Template-specific animation controls */}
+                        {textProps.templateId === "FadeInText" && (
                             <div>
-                                <Label className="text-xs mb-2">Animation Type</Label>
-                                <Select defaultValue="fade">
+                                <Label className="text-xs mb-2">Fade Type</Label>
+                                <Select value={textProps.fadeType} onValueChange={(value: any) => { setTextProps((prev) => ({ ...prev, fadeType: value })) }}>
                                     <SelectTrigger className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {ANIMATIONS.map((animation) => (
-                                            <SelectItem key={animation} value={animation} className="bg-gray-600 text-white text-xs sm:text-sm">
-                                                {animation}
+                                        {['simple', 'letterByLetter', 'wordByWord', 'particles', 'blur', 'wave'].map((type) => (
+                                            <SelectItem key={type} value={type} className="bg-gray-600 text-white text-xs sm:text-sm">
+                                                {type}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        )}
+                        
+                        {textProps.templateId === "SlideInText" && (
+                            <>
+                                <div>
+                                    <Label className="text-xs mb-2">Slide Type</Label>
+                                    <Select value={textProps.slideType} onValueChange={(value: any) => { setTextProps((prev) => ({ ...prev, slideType: value })) }}>
+                                        <SelectTrigger className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {['simple', 'elastic', 'cascade', 'wave', 'flip3d', 'parallax'].map((type) => (
+                                                <SelectItem key={type} value={type} className="bg-gray-600 text-white text-xs sm:text-sm">
+                                                    {type}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div>
+                                    <Label className="text-xs mb-2">Direction</Label>
+                                    <Select value={textProps.direction} onValueChange={(value: any) => { setTextProps((prev) => ({ ...prev, direction: value })) }}>
+                                        <SelectTrigger className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {['left', 'right', 'top', 'bottom', 'diagonal', 'spiral', 'zoom'].map((dir) => (
+                                                <SelectItem key={dir} value={dir} className="bg-gray-600 text-white text-xs sm:text-sm">
+                                                    {dir}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </>
+                        )}
+                        
+                        {textProps.templateId === "Typewriter" && (
+                            <div>
+                                <Label className="text-xs mb-2">Typing Speed</Label>
+                                <div className="flex items-center gap-2">
+                                    <Slider value={[textProps.speed]} min={1} max={10} step={1} className="flex-1 bg-white"
+                                        onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, speed: v[0] })) }} />
+                                    <span className="text-xs text-muted-foreground min-w-[30px]">{textProps.speed}</span>
+                                </div>
+                            </div>
+                        )}
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <Label className="text-xs mb-2">Easing</Label>
+                                <Select value={textProps.easing} onValueChange={(value: any) => { setTextProps((prev) => ({ ...prev, easing: value })) }}>
+                                    <SelectTrigger className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {['linear', 'easeIn', 'easeOut', 'easeInOut', 'bounce', 'elastic'].map((easing) => (
+                                            <SelectItem key={easing} value={easing} className="bg-gray-600 text-white text-xs sm:text-sm">
+                                                {easing}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
@@ -204,7 +321,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                             </div>
                             <div>
                                 <Label className="text-xs mb-2">Transition</Label>
-                                <Select defaultValue="ease">
+                                <Select value={textProps.transition} onValueChange={(value) => { setTextProps((prev) => ({ ...prev, transition: value })) }}>
                                     <SelectTrigger className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm">
                                         <SelectValue />
                                     </SelectTrigger>
@@ -221,8 +338,38 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <div>
                             <Label className="text-xs mb-2">Duration (seconds)</Label>
                             <div className="flex items-center gap-2">
-                                <Slider defaultValue={[2]} min={0.5} max={5} step={0.1} className="flex-1 bg-white" />
-                                <span className="text-xs text-muted-foreground min-w-[30px]">2.0s</span>
+                                <Slider value={[textProps.duration]} min={0.5} max={10} step={0.1} className="flex-1 bg-white" 
+                                    onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, duration: v[0] })) }} />
+                                <span className="text-xs text-muted-foreground min-w-[35px]">{textProps.duration.toFixed(1)}s</span>
+                            </div>
+                        </div>
+
+                        {/* Effect Toggles */}
+                        <div>
+                            <Label className="text-xs mb-2">Effects</Label>
+                            <div className="grid grid-cols-2 gap-2">
+                                {[
+                                    { key: 'rotationEffect', label: 'Rotation' },
+                                    { key: 'scaleEffect', label: 'Scale' },
+                                    { key: 'colorShift', label: 'Color Shift' },
+                                    { key: 'glowEffect', label: 'Glow' },
+                                    { key: 'particleEffect', label: 'Particles' },
+                                ].map((effect) => (
+                                    <button
+                                        key={effect.key}
+                                        className={`text-xs px-2 py-1.5 rounded transition-colors ${
+                                            textProps[effect.key as keyof TextProps] 
+                                                ? 'bg-[#8B43F7] text-white' 
+                                                : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
+                                        }`}
+                                        onClick={() => setTextProps((prev) => ({ 
+                                            ...prev, 
+                                            [effect.key]: !prev[effect.key as keyof TextProps] 
+                                        }))}
+                                    >
+                                        {effect.label}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     </div>
