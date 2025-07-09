@@ -18,10 +18,8 @@ export default function Navbar() {
   const router = useRouter()
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { data, isPending , error } = authClient.useSession();
-if(error) {
-  console.log(error)
-}
+  const { data, isPending } = authClient.useSession();
+
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -53,22 +51,23 @@ if(error) {
   };
 
   return (
-    
     <header className="fixed top-0 left-0 right-0 z-50 flex bg-[#0C0C0E] justify-between items-center py-4 px-6 tracking-wide border-b border-white/10">
       <div className="flex items-center space-x-4">
-        <Image
-          height={24}
-          width={25}
-          src={IMAGES.logo}
-          alt="Logo"
-        />
+        <Link href={'/dashboard'}>
+          <Image
+            height={24}
+            width={25}
+            src={IMAGES.logo}
+            alt="Logo"
+          />
+        </Link>
         {data?.user && (
           <span className="text-white font-medium">Welcome Back, {data.user.name}</span>
         )}
       </div>
 
       <div className="flex space-x-4 items-center">
-        {data?.user  && (
+        {data?.user && (
           <>
             <Link
               href="/dashboard"
@@ -96,7 +95,7 @@ if(error) {
               )}
             </div>
           </>
-        ) }
+        )}
       </div>
     </header>
   );
