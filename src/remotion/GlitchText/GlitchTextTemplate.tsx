@@ -44,6 +44,11 @@ export const GlitchTextTemplate: React.FC<GlitchTextProps> = ({
 
     const totalDuration = duration * fps;
     
+    // Animation progress for intensity ramping
+    const animationProgress = Math.min(frame / totalDuration, 1);
+    const intensityRamp = Math.sin(animationProgress * Math.PI); // Ramp up and down
+    const currentIntensity = glitchIntensity * intensityRamp;
+    
     // Glitch random number generator for consistent randomness
     const glitchRandom = (seed: number) => {
         const glitchFrame = Math.floor(frame * glitchSpeed);
@@ -54,9 +59,9 @@ export const GlitchTextTemplate: React.FC<GlitchTextProps> = ({
     const createColorChannels = () => {
         if (!colorChannels) return null;
         
-        const redOffset = glitchRandom(1) * glitchIntensity * 10 - 5;
-        const greenOffset = glitchRandom(2) * glitchIntensity * 10 - 5;
-        const blueOffset = glitchRandom(3) * glitchIntensity * 10 - 5;
+        const redOffset = glitchRandom(1) * currentIntensity * 10 - 5;
+        const greenOffset = glitchRandom(2) * currentIntensity * 10 - 5;
+        const blueOffset = glitchRandom(3) * currentIntensity * 10 - 5;
         
         return (
             <>
@@ -124,7 +129,7 @@ export const GlitchTextTemplate: React.FC<GlitchTextProps> = ({
     const createScanlines = () => {
         if (!scanlines) return null;
         
-        const scanlineIntensity = glitchRandom(10) * glitchIntensity * 0.3;
+        const scanlineIntensity = glitchRandom(10) * currentIntensity * 0.3;
         
         return (
             <div
@@ -160,7 +165,7 @@ export const GlitchTextTemplate: React.FC<GlitchTextProps> = ({
             const x = glitchRandom(i + 20) * 100;
             const y = glitchRandom(i + 21) * 100;
             const size = glitchRandom(i + 22) * 5 + 1;
-            const opacity = glitchRandom(i + 23) * glitchIntensity * 0.5;
+            const opacity = glitchRandom(i + 23) * currentIntensity * 0.5;
             
             noiseElements.push(
                 <div
@@ -187,7 +192,7 @@ export const GlitchTextTemplate: React.FC<GlitchTextProps> = ({
         if (!textCorruption) return null;
         
         const corruptedText = text.split('').map((char, index) => {
-            const shouldCorrupt = glitchRandom(index + 50) < glitchIntensity * 0.3;
+            const shouldCorrupt = glitchRandom(index + 50) < currentIntensity * 0.3;
             if (shouldCorrupt) {
                 const corruptChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`';
                 const corruptIndex = Math.floor(glitchRandom(index + 51) * corruptChars.length);
@@ -196,7 +201,7 @@ export const GlitchTextTemplate: React.FC<GlitchTextProps> = ({
             return char;
         }).join('');
         
-        const corruptOffset = glitchRandom(60) * glitchIntensity * 20 - 10;
+        const corruptOffset = glitchRandom(60) * currentIntensity * 20 - 10;
         
         return (
             <div
@@ -227,7 +232,7 @@ export const GlitchTextTemplate: React.FC<GlitchTextProps> = ({
             const blockY = glitchRandom(i + 71) * 100;
             const blockWidth = glitchRandom(i + 72) * 20 + 10;
             const blockHeight = glitchRandom(i + 73) * 10 + 5;
-            const blockOpacity = glitchRandom(i + 74) * glitchIntensity * 0.5;
+            const blockOpacity = glitchRandom(i + 74) * currentIntensity * 0.5;
             
             const blockColor = (() => {
                 switch (glitchType) {
@@ -268,9 +273,9 @@ export const GlitchTextTemplate: React.FC<GlitchTextProps> = ({
 
     // Main text rendering with glitch effects
     const renderMainText = () => {
-        const mainOffset = glitchRandom(80) * glitchIntensity * 5 - 2.5;
-        const mainSkew = glitchRandom(81) * glitchIntensity * 10 - 5;
-        const mainScale = 1 + (glitchRandom(82) * glitchIntensity * 0.2 - 0.1);
+        const mainOffset = glitchRandom(80) * currentIntensity * 5 - 2.5;
+        const mainSkew = glitchRandom(81) * currentIntensity * 10 - 5;
+        const mainScale = 1 + (glitchRandom(82) * currentIntensity * 0.2 - 0.1);
         
         const textColor = (() => {
             switch (glitchType) {
@@ -322,7 +327,7 @@ export const GlitchTextTemplate: React.FC<GlitchTextProps> = ({
             const lineY = glitchRandom(i + 90) * 100;
             const lineWidth = glitchRandom(i + 91) * 80 + 20;
             const lineHeight = glitchRandom(i + 92) * 3 + 1;
-            const lineOpacity = glitchRandom(i + 93) * glitchIntensity * 0.3;
+            const lineOpacity = glitchRandom(i + 93) * currentIntensity * 0.3;
             
             lines.push(
                 <div
