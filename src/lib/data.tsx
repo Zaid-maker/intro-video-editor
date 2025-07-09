@@ -87,11 +87,14 @@ export const templates: TemplateEntry[] = [
         defaultProps: {
             text: "Fluid Animation",
             duration: 4,
-            color: "#ffffff",
+            color: "#00ffff",
             fontSize: 70,
-            bgColor: "#111111",
-            waveIntensity: 10,
-            waveSpeed: 5,
+            bgColor: "#001122",
+            waveIntensity: 15,
+            waveSpeed: 3,
+            fluidType: "wave",
+            colorShift: true,
+            glowEffect: true,
         },
     },
     {
