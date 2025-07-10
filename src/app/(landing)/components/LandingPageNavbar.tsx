@@ -4,31 +4,31 @@ import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Icons } from "../../../../assets/Icons";
-import { IMAGES } from "../../../../assets/Images";
+import { Icons } from "@/assets/Icons";
+import { IMAGES } from "@/assets/Images";
 import { useRouter } from "next/navigation";
 
 const LandingPageNavbar = () => {
   const router = useRouter();
-  const [tooltipVisible, setTooltipVisible] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isScrolled , setIsScrolled] = useState(false);
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { data, isPending } = authClient.useSession();
+
   useEffect(() => {
     const handleScroll = () => {
-
-      if(window.scrollY >50) {
+      if (window.scrollY > 50) {
         setIsScrolled(true)
-    }  else {
-      setIsScrolled(false); // ← Reset when scrolled back up
-    }
+      } else {
+        setIsScrolled(false); // ← Reset when scrolled back up
       }
+    }
 
-    window.addEventListener('scroll' , handleScroll )
-     return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll)
 
-    
-  } , [])
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [])
+
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
