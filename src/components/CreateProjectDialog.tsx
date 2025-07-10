@@ -35,6 +35,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { templates } from '@/lib/data';
 import { CreateProjectRequest } from '@/types/schema';
 import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const createProjectSchema = z.object({
   name: z.string().min(1, 'Project name is required').max(100, 'Project name too long'),
@@ -90,11 +91,13 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
       
       if (result.type === 'success') {
         // Redirect to editor with project ID
-        router.push(`/intro?projectId=${result.data.id}`);
+        router.push(`/editor?projectId=${result.data.id}`);
+        toast.success('Project created successfully!');
+        setIsOpen(false);
       } else {
         if (response.status === 401) {
           // Handle authentication error
-          alert('You need to be logged in to create projects. Please sign in first.');
+          toast.error('You need to be logged in to create projects. Please sign in first.');
           // You might want to redirect to login page here
           return;
         }
@@ -103,7 +106,7 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
     } catch (error) {
       console.error('Error creating project:', error);
       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
-      alert(`Failed to create project: ${errorMessage}`);
+      toast.error(`Failed to create project: ${errorMessage}`);
     } finally {
       setIsLoading(false);
     }

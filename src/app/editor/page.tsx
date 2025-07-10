@@ -2,19 +2,62 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, Loader2 } from "lucide-react";
 import { Icons } from "../../../assets/Icons";
 import Link from "next/link";
 import EditorTextPanel, { DefaultTextProps } from "./components/EditorTextPanel";
 import VideoPreview from "./components/VideoPreview";
 import { TextProps } from "./schema";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export default function Editor() {
     const [textProps, setTextProps] = useState<TextProps>(DefaultTextProps);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration] = useState(5); // 5 seconds video duration
+    const [isLoading, setIsLoading] = useState(false);
+    const [projectId, setProjectId] = useState<string | null>(null);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const searchParams = useSearchParams();
+
+    // Effect to load project from URL parameter
+    useEffect(() => {
+        const projectIdFromUrl = searchParams.get('projectId');
+        if (projectIdFromUrl) {
+            setProjectId(projectIdFromUrl);
+            loadProject(projectIdFromUrl);
+        }
+    }, [searchParams]);
+
+    // Function to load project data
+    const loadProject = async (id: string) => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`/api/projects/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to load project');
+            }
+            const result = await response.json();
+            if (result.type === 'success') {
+                // Update text properties with project data
+                setTextProps({
+                    ...DefaultTextProps,
+                    ...result.data.properties,
+                    templateId: result.data.templateId,
+                });
+                toast.success('Project loaded successfully!');
+            } else {
+                throw new Error(result.message || 'Failed to load project');
+            }
+        } catch (error) {
+            console.error('Error loading project:', error);
+            const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+            toast.error(`Failed to load project: ${errorMessage}`);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     // Effect to handle playback timer
     useEffect(() => {
@@ -86,6 +129,15 @@ export default function Editor() {
                         {/* Video Area */}
                         <div className="bg-[#111] rounded-lg sm:rounded-2xl overflow-hidden shadow-lg flex-1">
                             <div className="relative w-full h-full min-h-[200px] sm:min-h-[300px] lg:min-h-[400px] bg-black">
+                                {/* Loading indicator */}
+                                {isLoading && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
+                                        <div className="flex items-center gap-2 text-white">
+                                            <Loader2 className="w-6 h-6 animate-spin" />
+                                            <span>Loading project...</span>
+                                        </div>
+                                    </div>
+                                )}
                                 {/* Placeholder for future Remotion/HTML5 Video */}
                                 <VideoPreview textProps={textProps} isPlaying={isPlaying} currentTime={currentTime} />
                             </div>
