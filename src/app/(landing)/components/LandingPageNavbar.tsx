@@ -4,8 +4,8 @@ import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Icons } from "@/assets/Icons";
-import { IMAGES } from "@/assets/Images";
+import { IMAGES } from "../../../../assets/Images";
+import { Icons } from "../../../../assets/Icons";
 import { useRouter } from "next/navigation";
 
 const LandingPageNavbar = () => {
