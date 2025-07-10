@@ -1,7 +1,13 @@
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { TextProps } from "../schema";
 
-export default function VideoPreview({ textProps }: { textProps: TextProps }) {
+interface VideoPreviewProps {
+  textProps: TextProps;
+  isPlaying?: boolean;
+  currentTime?: number;
+}
+
+const VideoPreview = memo(function VideoPreview({ textProps, isPlaying = false, currentTime = 0 }: VideoPreviewProps) {
   // Create preview styles based on template and settings
   const previewStyles = useMemo(() => {
     const baseStyles: React.CSSProperties = {
@@ -22,28 +28,28 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
           fontFamily: 'Courier New, monospace',
           textShadow: textProps.glowEffect ? `0 0 10px ${textProps.color}` : 'none',
         };
-      
+
       case "FadeInText":
         return {
           ...baseStyles,
           textShadow: textProps.glowEffect ? `0 0 15px ${textProps.color}` : '2px 2px 4px rgba(0,0,0,0.3)',
           transform: textProps.rotationEffect ? 'rotate(5deg)' : 'none',
         };
-      
+
       case "SlideInText":
         return {
           ...baseStyles,
           textShadow: textProps.glowEffect ? `0 0 12px ${textProps.color}` : 'none',
           transform: `${textProps.rotationEffect ? 'rotate(-3deg)' : ''} ${textProps.scaleEffect ? 'scale(1.1)' : ''}`,
         };
-      
+
       case "BounceText":
         return {
           ...baseStyles,
           textShadow: textProps.glowEffect ? `0 0 20px ${textProps.color}` : '2px 2px 4px rgba(0,0,0,0.3)',
           transform: textProps.rotationEffect ? 'rotate(2deg)' : 'none',
         };
-      
+
       case "FluidText":
         return {
           ...baseStyles,
@@ -53,7 +59,7 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: textProps.colorShift ? 'transparent' : textProps.color,
         };
-      
+
       case "NeonText":
         return {
           ...baseStyles,
@@ -65,7 +71,7 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
             0 0 40px ${textProps.color}
           `,
         };
-      
+
       case "OldSchoolText":
         return {
           ...baseStyles,
@@ -73,7 +79,7 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
           textShadow: '3px 3px 0px #000000',
           filter: 'contrast(1.2)',
         };
-      
+
       case "FunText":
         return {
           ...baseStyles,
@@ -81,14 +87,14 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
           textShadow: textProps.glowEffect ? `0 0 10px ${textProps.color}` : 'none',
           color: textProps.colorShift ? '#ff69b4' : textProps.color,
         };
-      
+
       case "ParticleExplosion":
         return {
           ...baseStyles,
           textShadow: `0 0 20px ${textProps.color}`,
           fontWeight: '900',
         };
-      
+
       case "Text3D":
         return {
           ...baseStyles,
@@ -102,7 +108,7 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
             0 0 10px ${textProps.color}
           `,
         };
-      
+
       case "GlitchText":
         return {
           ...baseStyles,
@@ -113,7 +119,7 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
             -2px 0 0 #0000ff
           `,
         };
-      
+
       default:
         return baseStyles;
     }
@@ -151,8 +157,8 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
 
   const backgroundStyle: React.CSSProperties = {
     backgroundColor: textProps.backgroundColor,
-    backgroundImage: textProps.templateId === "OldSchoolText" ? 
-      "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,0,0.1) 2px, rgba(0,255,0,0.1) 4px)" : 
+    backgroundImage: textProps.templateId === "OldSchoolText" ?
+      "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,0,0.1) 2px, rgba(0,255,0,0.1) 4px)" :
       "none",
   };
 
@@ -164,13 +170,13 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
           <h1 style={previewStyles} className="whitespace-nowrap max-w-full overflow-hidden">
             {textProps.text}
           </h1>
-          
+
           {/* Typewriter cursor */}
           {textProps.templateId === "Typewriter" && (
-            <span 
+            <span
               className="animate-pulse"
-              style={{ 
-                color: textProps.color, 
+              style={{
+                color: textProps.color,
                 fontSize: `${textProps.fontSize}px`,
                 fontFamily: 'Courier New, monospace'
               }}
@@ -178,7 +184,7 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
               |
             </span>
           )}
-          
+
           {/* Particle effect indicator */}
           {textProps.particleEffect && (
             <div className="absolute -inset-4 pointer-events-none">
@@ -198,16 +204,16 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
           )}
         </div>
       </div>
-      
+
       {/* Recording indicator */}
-      <div className="absolute top-2 sm:top-4 left-2 sm:left-4 w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#8B43F7] rounded-full animate-pulse" />
-      
+      <div className={`absolute top-2 sm:top-4 left-2 sm:left-4 w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#8B43F7] rounded-full ${isPlaying ? 'animate-pulse bg-[#8B43F7]' : 'bg-transparent'}`} />
+
       {/* Template info overlay */}
       <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
         <div className="font-medium">{textProps.templateId}</div>
         <div className="text-gray-300">{getTemplateDescription()}</div>
       </div>
-      
+
       {/* Effects indicators */}
       <div className="absolute top-2 right-2 flex flex-col gap-1">
         {textProps.rotationEffect && (
@@ -238,4 +244,6 @@ export default function VideoPreview({ textProps }: { textProps: TextProps }) {
       </div>
     </div>
   );
-}
+});
+
+export default VideoPreview;
