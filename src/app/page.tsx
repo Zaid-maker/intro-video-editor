@@ -1,7 +1,7 @@
-import Hero from "./(landing)/components/Hero";
-
 import { Footer } from "./(landing)/components/Footer";
+import Hero from "./(landing)/components/Hero";
 import LandingPageNavbar from "./(landing)/components/LandingPageNavbar";
+
 /**
  * Renders the main landing page layout with a navigation bar, hero section, and footer.
  *
@@ -10,12 +10,12 @@ import LandingPageNavbar from "./(landing)/components/LandingPageNavbar";
 export default function Home() {
   return (
     <>
-    <LandingPageNavbar />
-    <main className="bg-[#111113]">
-      <Hero />
+      <LandingPageNavbar />
+      <main className="bg-[#111113]">
+        <Hero />
 
-      <Footer />
-    </main>
+        <Footer />
+      </main>
     </>
   );
 }
