@@ -32,7 +32,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <header>
           <Navbar />
         </header>
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1  overflow-y-auto">
           {children}
           <Analytics />
         </main>

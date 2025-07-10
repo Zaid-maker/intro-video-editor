@@ -46,7 +46,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row w-full gap-6">
+      <div className="flex flex-col lg:flex-row w-full gap-6 ">
         {/* Card 1 */}
         <div className="relative w-full lg:flex-[3] h-auto lg:h-96 rounded-lg bg-[#232327]">
           <Image

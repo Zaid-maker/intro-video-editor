@@ -162,11 +162,10 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 {FONT_SIZES.map((size) => (
                                     <button
                                         key={size}
-                                        className={`text-xs px-1.5 sm:px-2 py-1 rounded transition-colors ${
-                                            textProps.fontSize === parseInt(size) 
-                                                ? 'bg-[#8B43F7] text-white' 
+                                        className={`text-xs px-1.5 sm:px-2 py-1 rounded transition-colors ${textProps.fontSize === parseInt(size)
+                                                ? 'bg-[#8B43F7] text-white'
                                                 : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
-                                        }`}
+                                            }`}
                                         onClick={() => setTextProps((prev) => ({ ...prev, fontSize: parseInt(size) }))}
                                     >
                                         {size}px
@@ -237,7 +236,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                     {/* Animation */}
                     <div className="space-y-3">
                         <h3 className="text-xs sm:text-sm text-muted-foreground">Animation</h3>
-                        
+
                         {/* Template-specific animation controls */}
                         {textProps.templateId === "FadeInText" && (
                             <div>
@@ -256,7 +255,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 </Select>
                             </div>
                         )}
-                        
+
                         {textProps.templateId === "SlideInText" && (
                             <>
                                 <div>
@@ -291,7 +290,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 </div>
                             </>
                         )}
-                        
+
                         {textProps.templateId === "Typewriter" && (
                             <div>
                                 <Label className="text-xs mb-2">Typing Speed</Label>
@@ -302,7 +301,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 </div>
                             </div>
                         )}
-                        
+
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <Label className="text-xs mb-2">Easing</Label>
@@ -338,7 +337,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <div>
                             <Label className="text-xs mb-2">Duration (seconds)</Label>
                             <div className="flex items-center gap-2">
-                                <Slider value={[textProps.duration]} min={0.5} max={10} step={0.1} className="flex-1 bg-white" 
+                                <Slider value={[textProps.duration]} min={0.5} max={10} step={0.1} className="flex-1 bg-white"
                                     onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, duration: v[0] })) }} />
                                 <span className="text-xs text-muted-foreground min-w-[35px]">{textProps.duration.toFixed(1)}s</span>
                             </div>
@@ -357,14 +356,13 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 ].map((effect) => (
                                     <button
                                         key={effect.key}
-                                        className={`text-xs px-2 py-1.5 rounded transition-colors ${
-                                            textProps[effect.key as keyof TextProps] 
-                                                ? 'bg-[#8B43F7] text-white' 
+                                        className={`text-xs px-2 py-1.5 rounded transition-colors ${textProps[effect.key as keyof TextProps]
+                                                ? 'bg-[#8B43F7] text-white'
                                                 : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
-                                        }`}
-                                        onClick={() => setTextProps((prev) => ({ 
-                                            ...prev, 
-                                            [effect.key]: !prev[effect.key as keyof TextProps] 
+                                            }`}
+                                        onClick={() => setTextProps((prev) => ({
+                                            ...prev,
+                                            [effect.key]: !prev[effect.key as keyof TextProps]
                                         }))}
                                     >
                                         {effect.label}

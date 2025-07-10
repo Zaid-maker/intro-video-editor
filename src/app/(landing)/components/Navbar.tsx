@@ -62,7 +62,7 @@ export default function Navbar() {
           />
         </Link>
         {data?.user && (
-          <span className="text-white font-medium">Welcome Back, {data.user.name}</span>
+          <span className="text-white font-medium lg:text-md text-xs">Welcome Back, {data.user.name}</span>
         )}
       </div>
 
@@ -71,9 +71,9 @@ export default function Navbar() {
           <>
             <Link
               href="/dashboard"
-              className="bg-[#8B43F7] hover:bg-[#7A3DE6] text-white px-6 py-2.5 rounded-lg font-medium transition-colors duration-200 shadow-lg"
+              className="bg-[#8B43F7] hover:bg-[#7A3DE6] text-white lg:px-6 px-3 lg:py-2.5 py-1 rounded-lg whitespace-nowrap"
             >
-              Create Project
+              Create
             </Link>
 
             <div

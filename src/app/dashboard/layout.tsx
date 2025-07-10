@@ -20,7 +20,7 @@ export default async function Layout({ children }: LayoutProps) {
   }
 
   return (
-    <div className='bg-[#111113]  p-6'>
+    <div className='bg-[#111113] lg:pt-24 pt-20 p-6'>
       {children}
     </div>
   )
