@@ -236,7 +236,7 @@ function Dashboard() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Link href={`/intro?projectId=${project.id}`}>
+                  <Link href={`/editor?projectId=${project.id}`}>
                     <Button variant="outline" className="w-full border-gray-600 text-gray-300 hover:bg-gray-800">
                       Open Project
                     </Button>

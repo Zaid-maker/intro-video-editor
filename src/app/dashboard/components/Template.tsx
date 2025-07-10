@@ -19,7 +19,7 @@ function Template() {
           return (
             <Link
               key={template.id}
-              href={`/intro`}
+              href={`/editor`}
               className="rounded-xl cursor-pointer"
             >
               <div className="w-full rounded-lg overflow-hidden mb-3">

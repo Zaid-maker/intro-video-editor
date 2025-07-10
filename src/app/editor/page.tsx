@@ -114,14 +114,21 @@ export default function Editor() {
     return (
         <>
             <div className="bg-[#111113] p-2 sm:p-4 min-h-screen">
-                <Link href='/dashboard'>
-                    <Button className="flex items-center justify-center gap-x-2 cursor-pointer hover:bg-white/30 ease-in-out transition-all px-3 py-2 rounded-lg text-white mb-4">
-                        <span className="bg-white/30 p-1 backdrop-blur-md rounded-full text-white">
-                            <Icons.ArrowLeft className="size-4" />
-                        </span>
-                        Back
-                    </Button>
-                </Link>
+                <div className="flex items-center justify-between mb-4">
+                    <Link href='/dashboard'>
+                        <Button className="flex items-center justify-center gap-x-2 cursor-pointer hover:bg-white/30 ease-in-out transition-all px-3 py-2 rounded-lg text-white">
+                            <span className="bg-white/30 p-1 backdrop-blur-md rounded-full text-white">
+                                <Icons.ArrowLeft className="size-4" />
+                            </span>
+                            Back
+                        </Button>
+                    </Link>
+                    {projectId && (
+                        <div className="text-white/70 text-sm">
+                            Project ID: {projectId}
+                        </div>
+                    )}
+                </div>
 
                 <div className="flex flex-col xl:flex-row gap-4 sm:gap-6 h-[calc(100vh-120px)]">
                     {/* Video Section */}

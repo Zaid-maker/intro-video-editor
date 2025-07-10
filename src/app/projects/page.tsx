@@ -52,7 +52,7 @@ export default function ProjectsPage() {
   };
 
   const handleOpenProject = (projectId: string) => {
-    router.push(`/intro?projectId=${projectId}`);
+    router.push(`/editor?projectId=${projectId}`);
   };
 
   const handleDeleteProject = async (projectId: string) => {
