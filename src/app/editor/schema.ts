@@ -46,6 +46,15 @@ export const textPropsSchema = z.object({
     // Position controls
     positionX: z.number().default(0),
     positionY: z.number().default(0),
+    
+    // Background media
+    backgroundMedia: z.string().default(""),
+    backgroundMediaType: z.enum(['image', 'video']).default("image"),
+    backgroundMediaOpacity: z.number().min(0).max(100).default(100),
+    
+    // Audio settings
+    backgroundMusic: z.string().default(""),
+    musicVolume: z.number().min(0).max(100).default(70),
 })
 
 export type TextProps = z.infer<typeof textPropsSchema>;
