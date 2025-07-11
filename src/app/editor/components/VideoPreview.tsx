@@ -14,6 +14,13 @@ const VideoPreview = memo(function VideoPreview({
 }: VideoPreviewProps) {
   // Create preview styles based on template and settings
   const previewStyles = useMemo(() => {
+    // Helper function to build transform string
+    const buildTransform = (rotation?: string, scale?: string) => {
+      const transforms = [];
+      if (textProps.rotationEffect && rotation) transforms.push(rotation);
+      if (textProps.scaleEffect && scale) transforms.push(scale);
+      return transforms.length > 0 ? transforms.join(" ") : "none";
+    };
     const baseStyles: React.CSSProperties = {
       color: textProps.color,
       fontSize: `${textProps.fontSize}px`,
@@ -49,7 +56,7 @@ const VideoPreview = memo(function VideoPreview({
           textShadow: textProps.glowEffect
             ? `0 0 12px ${textProps.color}`
             : "none",
-          transform: `${textProps.rotationEffect ? "rotate(-3deg)" : ""} ${textProps.scaleEffect ? "scale(1.1)" : ""}`,
+          transform: buildTransform("rotate(-3deg)", "scale(1.1)"),
         };
 
       case "BounceText":
