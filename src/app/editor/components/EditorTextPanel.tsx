@@ -40,10 +40,10 @@ export const DefaultTextProps: TextProps = {
     particleEffect: false,
     positionX: 0,
     positionY: 0,
-    backgroundMedia: "",
+    backgroundMedia: "none",
     backgroundMediaType: "image",
     backgroundMediaOpacity: 100,
-    backgroundMusic: "",
+    backgroundMusic: "none",
     musicVolume: 70,
     videoDuration: 5,
     videoQuality: "1080p",
@@ -486,7 +486,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <h3 className="text-xs sm:text-sm text-muted-foreground">Background Media</h3>
                         
                         {/* Current Background Preview */}
-                        {textProps.backgroundMedia && textProps.backgroundMedia !== "" && (
+                        {textProps.backgroundMedia && textProps.backgroundMedia !== "none" && (
                             <div className="space-y-2">
                                 <Label className="text-xs mb-2">Current Background</Label>
                                 <div className="relative group">
@@ -506,7 +506,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                     <button
                                         onClick={() => setTextProps(prev => ({ 
                                             ...prev, 
-                                            backgroundMedia: "", 
+                                            backgroundMedia: "none", 
                                             backgroundMediaType: "image" 
                                         }))}
                                         className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
@@ -596,7 +596,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                     <SelectValue placeholder="Choose music" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="" className="bg-gray-600 text-white text-xs sm:text-sm">
+                                    <SelectItem value="none" className="bg-gray-600 text-white text-xs sm:text-sm">
                                         No Music
                                     </SelectItem>
                                     {['upbeat', 'calm', 'corporate', 'cinematic', 'modern'].map((music) => (

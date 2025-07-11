@@ -210,7 +210,7 @@ const VideoPreview = memo(function VideoPreview({
       style={backgroundStyle}
     >
       {/* Background Media */}
-      {textProps.backgroundMedia && textProps.backgroundMedia !== "" && (
+      {textProps.backgroundMedia && textProps.backgroundMedia !== "none" && (
         <div 
           className="absolute inset-0"
           style={{ opacity: textProps.backgroundMediaOpacity / 100 }}

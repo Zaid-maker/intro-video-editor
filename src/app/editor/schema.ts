@@ -48,12 +48,12 @@ export const textPropsSchema = z.object({
     positionY: z.number().default(0),
     
     // Background media
-    backgroundMedia: z.string().default(""),
+    backgroundMedia: z.string().default("none"),
     backgroundMediaType: z.enum(['image', 'video']).default("image"),
     backgroundMediaOpacity: z.number().min(0).max(100).default(100),
     
     // Audio settings
-    backgroundMusic: z.string().default(""),
+    backgroundMusic: z.string().default("none"),
     musicVolume: z.number().min(0).max(100).default(70),
     
     // Video settings
