@@ -10,6 +10,10 @@ export const textPropsSchema = z.object({
     title: z.string().optional(),
     body: z.string().optional(),
     
+    // Content 2
+    reviewTitle: z.string().optional(),
+    reviewBody: z.string().optional(),
+    
     // Font Properties
     fontFamily: z.enum(FONTS as [string, ...string[]]).default("inter"),
     fontWeight: z.enum(FONT_WEIGHTS.map(fw => fw.value) as [string, ...string[]]).default("400"),
@@ -38,6 +42,10 @@ export const textPropsSchema = z.object({
     colorShift: z.boolean().default(false),
     glowEffect: z.boolean().default(false),
     particleEffect: z.boolean().default(false),
+    
+    // Position controls
+    positionX: z.number().default(0),
+    positionY: z.number().default(0),
 })
 
 export type TextProps = z.infer<typeof textPropsSchema>;

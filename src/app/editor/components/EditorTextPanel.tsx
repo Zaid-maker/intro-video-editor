@@ -14,6 +14,8 @@ export const DefaultTextProps: TextProps = {
     text: "Your Text Here",
     title: "Default Title - Change Me",
     body: "Default body text goes here. You can edit this to add your own content.",
+    reviewTitle: "",
+    reviewBody: "",
     fontFamily: FONTS[0],
     fontWeight: FONT_WEIGHTS[2].value, // Default to 'Regular'
     fontSize: 70,
@@ -35,6 +37,8 @@ export const DefaultTextProps: TextProps = {
     colorShift: false,
     glowEffect: false,
     particleEffect: false,
+    positionX: 0,
+    positionY: 0,
 }
 
 export type EditorTextPanelProps = {
@@ -109,11 +113,17 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <h3 className="text-xs sm:text-sm text-muted-foreground">Content 2</h3>
                         <div>
                             <Label htmlFor="content2-title" className="text-xs mb-2">Review Title</Label>
-                            <Input id="content2-title" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm" />
+                            <Input id="content2-title" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
+                                value={textProps.reviewTitle || ""} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    setTextProps((prev) => ({ ...prev, reviewTitle: e.target.value }));
+                                }} />
                         </div>
                         <div>
                             <Label htmlFor="content2-body" className="text-xs mb-2">Review Body</Label>
-                            <Textarea id="content2-body" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm resize-none" rows={3} />
+                            <Textarea id="content2-body" placeholder="Text" className="mt-1 bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm resize-none" rows={3}
+                                value={textProps.reviewBody || ""} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                    setTextProps((prev) => ({ ...prev, reviewBody: e.target.value }));
+                                }} />
                         </div>
                     </div>
 
@@ -224,10 +234,10 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                             <div>
                                 <Label className="text-xs mb-2">Opacity</Label>
                                 <div className="flex items-center gap-2">
-                                    <Slider defaultValue={[100]} min={0} max={100} step={5} className="flex-1"
+                                    <Slider value={[textProps.opacity]} min={0} max={100} step={5} className="flex-1"
                                         onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, opacity: v[0] })) }}
                                     />
-                                    <span className="text-xs text-muted-foreground min-w-[35px]">100%</span>
+                                    <span className="text-xs text-muted-foreground min-w-[35px]">{textProps.opacity}%</span>
                                 </div>
                             </div>
                         </div>
@@ -379,7 +389,12 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                             {['left', 'center', 'right'].map((align) => (
                                 <button
                                     key={align}
-                                    className="text-xs px-2 py-1.5 rounded bg-[#2c2c2e] text-white hover:bg-[#3a3a3c] transition-colors capitalize"
+                                    className={`text-xs px-2 py-1.5 rounded transition-colors capitalize ${
+                                        textProps.textAlign === align
+                                            ? 'bg-[#8B43F7] text-white'
+                                            : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
+                                    }`}
+                                    onClick={() => setTextProps((prev) => ({ ...prev, textAlign: align as any }))}
                                 >
                                     {align}
                                 </button>
@@ -388,11 +403,17 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <div className="grid grid-cols-2 gap-3">
                             <div>
                                 <Label className="text-xs mb-2">X Position</Label>
-                                <Input placeholder="0" className="bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm" />
+                                <Input placeholder="0" className="bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
+                                    value={textProps.positionX} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                        setTextProps((prev) => ({ ...prev, positionX: parseInt(e.target.value) || 0 }));
+                                    }} />
                             </div>
                             <div>
                                 <Label className="text-xs mb-2">Y Position</Label>
-                                <Input placeholder="0" className="bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm" />
+                                <Input placeholder="0" className="bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
+                                    value={textProps.positionY} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                        setTextProps((prev) => ({ ...prev, positionY: parseInt(e.target.value) || 0 }));
+                                    }} />
                             </div>
                         </div>
                     </div>

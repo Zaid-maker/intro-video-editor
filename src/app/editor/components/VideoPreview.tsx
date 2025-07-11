@@ -12,6 +12,9 @@ const VideoPreview = memo(function VideoPreview({
   isPlaying = false,
   currentTime = 0,
 }: VideoPreviewProps) {
+  // Calculate animation progress (0 to 1)
+  const progress = Math.min(currentTime / textProps.duration, 1);
+  
   // Create preview styles based on template and settings
   const previewStyles = useMemo(() => {
     // Helper function to build transform string
@@ -28,6 +31,7 @@ const VideoPreview = memo(function VideoPreview({
       fontWeight: textProps.fontWeight,
       letterSpacing: `${textProps.letterSpacing}px`,
       opacity: textProps.opacity / 100,
+      transition: isPlaying ? 'none' : 'all 0.3s ease',
     };
 
     // Add template-specific styling
@@ -48,24 +52,36 @@ const VideoPreview = memo(function VideoPreview({
             ? `0 0 15px ${textProps.color}`
             : "2px 2px 4px rgba(0,0,0,0.3)",
           transform: textProps.rotationEffect ? "rotate(5deg)" : "none",
+          opacity: isPlaying ? (progress * (textProps.opacity / 100)) : (textProps.opacity / 100),
         };
 
       case "SlideInText":
+        const slideOffset = isPlaying ? (1 - progress) * 100 : 0;
+        const slideTransform = textProps.direction === 'left' ? `translateX(-${slideOffset}px)` :
+                             textProps.direction === 'right' ? `translateX(${slideOffset}px)` :
+                             textProps.direction === 'top' ? `translateY(-${slideOffset}px)` :
+                             textProps.direction === 'bottom' ? `translateY(${slideOffset}px)` : 'none';
+        
         return {
           ...baseStyles,
           textShadow: textProps.glowEffect
             ? `0 0 12px ${textProps.color}`
             : "none",
-          transform: buildTransform("rotate(-3deg)", "scale(1.1)"),
+          transform: isPlaying ? 
+            `${slideTransform} ${buildTransform("rotate(-3deg)", "scale(1.1)")}` :
+            buildTransform("rotate(-3deg)", "scale(1.1)"),
         };
 
       case "BounceText":
+        const bounceY = isPlaying ? Math.sin(progress * Math.PI * 4) * 20 : 0;
         return {
           ...baseStyles,
           textShadow: textProps.glowEffect
             ? `0 0 20px ${textProps.color}`
             : "2px 2px 4px rgba(0,0,0,0.3)",
-          transform: textProps.rotationEffect ? "rotate(2deg)" : "none",
+          transform: isPlaying ? 
+            `translateY(${bounceY}px) ${textProps.rotationEffect ? "rotate(2deg)" : ""}` :
+            textProps.rotationEffect ? "rotate(2deg)" : "none",
         };
 
       case "FluidText":
@@ -147,7 +163,7 @@ const VideoPreview = memo(function VideoPreview({
       default:
         return baseStyles;
     }
-  }, [textProps]);
+  }, [textProps, isPlaying, progress]);
 
   // Get template description
   const getTemplateDescription = () => {
@@ -204,12 +220,24 @@ const VideoPreview = memo(function VideoPreview({
                 : "flex-start",
         }}
       >
-        <div className="relative max-w-full">
+        <div 
+          className="relative max-w-full"
+          style={{
+            transform: `translate(${textProps.positionX}px, ${textProps.positionY}px)`,
+          }}
+        >
           <div
             style={previewStyles}
             className="inline-block whitespace-nowrap max-w-full overflow-hidden"
           >
-            {textProps.text}
+            {textProps.templateId === "Typewriter" && isPlaying ? (
+              <span>
+                {textProps.text.slice(0, Math.floor(progress * textProps.text.length))}
+                <span className="animate-pulse">|</span>
+              </span>
+            ) : (
+              textProps.text
+            )}
           </div>
 
           {/* Particle effect indicator */}
