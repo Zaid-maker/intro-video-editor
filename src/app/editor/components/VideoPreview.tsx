@@ -201,6 +201,7 @@ const VideoPreview = memo(function VideoPreview({
       textProps.templateId === "OldSchoolText"
         ? "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,0,0.1) 2px, rgba(0,255,0,0.1) 4px)"
         : "none",
+    position: "relative",
   };
 
   return (
@@ -208,6 +209,29 @@ const VideoPreview = memo(function VideoPreview({
       className="w-full h-full relative overflow-hidden"
       style={backgroundStyle}
     >
+      {/* Background Media */}
+      {textProps.backgroundMedia && textProps.backgroundMedia !== "none" && (
+        <div 
+          className="absolute inset-0"
+          style={{ opacity: textProps.backgroundMediaOpacity / 100 }}
+        >
+          {textProps.backgroundMediaType === 'image' ? (
+            <img
+              src={textProps.backgroundMedia}
+              alt="Background"
+              className="w-full h-full object-cover"
+            />
+          ) : textProps.backgroundMediaType === 'video' ? (
+            <video
+              src={textProps.backgroundMedia}
+              autoPlay
+              loop
+              muted
+              className="w-full h-full object-cover"
+            />
+          ) : null}
+        </div>
+      )}
       {/* Main text preview */}
       <div
         className="w-full h-full flex items-center p-8"
