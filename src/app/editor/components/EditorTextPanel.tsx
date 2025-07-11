@@ -45,6 +45,9 @@ export const DefaultTextProps: TextProps = {
     backgroundMediaOpacity: 100,
     backgroundMusic: "",
     musicVolume: 70,
+    videoDuration: 5,
+    videoQuality: "1080p",
+    aspectRatio: "16:9",
 }
 
 export type EditorTextPanelProps = {
@@ -619,12 +622,19 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <h3 className="text-xs sm:text-sm text-muted-foreground">Video Settings</h3>
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <Label className="text-xs mb-2">Duration</Label>
-                                <Input placeholder="10s" className="bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm" />
+                                <Label className="text-xs mb-2">Duration (seconds)</Label>
+                                <Input 
+                                    placeholder="5s" 
+                                    className="bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
+                                    value={textProps.videoDuration}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                        setTextProps((prev) => ({ ...prev, videoDuration: parseInt(e.target.value) || 5 }));
+                                    }}
+                                />
                             </div>
                             <div>
                                 <Label className="text-xs mb-2">Quality</Label>
-                                <Select defaultValue="1080p">
+                                <Select value={textProps.videoQuality} onValueChange={(value: any) => { setTextProps((prev) => ({ ...prev, videoQuality: value })) }}>
                                     <SelectTrigger className="bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm">
                                         <SelectValue />
                                     </SelectTrigger>
@@ -641,10 +651,15 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <div>
                             <Label className="text-xs mb-2">Aspect Ratio</Label>
                             <div className="grid grid-cols-3 gap-2">
-                                {['16:9', '9:16', '1:1'].map((ratio) => (
+                                {(['16:9', '9:16', '1:1'] as const).map((ratio) => (
                                     <button
                                         key={ratio}
-                                        className="text-xs px-2 py-1.5 rounded bg-[#2c2c2e] text-white hover:bg-[#3a3a3c] transition-colors"
+                                        className={`text-xs px-2 py-1.5 rounded transition-colors ${
+                                            textProps.aspectRatio === ratio
+                                                ? 'bg-[#8B43F7] text-white'
+                                                : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
+                                        }`}
+                                        onClick={() => setTextProps((prev) => ({ ...prev, aspectRatio: ratio }))}
                                     >
                                         {ratio}
                                     </button>

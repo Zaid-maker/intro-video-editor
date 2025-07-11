@@ -55,6 +55,11 @@ export const textPropsSchema = z.object({
     // Audio settings
     backgroundMusic: z.string().default(""),
     musicVolume: z.number().min(0).max(100).default(70),
+    
+    // Video settings
+    videoDuration: z.number().min(1).max(60).default(5),
+    videoQuality: z.enum(['720p', '1080p', '4K']).default('1080p'),
+    aspectRatio: z.enum(['16:9', '9:16', '1:1']).default('16:9'),
 })
 
 export type TextProps = z.infer<typeof textPropsSchema>;

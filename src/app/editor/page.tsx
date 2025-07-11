@@ -15,7 +15,7 @@ export default function Editor() {
     const [textProps, setTextProps] = useState<TextProps>(DefaultTextProps);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
-    const [duration] = useState(5); // 5 seconds video duration
+    const duration = textProps.videoDuration; // Use duration from settings
     const [isLoading, setIsLoading] = useState(false);
     const [projectId, setProjectId] = useState<string | null>(null);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
