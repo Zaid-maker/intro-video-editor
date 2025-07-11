@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Upload, Volume2, Music, Image } from "lucide-react";
 import { FONT_WEIGHTS, FONTS, FONT_SIZES, COLORS, TRANSITIONS, templates } from "@/lib/data";
 import { TextProps } from "../schema";
+import { toast } from "sonner";
 
 export const DefaultTextProps: TextProps = {
     templateId: "Typewriter",
@@ -57,9 +58,62 @@ export type EditorTextPanelProps = {
 
 export default function EditorTextPanel({ textProps, setTextProps }: EditorTextPanelProps) {
     const [isDragOver, setIsDragOver] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
 
     const handleFileUpload = (file: File) => {
-        if (file.type.startsWith('image/')) {
+        // File size limits (in bytes)
+        const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB for images
+        const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB for videos
+        
+        // Allowed MIME types
+        const ALLOWED_IMAGE_TYPES = [
+            'image/jpeg',
+            'image/jpg', 
+            'image/png',
+            'image/gif',
+            'image/webp',
+            'image/bmp'
+        ];
+        
+        const ALLOWED_VIDEO_TYPES = [
+            'video/mp4',
+            'video/webm',
+            'video/ogg',
+            'video/avi',
+            'video/mov',
+            'video/wmv'
+        ];
+
+        // Validate file type
+        const isValidImage = ALLOWED_IMAGE_TYPES.includes(file.type);
+        const isValidVideo = ALLOWED_VIDEO_TYPES.includes(file.type);
+        
+        if (!isValidImage && !isValidVideo) {
+            toast.error(`Unsupported file type: ${file.type}. Please use supported image (JPEG, PNG, GIF, WebP) or video (MP4, WebM, OGG) formats.`);
+            return;
+        }
+
+        // Validate file size
+        if (isValidImage && file.size > MAX_IMAGE_SIZE) {
+            toast.error(`Image file too large. Maximum size is ${MAX_IMAGE_SIZE / (1024 * 1024)}MB. Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB.`);
+            return;
+        }
+        
+        if (isValidVideo && file.size > MAX_VIDEO_SIZE) {
+            toast.error(`Video file too large. Maximum size is ${MAX_VIDEO_SIZE / (1024 * 1024)}MB. Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB.`);
+            return;
+        }
+
+        // Additional validation for file name
+        if (file.name.length > 255) {
+            toast.error('File name too long. Please rename the file to less than 255 characters.');
+            return;
+        }
+
+        // Process the validated file
+        setIsUploading(true);
+        
+        if (isValidImage) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 setTextProps(prev => ({
@@ -67,9 +121,15 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                     backgroundMedia: e.target?.result as string,
                     backgroundMediaType: 'image'
                 }));
+                toast.success('Image uploaded successfully!');
+                setIsUploading(false);
+            };
+            reader.onerror = () => {
+                toast.error('Failed to read image file. Please try again.');
+                setIsUploading(false);
             };
             reader.readAsDataURL(file);
-        } else if (file.type.startsWith('video/')) {
+        } else if (isValidVideo) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 setTextProps(prev => ({
@@ -77,6 +137,12 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                     backgroundMedia: e.target?.result as string,
                     backgroundMediaType: 'video'
                 }));
+                toast.success('Video uploaded successfully!');
+                setIsUploading(false);
+            };
+            reader.onerror = () => {
+                toast.error('Failed to read video file. Please try again.');
+                setIsUploading(false);
             };
             reader.readAsDataURL(file);
         }
@@ -565,14 +631,28 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                             className={`p-3 border-2 border-dashed rounded-lg text-center transition-colors ${
                                 isDragOver 
                                     ? 'border-[#8B43F7] bg-[#8B43F7]/10' 
+                                    : isUploading
+                                    ? 'border-orange-500 bg-orange-500/10'
                                     : 'border-[#2c2c2e]'
                             }`}
                             onDrop={handleDrop}
                             onDragOver={handleDragOver}
                             onDragLeave={handleDragLeave}
                         >
-                            <Upload className="w-8 h-8 mx-auto mb-2 text-gray-500" />
-                            <p className="text-xs text-gray-500">Drop image or video here</p>
+                            <Upload className={`w-8 h-8 mx-auto mb-2 ${isUploading ? 'animate-spin text-orange-500' : 'text-gray-500'}`} />
+                            <p className="text-xs text-gray-500">
+                                {isUploading ? 'Uploading...' : 'Drop image or video here'}
+                            </p>
+                            {!isUploading && (
+                                <>
+                                    <p className="text-xs text-gray-400 mt-1">
+                                        Max 10MB for images, 50MB for videos
+                                    </p>
+                                    <p className="text-xs text-gray-400">
+                                        Supports: JPEG, PNG, GIF, WebP, MP4, WebM
+                                    </p>
+                                </>
+                            )}
                         </div>
                     </div>
 
