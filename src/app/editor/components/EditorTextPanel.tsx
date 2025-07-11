@@ -163,8 +163,8 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                     <button
                                         key={size}
                                         className={`text-xs px-1.5 sm:px-2 py-1 rounded transition-colors ${textProps.fontSize === parseInt(size)
-                                                ? 'bg-[#8B43F7] text-white'
-                                                : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
+                                            ? 'bg-[#8B43F7] text-white'
+                                            : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
                                             }`}
                                         onClick={() => setTextProps((prev) => ({ ...prev, fontSize: parseInt(size) }))}
                                     >
@@ -357,8 +357,8 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                     <button
                                         key={effect.key}
                                         className={`text-xs px-2 py-1.5 rounded transition-colors ${textProps[effect.key as keyof TextProps]
-                                                ? 'bg-[#8B43F7] text-white'
-                                                : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
+                                            ? 'bg-[#8B43F7] text-white'
+                                            : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
                                             }`}
                                         onClick={() => setTextProps((prev) => ({
                                             ...prev,
