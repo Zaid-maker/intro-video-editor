@@ -1,5 +1,3 @@
-import { Composition } from "remotion";
-import { Main } from "./MyComp/Main";
 import {
   COMP_NAME,
   defaultMyCompProps,
@@ -8,42 +6,43 @@ import {
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
 } from "@/types/constants";
-import { NextLogo } from "./MyComp/NextLogo";
-import {
-  typewriterSchema,
-  TypewriterTemplate,
-} from "./Typewriter/TypewriterTemplate";
-import {
-  fadeInTextSchema,
-  FadeInTextTemplate,
-} from "./FadeInText/FadeInTextTemplate";
-import {
-  slideInTextSchema,
-  SlideInTextTemplate,
-} from "./SlideInText/SlideInTextTemplate";
+import { Composition } from "remotion";
 import {
   bounceTextSchema,
   BounceTextTemplate,
 } from "./BounceText/BounceTextTemplate";
 import {
+  fadeInTextSchema,
+  FadeInTextTemplate,
+} from "./FadeInText/FadeInTextTemplate";
+import {
   fluidTextSchema,
   FluidTextTemplate,
 } from "./FluidText/FluidTextTemplate";
-import {
-  oldSchoolTextSchema,
-  OldSchoolTextTemplate,
-} from "./OldSchoolText/OldSchoolTextTemplate";
-import { neonTextSchema, NeonTextTemplate } from "./NeonText/NeonTextTemplate";
 import { funTextSchema, FunTextTemplate } from "./FunText/FunTextTemplate";
-import {
-  particleExplosionSchema,
-  ParticleExplosionTemplate,
-} from "./ParticleExplosion/ParticleExplosionTemplate";
-import { text3DSchema, Text3DTemplate } from "./Text3D/Text3DTemplate";
 import {
   glitchTextSchema,
   GlitchTextTemplate,
 } from "./GlitchText/GlitchTextTemplate";
+import { Main } from "./MyComp/Main";
+import { neonTextSchema, NeonTextTemplate } from "./NeonText/NeonTextTemplate";
+import {
+  oldSchoolTextSchema,
+  OldSchoolTextTemplate,
+} from "./OldSchoolText/OldSchoolTextTemplate";
+import {
+  particleExplosionSchema,
+  ParticleExplosionTemplate,
+} from "./ParticleExplosion/ParticleExplosionTemplate";
+import {
+  slideInTextSchema,
+  SlideInTextTemplate,
+} from "./SlideInText/SlideInTextTemplate";
+import { text3DSchema, Text3DTemplate } from "./Text3D/Text3DTemplate";
+import {
+  typewriterSchema,
+  TypewriterTemplate,
+} from "./Typewriter/TypewriterTemplate";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -161,17 +160,7 @@ export const RemotionRoot: React.FC = () => {
         height={VIDEO_HEIGHT}
         defaultProps={defaultMyCompProps}
       />
-      <Composition
-        id="NextLogo"
-        component={NextLogo}
-        durationInFrames={300}
-        fps={30}
-        width={140}
-        height={140}
-        defaultProps={{
-          outProgress: 0,
-        }}
-      />
+
       <Composition
         id="FluidText"
         component={FluidTextTemplate}
