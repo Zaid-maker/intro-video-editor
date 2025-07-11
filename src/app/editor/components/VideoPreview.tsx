@@ -146,7 +146,7 @@ const VideoPreview = memo(function VideoPreview({
   const getTemplateDescription = () => {
     switch (textProps.templateId) {
       case "Typewriter":
-        return "Classic typewriter effect with cursor";
+        return "Classic typewriter effect";
       case "FadeInText":
         return `Fade in with ${textProps.fadeType} animation`;
       case "SlideInText":
@@ -200,23 +200,9 @@ const VideoPreview = memo(function VideoPreview({
         <div className="relative max-w-full">
           <div
             style={previewStyles}
-            className="inline-flex items-baseline whitespace-nowrap max-w-full overflow-hidden"
+            className="inline-block whitespace-nowrap max-w-full overflow-hidden"
           >
-            <span>{textProps.text}</span>
-            {/* Typewriter cursor - inline with text */}
-            {textProps.templateId === "Typewriter" && (
-              <span
-                className="animate-pulse ml-1"
-                style={{
-                  color: textProps.color,
-                  fontSize: `${textProps.fontSize}px`,
-                  fontFamily: "Courier New, monospace",
-                  lineHeight: 1,
-                }}
-              >
-                |
-              </span>
-            )}
+            {textProps.text}
           </div>
 
           {/* Particle effect indicator */}
