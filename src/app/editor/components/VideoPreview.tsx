@@ -7,15 +7,25 @@ interface VideoPreviewProps {
   currentTime?: number;
 }
 
-const VideoPreview = memo(function VideoPreview({ textProps, isPlaying = false, currentTime = 0 }: VideoPreviewProps) {
+const VideoPreview = memo(function VideoPreview({
+  textProps,
+  isPlaying = false,
+  currentTime = 0,
+}: VideoPreviewProps) {
   // Create preview styles based on template and settings
   const previewStyles = useMemo(() => {
+    // Helper function to build transform string
+    const buildTransform = (rotation?: string, scale?: string) => {
+      const transforms = [];
+      if (textProps.rotationEffect && rotation) transforms.push(rotation);
+      if (textProps.scaleEffect && scale) transforms.push(scale);
+      return transforms.length > 0 ? transforms.join(" ") : "none";
+    };
     const baseStyles: React.CSSProperties = {
       color: textProps.color,
       fontSize: `${textProps.fontSize}px`,
       fontFamily: textProps.fontFamily,
       fontWeight: textProps.fontWeight,
-      textAlign: textProps.textAlign,
       letterSpacing: `${textProps.letterSpacing}px`,
       opacity: textProps.opacity / 100,
     };
@@ -25,45 +35,57 @@ const VideoPreview = memo(function VideoPreview({ textProps, isPlaying = false, 
       case "Typewriter":
         return {
           ...baseStyles,
-          fontFamily: 'Courier New, monospace',
-          textShadow: textProps.glowEffect ? `0 0 10px ${textProps.color}` : 'none',
+          fontFamily: "Courier New, monospace",
+          textShadow: textProps.glowEffect
+            ? `0 0 10px ${textProps.color}`
+            : "none",
         };
 
       case "FadeInText":
         return {
           ...baseStyles,
-          textShadow: textProps.glowEffect ? `0 0 15px ${textProps.color}` : '2px 2px 4px rgba(0,0,0,0.3)',
-          transform: textProps.rotationEffect ? 'rotate(5deg)' : 'none',
+          textShadow: textProps.glowEffect
+            ? `0 0 15px ${textProps.color}`
+            : "2px 2px 4px rgba(0,0,0,0.3)",
+          transform: textProps.rotationEffect ? "rotate(5deg)" : "none",
         };
 
       case "SlideInText":
         return {
           ...baseStyles,
-          textShadow: textProps.glowEffect ? `0 0 12px ${textProps.color}` : 'none',
-          transform: `${textProps.rotationEffect ? 'rotate(-3deg)' : ''} ${textProps.scaleEffect ? 'scale(1.1)' : ''}`,
+          textShadow: textProps.glowEffect
+            ? `0 0 12px ${textProps.color}`
+            : "none",
+          transform: buildTransform("rotate(-3deg)", "scale(1.1)"),
         };
 
       case "BounceText":
         return {
           ...baseStyles,
-          textShadow: textProps.glowEffect ? `0 0 20px ${textProps.color}` : '2px 2px 4px rgba(0,0,0,0.3)',
-          transform: textProps.rotationEffect ? 'rotate(2deg)' : 'none',
+          textShadow: textProps.glowEffect
+            ? `0 0 20px ${textProps.color}`
+            : "2px 2px 4px rgba(0,0,0,0.3)",
+          transform: textProps.rotationEffect ? "rotate(2deg)" : "none",
         };
 
       case "FluidText":
         return {
           ...baseStyles,
           textShadow: `0 0 20px ${textProps.color}, 0 0 30px ${textProps.color}`,
-          background: textProps.colorShift ? `linear-gradient(45deg, ${textProps.color}, #00ffff, #ff00ff)` : textProps.color,
-          backgroundClip: 'text',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: textProps.colorShift ? 'transparent' : textProps.color,
+          background: textProps.colorShift
+            ? `linear-gradient(45deg, ${textProps.color}, #00ffff, #ff00ff)`
+            : textProps.color,
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: textProps.colorShift
+            ? "transparent"
+            : textProps.color,
         };
 
       case "NeonText":
         return {
           ...baseStyles,
-          fontFamily: 'Arial, sans-serif',
+          fontFamily: "Arial, sans-serif",
           textShadow: `
             0 0 10px ${textProps.color},
             0 0 20px ${textProps.color},
@@ -75,30 +97,32 @@ const VideoPreview = memo(function VideoPreview({ textProps, isPlaying = false, 
       case "OldSchoolText":
         return {
           ...baseStyles,
-          fontFamily: 'monospace',
-          textShadow: '3px 3px 0px #000000',
-          filter: 'contrast(1.2)',
+          fontFamily: "monospace",
+          textShadow: "3px 3px 0px #000000",
+          filter: "contrast(1.2)",
         };
 
       case "FunText":
         return {
           ...baseStyles,
-          fontFamily: 'Comic Sans MS, cursive',
-          textShadow: textProps.glowEffect ? `0 0 10px ${textProps.color}` : 'none',
-          color: textProps.colorShift ? '#ff69b4' : textProps.color,
+          fontFamily: "Comic Sans MS, cursive",
+          textShadow: textProps.glowEffect
+            ? `0 0 10px ${textProps.color}`
+            : "none",
+          color: textProps.colorShift ? "#ff69b4" : textProps.color,
         };
 
       case "ParticleExplosion":
         return {
           ...baseStyles,
           textShadow: `0 0 20px ${textProps.color}`,
-          fontWeight: '900',
+          fontWeight: "900",
         };
 
       case "Text3D":
         return {
           ...baseStyles,
-          fontWeight: '900',
+          fontWeight: "900",
           textShadow: `
             1px 1px 0px #000,
             2px 2px 0px #000,
@@ -112,7 +136,7 @@ const VideoPreview = memo(function VideoPreview({ textProps, isPlaying = false, 
       case "GlitchText":
         return {
           ...baseStyles,
-          fontFamily: 'monospace',
+          fontFamily: "monospace",
           textShadow: `
             0 0 10px ${textProps.color},
             2px 0 0 #ff0000,
@@ -129,7 +153,7 @@ const VideoPreview = memo(function VideoPreview({ textProps, isPlaying = false, 
   const getTemplateDescription = () => {
     switch (textProps.templateId) {
       case "Typewriter":
-        return "Classic typewriter effect with cursor";
+        return "Classic typewriter effect";
       case "FadeInText":
         return `Fade in with ${textProps.fadeType} animation`;
       case "SlideInText":
@@ -157,33 +181,36 @@ const VideoPreview = memo(function VideoPreview({ textProps, isPlaying = false, 
 
   const backgroundStyle: React.CSSProperties = {
     backgroundColor: textProps.backgroundColor,
-    backgroundImage: textProps.templateId === "OldSchoolText" ?
-      "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,0,0.1) 2px, rgba(0,255,0,0.1) 4px)" :
-      "none",
+    backgroundImage:
+      textProps.templateId === "OldSchoolText"
+        ? "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,0,0.1) 2px, rgba(0,255,0,0.1) 4px)"
+        : "none",
   };
 
   return (
-    <div className="w-full h-full relative overflow-hidden" style={backgroundStyle}>
+    <div
+      className="w-full h-full relative overflow-hidden"
+      style={backgroundStyle}
+    >
       {/* Main text preview */}
-      <div className="w-full h-full flex items-center justify-center p-8">
-        <div className="relative">
-          <h1 style={previewStyles} className="whitespace-nowrap max-w-full overflow-hidden">
+      <div
+        className="w-full h-full flex items-center p-8"
+        style={{
+          justifyContent:
+            textProps.textAlign === "center"
+              ? "center"
+              : textProps.textAlign === "right"
+                ? "flex-end"
+                : "flex-start",
+        }}
+      >
+        <div className="relative max-w-full">
+          <div
+            style={previewStyles}
+            className="inline-block whitespace-nowrap max-w-full overflow-hidden"
+          >
             {textProps.text}
-          </h1>
-
-          {/* Typewriter cursor */}
-          {textProps.templateId === "Typewriter" && (
-            <span
-              className="animate-pulse"
-              style={{
-                color: textProps.color,
-                fontSize: `${textProps.fontSize}px`,
-                fontFamily: 'Courier New, monospace'
-              }}
-            >
-              |
-            </span>
-          )}
+          </div>
 
           {/* Particle effect indicator */}
           {textProps.particleEffect && (
@@ -206,7 +233,9 @@ const VideoPreview = memo(function VideoPreview({ textProps, isPlaying = false, 
       </div>
 
       {/* Recording indicator */}
-      <div className={`absolute top-2 sm:top-4 left-2 sm:left-4 w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#8B43F7] rounded-full ${isPlaying ? 'animate-pulse bg-[#8B43F7]' : 'bg-transparent'}`} />
+      <div
+        className={`absolute top-2 sm:top-4 left-2 sm:left-4 w-4 h-4 sm:w-5 sm:h-5 border-2 border-[#8B43F7] rounded-full ${isPlaying ? "animate-pulse bg-[#8B43F7]" : "bg-transparent"}`}
+      />
 
       {/* Template info overlay */}
       <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">

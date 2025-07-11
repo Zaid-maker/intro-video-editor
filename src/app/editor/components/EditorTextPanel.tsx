@@ -21,7 +21,7 @@ export const DefaultTextProps: TextProps = {
     backgroundColor: "#000000",
     letterSpacing: 5,
     opacity: 100,
-    textAlign: "left",
+    textAlign: "center",
     animationType: "fade",
     transition: "ease",
     duration: 3,
