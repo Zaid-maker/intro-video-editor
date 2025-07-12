@@ -51,6 +51,7 @@ interface CreateProjectDialogProps {
 
 export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
+  // const [isUpdateReq, setIsUpdateReq] =useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -67,7 +68,7 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
     setIsLoading(true);
     try {
       const template = templates.find(t => t.id === data.templateId);
-      
+
       const projectData: z.infer<typeof CreateProjectRequest> = {
         name: data.name,
         templateId: data.templateId,
@@ -88,7 +89,7 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
       }
 
       const result = await response.json();
-      
+
       if (result.type === 'success') {
         // Redirect to editor with project ID
         router.push(`/editor?projectId=${result.data.id}`);
@@ -133,8 +134,8 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
                 <FormItem>
                   <FormLabel className="text-gray-700 dark:text-gray-200 font-medium">Project Name</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="Enter project name" 
+                    <Input
+                      placeholder="Enter project name"
                       {...field}
                       disabled={isLoading}
                       className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
@@ -153,8 +154,8 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-gray-700 dark:text-gray-200 font-medium">Template</FormLabel>
-                  <Select 
-                    onValueChange={field.onChange} 
+                  <Select
+                    onValueChange={field.onChange}
                     defaultValue={field.value}
                     disabled={isLoading}
                   >
@@ -165,8 +166,8 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
                     </FormControl>
                     <SelectContent className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600">
                       {templates.map((template) => (
-                        <SelectItem 
-                          key={template.id} 
+                        <SelectItem
+                          key={template.id}
                           value={template.id}
                           className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700"
                         >
@@ -189,8 +190,8 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
                 <FormItem>
                   <FormLabel className="text-gray-700 dark:text-gray-200 font-medium">Description (Optional)</FormLabel>
                   <FormControl>
-                    <Textarea 
-                      placeholder="Describe your project..." 
+                    <Textarea
+                      placeholder="Describe your project..."
                       {...field}
                       disabled={isLoading}
                       className="bg-white dark:bg-[#2a2a2a] border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 min-h-[80px]"
@@ -213,8 +214,8 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
               >
                 Cancel
               </Button>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={isLoading}
                 className="bg-[#8B43F7] hover:bg-[#a366fa] text-white border-0"
               >

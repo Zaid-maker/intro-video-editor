@@ -5,7 +5,9 @@ import { Icons } from "../../../../assets/Icons";
 import { authClient } from "@/lib/auth-client";
 import { IMAGES } from "../../../../assets/Images";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { CreateProjectDialog } from "@/components/CreateProjectDialog";
 
 /**
  * Renders a fixed navigation bar that displays a logo, a personalized welcome message, and user-specific navigation options for authenticated users.
@@ -16,6 +18,7 @@ import { useRouter } from "next/navigation";
  */
 export default function Navbar() {
   const router = useRouter()
+  const pathName = usePathname()
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { data, isPending } = authClient.useSession();
@@ -61,42 +64,94 @@ export default function Navbar() {
             alt="Logo"
           />
         </Link>
-        {data?.user && (
-          <span className="text-white font-medium lg:text-md text-xs">Welcome Back, {data.user.name}</span>
-        )}
-      </div>
+        {
+          pathName === '/dashboard' ? (
+            <>
 
-      <div className="flex space-x-4 items-center">
-        {data?.user && (
-          <>
-            <Link
-              href="/dashboard"
-              className="bg-[#8B43F7] hover:bg-[#7A3DE6] text-white lg:px-6 px-3 lg:py-2.5 py-1 rounded-lg whitespace-nowrap"
-            >
-              Create
-            </Link>
-
-            <div
-              className="relative"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 cursor-pointer">
-                <Icons.UserCircle className="size-6 text-white" />
-              </div>
-
-              {tooltipVisible && (
-                <div className="absolute right-0 cursor-pointer top-12 z-50 bg-white text-black shadow-xl rounded-lg py-2 w-28 border border-gray-200">
-                  <button onClick={handleLogout} className="flex items-center px-4 py-2.5 hover:bg-gray-50 transition-colors duration-150 w-full text-left">
-                    <Icons.LogOut className="size-4 mr-3 text-gray-600" />
-                    Logout
-                  </button>
-                </div>
+              {data?.user && (
+                <span className="text-white font-medium lg:text-md text-xs">Welcome Back, {data.user.name}</span>
               )}
-            </div>
-          </>
-        )}
+
+            </>
+          ) :
+            (
+              <>
+                <div className="flex items-center justify-between ">
+                  <Link href='/dashboard'>
+                    <Button className="flex items-center justify-center gap-x-2 cursor-pointer  hover:bg-gradient-to-tr backdrop-blur-lg from-[#ffffff]/30  via-transparent to-[#1C1B20]/50 ease-in-out transition-all px-3 py-2 rounded-lg text-white">
+                      <span className="bg-white/30 p-1 backdrop-blur-md rounded-full text-white">
+                        <Icons.ArrowLeft className="size-4" />
+                      </span>
+                      Back
+                    </Button>
+                  </Link>
+
+                </div>
+              </>
+            )
+        }
       </div>
+      {
+        pathName === '/editor' ? (
+          <>
+            <div className="flex items-center space-x-4">
+              <CreateProjectDialog>
+
+              <Button className="flex items-center justify-center gap-x-2 cursor-pointer  bg-gradient-to-tr backdrop-blur-lg from-[#ffffff]/30  via-transparent to-[#1C1B20]/50 ease-in-out transition-all px-3 py-2 rounded-lg text-white">
+               
+                Change Template
+              </Button>
+              </CreateProjectDialog>
+              <Link
+                href="/dashboard"
+                className="bg-[#8B43F7] hover:bg-[#7A3DE6] text-white lg:px-6 px-3 lg:py-2.5 py-1 rounded-lg whitespace-nowrap"
+              >
+                Save
+              </Link>
+
+
+
+            </div>
+
+          </>
+        ) :
+          (
+            <>
+              <div className="flex space-x-4 items-center">
+                {data?.user && (
+                  <>
+                    <Link
+                      href="/dashboard"
+                      className="bg-[#8B43F7] hover:bg-[#7A3DE6] text-white lg:px-6 px-3 lg:py-2.5 py-1 rounded-lg whitespace-nowrap"
+                    >
+                      Create
+                    </Link>
+
+                    <div
+                      className="relative"
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 cursor-pointer">
+                        <Icons.UserCircle className="size-6 text-white" />
+                      </div>
+
+                      {tooltipVisible && (
+                        <div className="absolute right-0 cursor-pointer top-12 z-50 bg-white text-black shadow-xl rounded-lg py-2 w-28 border border-gray-200">
+                          <button onClick={handleLogout} className="flex items-center px-4 py-2.5 hover:bg-gray-50 transition-colors duration-150 w-full text-left">
+                            <Icons.LogOut className="size-4 mr-3 text-gray-600" />
+                            Logout
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </>
+          )
+      }
+
     </header>
   );
 
