@@ -1,15 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Play, Pause, SkipBack, SkipForward, Loader2 } from "lucide-react";
-import { Icons } from "../../../assets/Icons";
-import Link from "next/link";
+import { Loader2, Pause, Play, SkipBack, SkipForward } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 import EditorTextPanel, { DefaultTextProps } from "./components/EditorTextPanel";
 import VideoPreview from "./components/VideoPreview";
 import { TextProps } from "./schema";
-import { useSearchParams } from "next/navigation";
-import { toast } from "sonner";
 
 export default function Editor() {
     const [textProps, setTextProps] = useState<TextProps>(DefaultTextProps);
@@ -113,23 +111,14 @@ export default function Editor() {
 
     return (
         <>
-            <div className="bg-[#111113] p-2 sm:p-4 min-h-screen">
+            <div className="bg-[#111113] pt-20 min-h-screen">
                 <div className="flex items-center justify-between mb-4">
-                    <Link href='/dashboard'>
-                        <Button className="flex items-center justify-center gap-x-2 cursor-pointer hover:bg-white/30 ease-in-out transition-all px-3 py-2 rounded-lg text-white">
-                            <span className="bg-white/30 p-1 backdrop-blur-md rounded-full text-white">
-                                <Icons.ArrowLeft className="size-4" />
-                            </span>
-                            Back
-                        </Button>
-                    </Link>
                     {projectId && (
-                        <div className="text-white/70 text-sm">
+                        <div className="text-white text-sm">
                             Project ID: {projectId}
                         </div>
                     )}
                 </div>
-
                 <div className="flex flex-col xl:flex-row gap-4 sm:gap-6 h-[calc(100vh-120px)]">
                     {/* Video Section */}
                     <div className="flex-1 flex flex-col gap-3 sm:gap-4 min-w-0">

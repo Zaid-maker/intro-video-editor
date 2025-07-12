@@ -66,21 +66,21 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
             toast.warning('Please wait for the current upload to complete.');
             return;
         }
-        
+
         // File size limits (in bytes)
         const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB for images
         const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB for videos
-        
+
         // Allowed MIME types
         const ALLOWED_IMAGE_TYPES = [
             'image/jpeg',
-            'image/jpg', 
+            'image/jpg',
             'image/png',
             'image/gif',
             'image/webp',
             'image/bmp'
         ];
-        
+
         const ALLOWED_VIDEO_TYPES = [
             'video/mp4',
             'video/webm',
@@ -93,7 +93,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
         // Validate file type
         const isValidImage = ALLOWED_IMAGE_TYPES.includes(file.type);
         const isValidVideo = ALLOWED_VIDEO_TYPES.includes(file.type);
-        
+
         if (!isValidImage && !isValidVideo) {
             toast.error(`Unsupported file type: ${file.type}. Please use supported image (JPEG, PNG, GIF, WebP) or video (MP4, WebM, OGG) formats.`);
             return;
@@ -104,7 +104,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
             toast.error(`Image file too large. Maximum size is ${MAX_IMAGE_SIZE / (1024 * 1024)}MB. Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB.`);
             return;
         }
-        
+
         if (isValidVideo && file.size > MAX_VIDEO_SIZE) {
             toast.error(`Video file too large. Maximum size is ${MAX_VIDEO_SIZE / (1024 * 1024)}MB. Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB.`);
             return;
@@ -118,7 +118,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
 
         // Process the validated file
         setIsUploading(true);
-        
+
         if (isValidImage) {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -183,9 +183,27 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
         <div className="bg-[#0C0C0E] text-white w-full lg:w-80 xl:w-96 p-3 sm:p-4 rounded-lg sm:rounded-xl space-y-3 sm:space-y-4 h-fit max-h-[calc(100vh-120px)] custom-scrollbar overflow-y-auto">
             <Tabs defaultValue="text">
                 <TabsList className="w-full justify-start gap-1 sm:gap-2 bg-[#1c1c1e] p-1 rounded-md">
-                    <TabsTrigger value="text" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5">Text</TabsTrigger>
-                    <TabsTrigger value="style" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5">Style</TabsTrigger>
-                    <TabsTrigger value="media" className="text-xs sm:text-sm px-2 sm:px-3 py-1.5">Media</TabsTrigger>
+                    <TabsTrigger
+                        value="text"
+                        className="text-xs sm:text-sm   py-1.5  data-[state=active]:border data-[state=active]:shadow-lg data-[state=active]:border-black data-[state=active]:bg-gradient-to-tr backdrop-blur-lg from-[#ffffff]/30  via-transparent to-[#1C1B20]/70 data-[state=active]:text-white"
+                    >
+                        Text
+                    </TabsTrigger>
+
+         <TabsTrigger
+                        value="style"
+                        className="text-xs sm:text-sm data-[state=active]:shadow-lg   py-1.5  data-[state=active]:border data-[state=active]:border-black data-[state=active]:bg-gradient-to-tr backdrop-blur-lg from-[#ffffff]/30  via-transparent to-[#1C1B20]/70 data-[state=active]:text-white"
+                    >
+                        Style
+                    </TabsTrigger>
+
+                    <TabsTrigger
+                        value="media"
+                        className="text-xs sm:text-sm   py-1.5  data-[state=active]:border data-[state=active]:shadow-lg data-[state=active]:border-black data-[state=active]:bg-gradient-to-tr backdrop-blur-lg from-[#ffffff]/30  via-transparent to-[#1C1B20]/70 data-[state=active]:text-white"
+                    >
+                        Media
+                    </TabsTrigger>
+
                 </TabsList>
 
                 <TabsContent value="text" className="space-y-4 sm:space-y-6 pt-3 sm:pt-4">
@@ -521,11 +539,10 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                             {['left', 'center', 'right'].map((align) => (
                                 <button
                                     key={align}
-                                    className={`text-xs px-2 py-1.5 rounded transition-colors capitalize ${
-                                        textProps.textAlign === align
-                                            ? 'bg-[#8B43F7] text-white'
-                                            : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
-                                    }`}
+                                    className={`text-xs px-2 py-1.5 rounded transition-colors capitalize ${textProps.textAlign === align
+                                        ? 'bg-[#8B43F7] text-white'
+                                        : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
+                                        }`}
                                     onClick={() => setTextProps((prev) => ({ ...prev, textAlign: align as any }))}
                                 >
                                     {align}
@@ -556,30 +573,30 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                     {/* Background Media */}
                     <div className="space-y-3">
                         <h3 className="text-xs sm:text-sm text-muted-foreground">Background Media</h3>
-                        
+
                         {/* Current Background Preview */}
                         {textProps.backgroundMedia && textProps.backgroundMedia !== "none" && (
                             <div className="space-y-2">
                                 <Label className="text-xs mb-2">Current Background</Label>
                                 <div className="relative group">
                                     {textProps.backgroundMediaType === 'image' ? (
-                                        <img 
-                                            src={textProps.backgroundMedia} 
-                                            alt="Background" 
+                                        <img
+                                            src={textProps.backgroundMedia}
+                                            alt="Background"
                                             className="w-full h-20 object-cover rounded-lg"
                                         />
                                     ) : (
-                                        <video 
-                                            src={textProps.backgroundMedia} 
+                                        <video
+                                            src={textProps.backgroundMedia}
                                             className="w-full h-20 object-cover rounded-lg"
                                             muted
                                         />
                                     )}
                                     <button
-                                        onClick={() => setTextProps(prev => ({ 
-                                            ...prev, 
-                                            backgroundMedia: "none", 
-                                            backgroundMediaType: "image" 
+                                        onClick={() => setTextProps(prev => ({
+                                            ...prev,
+                                            backgroundMedia: "none",
+                                            backgroundMediaType: "image"
                                         }))}
                                         className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
                                     >
@@ -589,14 +606,14 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 <div>
                                     <Label className="text-xs mb-2">Background Opacity</Label>
                                     <div className="flex items-center gap-2">
-                                        <Slider 
-                                            value={[textProps.backgroundMediaOpacity]} 
-                                            min={0} 
-                                            max={100} 
-                                            step={5} 
+                                        <Slider
+                                            value={[textProps.backgroundMediaOpacity]}
+                                            min={0}
+                                            max={100}
+                                            step={5}
                                             className="flex-1"
-                                            onValueChange={(v: number[]) => { 
-                                                setTextProps((prev) => ({ ...prev, backgroundMediaOpacity: v[0] })) 
+                                            onValueChange={(v: number[]) => {
+                                                setTextProps((prev) => ({ ...prev, backgroundMediaOpacity: v[0] }))
                                             }}
                                         />
                                         <span className="text-xs text-muted-foreground min-w-[35px]">{textProps.backgroundMediaOpacity}%</span>
@@ -604,7 +621,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 </div>
                             </div>
                         )}
-                        
+
                         <div className="grid grid-cols-2 gap-2">
                             <label htmlFor="image-upload" className="cursor-pointer">
                                 <Button type="button" variant="outline" className="flex items-center gap-2 bg-[#1c1c1e] border-[#2c2c2e] text-white hover:bg-[#2c2c2e] text-xs w-full">
@@ -633,14 +650,13 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 />
                             </label>
                         </div>
-                        <div 
-                            className={`p-3 border-2 border-dashed rounded-lg text-center transition-colors ${
-                                isDragOver 
-                                    ? 'border-[#8B43F7] bg-[#8B43F7]/10' 
-                                    : isUploading
+                        <div
+                            className={`p-3 border-2 border-dashed rounded-lg text-center transition-colors ${isDragOver
+                                ? 'border-[#8B43F7] bg-[#8B43F7]/10'
+                                : isUploading
                                     ? 'border-orange-500 bg-orange-500/10'
                                     : 'border-[#2c2c2e]'
-                            }`}
+                                }`}
                             onDrop={handleDrop}
                             onDragOver={handleDragOver}
                             onDragLeave={handleDragLeave}
@@ -696,7 +712,7 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <div>
                             <Label className="text-xs mb-2">Volume</Label>
                             <div className="flex items-center gap-2">
-                                <Slider value={[textProps.musicVolume]} min={0} max={100} step={5} className="flex-1 bg-white" 
+                                <Slider value={[textProps.musicVolume]} min={0} max={100} step={5} className="flex-1 bg-white"
                                     onValueChange={(v: number[]) => { setTextProps((prev) => ({ ...prev, musicVolume: v[0] })) }} />
                                 <span className="text-xs text-muted-foreground min-w-[30px]">{textProps.musicVolume}%</span>
                             </div>
@@ -709,8 +725,8 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                         <div className="grid grid-cols-2 gap-3">
                             <div>
                                 <Label className="text-xs mb-2">Duration (seconds)</Label>
-                                <Input 
-                                    placeholder="5s" 
+                                <Input
+                                    placeholder="5s"
                                     className="bg-[#1c1c1e] text-white border border-[#2c2c2e] text-xs sm:text-sm"
                                     value={textProps.videoDuration}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -740,11 +756,10 @@ export default function EditorTextPanel({ textProps, setTextProps }: EditorTextP
                                 {(['16:9', '9:16', '1:1'] as const).map((ratio) => (
                                     <button
                                         key={ratio}
-                                        className={`text-xs px-2 py-1.5 rounded transition-colors ${
-                                            textProps.aspectRatio === ratio
-                                                ? 'bg-[#8B43F7] text-white'
-                                                : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
-                                        }`}
+                                        className={`text-xs px-2 py-1.5 rounded transition-colors ${textProps.aspectRatio === ratio
+                                            ? 'bg-[#8B43F7] text-white'
+                                            : 'bg-[#2c2c2e] text-white hover:bg-[#3a3a3c]'
+                                            }`}
                                         onClick={() => setTextProps((prev) => ({ ...prev, aspectRatio: ratio }))}
                                     >
                                         {ratio}
