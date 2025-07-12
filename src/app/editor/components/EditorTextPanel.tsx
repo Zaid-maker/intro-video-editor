@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,7 +22,7 @@ import {
 	TRANSITIONS,
 	templates,
 } from "@/lib/data";
-import { TextProps } from "../schema";
+import type { TextProps } from "../schema";
 import { toast } from "sonner";
 
 export const DefaultTextProps: TextProps = {

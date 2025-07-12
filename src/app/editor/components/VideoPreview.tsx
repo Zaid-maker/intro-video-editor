@@ -1,5 +1,6 @@
-import React, { memo, useMemo } from "react";
-import { TextProps } from "../schema";
+import type React from "react";
+import { memo, useMemo } from "react";
+import type { TextProps } from "../schema";
 
 interface VideoPreviewProps {
 	textProps: TextProps;
@@ -57,7 +58,7 @@ const VideoPreview = memo(function VideoPreview({
 						: textProps.opacity / 100,
 				};
 
-			case "SlideInText":
+			case "SlideInText": {
 				const slideOffset = isPlaying ? (1 - progress) * 100 : 0;
 				const slideTransform =
 					textProps.direction === "left"
@@ -79,8 +80,9 @@ const VideoPreview = memo(function VideoPreview({
 						? `${slideTransform} ${buildTransform("rotate(-3deg)", "scale(1.1)")}`
 						: buildTransform("rotate(-3deg)", "scale(1.1)"),
 				};
+			}
 
-			case "BounceText":
+			case "BounceText": {
 				const bounceY = isPlaying ? Math.sin(progress * Math.PI * 4) * 20 : 0;
 				return {
 					...baseStyles,
@@ -93,6 +95,7 @@ const VideoPreview = memo(function VideoPreview({
 							? "rotate(2deg)"
 							: "none",
 				};
+			}
 
 			case "FluidText":
 				return {

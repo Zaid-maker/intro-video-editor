@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
-import { CreateProjectRequest, ProjectResponse } from "@/types/schema";
+import type { z } from "zod";
+import { CreateProjectRequest, type ProjectResponse } from "@/types/schema";
 import { executeApi } from "@/helpers/api-response";
 import { templates } from "@/lib/data";
 import { projectService } from "@/lib/project-service";

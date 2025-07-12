@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 
@@ -51,7 +51,7 @@ export const TypewriterTemplate: React.FC<TypewriterProps> = ({
 
 	// Add delays for characters and words
 	const words = text.split(" ");
-	let adjustedFrame = frame;
+	const adjustedFrame = frame;
 	let totalDelay = 0;
 
 	words.forEach((word, wordIndex) => {
@@ -111,7 +111,7 @@ export const TypewriterTemplate: React.FC<TypewriterProps> = ({
 					content: "_",
 					backgroundColor: "transparent",
 				};
-			case "animated":
+			case "animated": {
 				const pulse = Math.sin(frame / 10) * 0.5 + 0.5;
 				return {
 					opacity: baseOpacity * (0.5 + pulse * 0.5),
@@ -119,6 +119,7 @@ export const TypewriterTemplate: React.FC<TypewriterProps> = ({
 					backgroundColor: "transparent",
 					transform: `scaleY(${0.8 + pulse * 0.4})`,
 				};
+			}
 			default:
 				return {
 					opacity: baseOpacity * (blink ? 1 : 0.2),
@@ -174,7 +175,7 @@ export const TypewriterTemplate: React.FC<TypewriterProps> = ({
 					fontFamily: "SF Mono, Monaco, monospace",
 					letterSpacing: "0.5px",
 				};
-			case "glitch":
+			case "glitch": {
 				const glitchEffect =
 					Math.random() > 0.95
 						? `${Math.random() * 2 - 1}px ${Math.random() * 2 - 1}px 0 rgba(255,0,0,0.5)`
@@ -188,6 +189,7 @@ export const TypewriterTemplate: React.FC<TypewriterProps> = ({
 							? `translateX(${Math.random() * 4 - 2}px)`
 							: "none",
 				};
+			}
 			case "vintage":
 				return {
 					...baseStyles,

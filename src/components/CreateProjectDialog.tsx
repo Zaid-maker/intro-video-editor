@@ -33,7 +33,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { templates } from "@/lib/data";
-import { CreateProjectRequest } from "@/types/schema";
+import type { CreateProjectRequest } from "@/types/schema";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 

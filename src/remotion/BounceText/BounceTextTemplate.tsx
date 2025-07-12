@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 
@@ -57,12 +57,12 @@ export const BounceTextTemplate: React.FC<BounceTextProps> = ({
 		const time = frame / fps;
 
 		switch (physicsType) {
-			case "gravity":
+			case "gravity": {
 				// Simulate gravity with multiple bounces
-				const bounceDecay = Math.pow(
-					damping,
-					Math.floor(time / (duration / bounceCount)),
-				);
+				const bounceDecay = 
+					damping ** 
+					Math.floor(time / (duration / bounceCount))
+				;
 				const currentBounceTime = time % (duration / bounceCount);
 				const bounceProgress = currentBounceTime / (duration / bounceCount);
 
@@ -87,8 +87,9 @@ export const BounceTextTemplate: React.FC<BounceTextProps> = ({
 					rotation: rotationBounce ? gravityY * 2 : 0,
 					scale: scaleBounce ? 1 + Math.abs(gravityY) * 0.02 : 1,
 				};
+			}
 
-			case "elastic":
+			case "elastic": {
 				const elasticProgress =
 					Math.sin(time * Math.PI * 2 * bounceCount) *
 					Math.exp(-time * 3 * (1 - elasticity)) *
@@ -99,8 +100,9 @@ export const BounceTextTemplate: React.FC<BounceTextProps> = ({
 					rotation: rotationBounce ? elasticProgress * 5 : 0,
 					scale: scaleBounce ? 1 + Math.abs(elasticProgress) * 0.05 : 1,
 				};
+			}
 
-			case "spring":
+			case "spring": {
 				const springForce =
 					Math.sin(time * Math.PI * 4) *
 					Math.exp(-time * 2 * damping) *
@@ -111,8 +113,9 @@ export const BounceTextTemplate: React.FC<BounceTextProps> = ({
 					rotation: rotationBounce ? springForce * 3 : 0,
 					scale: scaleBounce ? 1 + Math.abs(springForce) * 0.03 : 1,
 				};
+			}
 
-			case "rubber":
+			case "rubber": {
 				const rubberBounce =
 					Math.sin(time * Math.PI * 3) *
 					Math.exp(-time * 1.5) *
@@ -126,8 +129,9 @@ export const BounceTextTemplate: React.FC<BounceTextProps> = ({
 					scale: scaleBounce ? 1 + rubberStretch : 1,
 					skew: rubberStretch * 10,
 				};
+			}
 
-			case "jello":
+			case "jello": {
 				const jelloFreq = 8;
 				const jelloDecay = Math.exp(-time * 2);
 				const jelloX =
@@ -146,6 +150,7 @@ export const BounceTextTemplate: React.FC<BounceTextProps> = ({
 					rotation: rotationBounce ? jelloX * 2 : 0,
 					scale: scaleBounce ? 1 + Math.abs(jelloY) * 0.02 : 1,
 				};
+			}
 
 			default:
 				return { y: 0, rotation: 0, scale: 1 };
@@ -275,11 +280,11 @@ export const BounceTextTemplate: React.FC<BounceTextProps> = ({
 						if (charTime <= 0) return { y: 0, rotation: 0, scale: 1 };
 
 						switch (physicsType) {
-							case "gravity":
-								const charBounceDecay = Math.pow(
-									damping,
-									Math.floor(charTime / (duration / bounceCount)),
-								);
+							case "gravity": {
+								const charBounceDecay = 
+									damping ** 
+									Math.floor(charTime / (duration / bounceCount))
+								;
 								const charCurrentBounceTime =
 									charTime % (duration / bounceCount);
 								const charBounceProgress =
@@ -304,8 +309,9 @@ export const BounceTextTemplate: React.FC<BounceTextProps> = ({
 									rotation: rotationBounce ? charGravityY * 2 : 0,
 									scale: scaleBounce ? 1 + Math.abs(charGravityY) * 0.02 : 1,
 								};
+							}
 
-							case "jello":
+							case "jello": {
 								const charJelloFreq = 8;
 								const charJelloDecay = Math.exp(-charTime * 2);
 								const charJelloY =
@@ -320,6 +326,7 @@ export const BounceTextTemplate: React.FC<BounceTextProps> = ({
 									rotation: rotationBounce ? charJelloY * 2 : 0,
 									scale: scaleBounce ? 1 + Math.abs(charJelloY) * 0.02 : 1,
 								};
+							}
 
 							default:
 								return { y: 0, rotation: 0, scale: 1 };

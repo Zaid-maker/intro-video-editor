@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 
@@ -177,7 +177,7 @@ export const ParticleExplosionTemplate: React.FC<ParticleExplosionProps> = ({
 			case "static":
 				return <h1 style={baseStyles}>{text}</h1>;
 
-			case "shatter":
+			case "shatter": {
 				if (explosionTime < 0) {
 					return <h1 style={baseStyles}>{text}</h1>;
 				}
@@ -217,8 +217,9 @@ export const ParticleExplosionTemplate: React.FC<ParticleExplosionProps> = ({
 						})}
 					</h1>
 				);
+			}
 
-			case "reform":
+			case "reform": {
 				if (explosionTime < 0) {
 					return <h1 style={baseStyles}>{text}</h1>;
 				}
@@ -261,8 +262,9 @@ export const ParticleExplosionTemplate: React.FC<ParticleExplosionProps> = ({
 						})}
 					</h1>
 				);
+			}
 
-			case "pulse":
+			case "pulse": {
 				const pulseScale = 1 + Math.sin(frame / 10) * 0.2;
 				const pulseGlow = 20 + Math.sin(frame / 8) * 15;
 
@@ -277,6 +279,7 @@ export const ParticleExplosionTemplate: React.FC<ParticleExplosionProps> = ({
 						{text}
 					</h1>
 				);
+			}
 
 			default:
 				return <h1 style={baseStyles}>{text}</h1>;

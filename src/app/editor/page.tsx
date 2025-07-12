@@ -2,14 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Loader2, Pause, Play, SkipBack, SkipForward } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import EditorTextPanel, {
 	DefaultTextProps,
 } from "./components/EditorTextPanel";
 import VideoPreview from "./components/VideoPreview";
-import { TextProps } from "./schema";
+import type { TextProps } from "./schema";
 
 export default function Editor() {
 	const [textProps, setTextProps] = useState<TextProps>(DefaultTextProps);

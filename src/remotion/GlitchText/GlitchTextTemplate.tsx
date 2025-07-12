@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 import { useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 

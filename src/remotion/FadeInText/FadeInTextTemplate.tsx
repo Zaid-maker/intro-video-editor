@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 
@@ -76,16 +76,17 @@ export const FadeInTextTemplate: React.FC<FadeInTextProps> = ({
 				} else {
 					return 1 - 4 * (1 - progress) * (1 - progress) * (1 - progress);
 				}
-			case "elastic":
+			case "elastic": {
 				if (progress === 0) return 0;
 				if (progress === 1) return 1;
 				const p = 0.3;
 				const s = p / 4;
 				return (
-					Math.pow(2, -10 * progress) *
+					2 ** (-10 * progress) *
 						Math.sin(((progress - s) * (2 * Math.PI)) / p) +
 					1
 				);
+			}
 			default:
 				return progress;
 		}
@@ -146,7 +147,7 @@ export const FadeInTextTemplate: React.FC<FadeInTextProps> = ({
 		};
 
 		switch (fadeType) {
-			case "simple":
+			case "simple": {
 				const scale = interpolate(frame, [0, fadeInDuration * 0.5], [0.8, 1], {
 					extrapolateRight: "clamp",
 				});
@@ -167,6 +168,7 @@ export const FadeInTextTemplate: React.FC<FadeInTextProps> = ({
 						{text}
 					</h1>
 				);
+			}
 
 			case "letterByLetter":
 				return (

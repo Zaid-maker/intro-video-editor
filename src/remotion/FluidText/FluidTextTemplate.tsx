@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 
@@ -43,19 +43,21 @@ export const FluidTextTemplate: React.FC<FluidTextProps> = ({
 		const charOffset = index / 2;
 
 		switch (fluidType) {
-			case "wave":
+			case "wave": {
 				const wave = Math.sin(baseTime + charOffset) * waveIntensity;
 				return `translateY(${wave}px)`;
+			}
 
-			case "liquid":
+			case "liquid": {
 				const liquidY = Math.sin(baseTime + charOffset) * waveIntensity;
 				const liquidX =
 					Math.cos(baseTime * 0.5 + charOffset * 0.3) * (waveIntensity * 0.3);
 				const liquidScale =
 					1 + Math.sin(baseTime * 0.7 + charOffset * 0.2) * 0.1;
 				return `translate(${liquidX}px, ${liquidY}px) scale(${liquidScale})`;
+			}
 
-			case "ripple":
+			case "ripple": {
 				const rippleDistance = Math.abs(index - characters.length / 2);
 				const rippleDelay = rippleDistance * 0.1;
 				const ripple =
@@ -63,13 +65,15 @@ export const FluidTextTemplate: React.FC<FluidTextProps> = ({
 					waveIntensity *
 					Math.exp(-rippleDistance * 0.1);
 				return `translateY(${ripple}px) scale(${1 + ripple * 0.01})`;
+			}
 
-			case "flow":
+			case "flow": {
 				const flowY = Math.sin(baseTime + charOffset * 0.8) * waveIntensity;
 				const flowX =
 					Math.sin(baseTime * 0.3 + charOffset * 0.5) * (waveIntensity * 0.5);
 				const flowRotate = Math.sin(baseTime * 0.4 + charOffset * 0.3) * 5;
 				return `translate(${flowX}px, ${flowY}px) rotate(${flowRotate}deg)`;
+			}
 
 			default:
 				return "translateY(0px)";

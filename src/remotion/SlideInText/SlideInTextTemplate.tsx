@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 
@@ -71,16 +71,17 @@ export const SlideInTextTemplate: React.FC<SlideInTextProps> = ({
 				} else {
 					return 1 - 4 * (1 - progress) * (1 - progress) * (1 - progress);
 				}
-			case "elastic":
+			case "elastic": {
 				if (progress === 0) return 0;
 				if (progress === 1) return 1;
 				const p = 0.3;
 				const s = p / 4;
 				return (
-					Math.pow(2, -10 * progress) *
+					2 ** (-10 * progress) *
 						Math.sin(((progress - s) * (2 * Math.PI)) / p) +
 					1
 				);
+			}
 			default:
 				return progress;
 		}
@@ -111,15 +112,17 @@ export const SlideInTextTemplate: React.FC<SlideInTextProps> = ({
 			case "diagonal":
 				baseTransform = `translate(${-width * (1 - progress)}px, ${-height * (1 - progress)}px)`;
 				break;
-			case "spiral":
+			case "spiral": {
 				const angle = (1 - progress) * Math.PI * 4;
 				const radius = 200 * (1 - progress);
 				baseTransform = `translate(${Math.cos(angle) * radius}px, ${Math.sin(angle) * radius}px)`;
 				break;
-			case "zoom":
+			}
+			case "zoom": {
 				const scale = 0.1 + progress * 0.9;
 				baseTransform = `scale(${scale})`;
 				break;
+			}
 			default:
 				baseTransform = `translateX(${-width * (1 - progress)}px)`;
 		}
@@ -241,7 +244,7 @@ export const SlideInTextTemplate: React.FC<SlideInTextProps> = ({
 					</h1>
 				);
 
-			case "elastic":
+			case "elastic": {
 				const elasticScale = 1 + Math.sin(progress * Math.PI * 2) * 0.1;
 				return (
 					<h1
@@ -253,6 +256,7 @@ export const SlideInTextTemplate: React.FC<SlideInTextProps> = ({
 						{text}
 					</h1>
 				);
+			}
 
 			case "cascade":
 				return (
@@ -338,7 +342,7 @@ export const SlideInTextTemplate: React.FC<SlideInTextProps> = ({
 					</h1>
 				);
 
-			case "flip3d":
+			case "flip3d": {
 				const rotateY = (1 - progress) * 180;
 				return (
 					<h1
@@ -352,6 +356,7 @@ export const SlideInTextTemplate: React.FC<SlideInTextProps> = ({
 						{text}
 					</h1>
 				);
+			}
 
 			case "parallax":
 				return (

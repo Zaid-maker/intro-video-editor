@@ -1,4 +1,4 @@
-import { z } from "zod";
+import type { z } from "zod";
 import {
 	AbsoluteFill,
 	Sequence,
@@ -6,7 +6,7 @@ import {
 	useCurrentFrame,
 	useVideoConfig,
 } from "remotion";
-import { CompositionProps } from "@/types/constants";
+import type { CompositionProps } from "@/types/constants";
 import { NextLogo } from "./NextLogo";
 import { loadFont, fontFamily } from "@remotion/google-fonts/Inter";
 import React from "react";

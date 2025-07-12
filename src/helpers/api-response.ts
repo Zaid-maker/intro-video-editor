@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { z, ZodType } from "zod";
+import type { z, ZodType } from "zod";
 
 export type ApiResponse<Res> =
 	| {

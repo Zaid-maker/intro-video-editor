@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { ProjectResponse } from "@/types/schema";
+import type { z } from "zod";
+import type { ProjectResponse } from "@/types/schema";
 
 export type Project = z.infer<typeof ProjectResponse>;
 

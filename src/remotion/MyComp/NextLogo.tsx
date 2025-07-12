@@ -1,5 +1,6 @@
 import { evolvePath } from "@remotion/paths";
-import React, { useMemo } from "react";
+import type React from "react";
+import { useMemo } from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 
 const nStroke =

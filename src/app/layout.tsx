@@ -1,5 +1,5 @@
 import "../../styles/global.css";
-import { Metadata, Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import AppShell from "./AppShell";
 import { Toaster } from "sonner";
 

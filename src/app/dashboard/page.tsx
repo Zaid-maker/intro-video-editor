@@ -15,7 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Template from "./components/Template";
-import { RecentProject, RecentProjectSchema } from "./schema";
+import { type RecentProject, RecentProjectSchema } from "./schema";
 
 function Dashboard() {
 	const [recentProjects, setRecentProjects] = useState<RecentProject[]>([]);

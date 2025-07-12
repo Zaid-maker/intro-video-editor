@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import type React from "react";
+import { useMemo } from "react";
 import { makeRect } from "@remotion/shapes";
 import { translatePath } from "@remotion/paths";
 

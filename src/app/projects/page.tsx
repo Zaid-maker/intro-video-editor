@@ -24,7 +24,7 @@ import { Folder, Play, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Project, ProjectSchema } from "./schema";
+import { type Project, ProjectSchema } from "./schema";
 
 export default function ProjectsPage() {
 	const [projects, setProjects] = useState<Project[]>([]);
