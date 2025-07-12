@@ -4,14 +4,14 @@ import AppShell from "./AppShell";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Advance Remotion Editor",
-  description: "A powerful editor for Remotion projects"
+	title: "Advance Remotion Editor",
+	description: "A powerful editor for Remotion projects",
 };
 
 export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
+	width: "device-width",
+	initialScale: 1,
+	maximumScale: 1,
 };
 
 /**
@@ -22,19 +22,18 @@ export const viewport: Viewport = {
  * @param children - The content to be rendered within the application layout
  */
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body>
-        <AppShell>
-
-          {children}
-          <Toaster />
-        </AppShell>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body>
+				<AppShell>
+					{children}
+					<Toaster />
+				</AppShell>
+			</body>
+		</html>
+	);
 }

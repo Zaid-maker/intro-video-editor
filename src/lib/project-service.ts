@@ -1,142 +1,144 @@
-import { eq, and } from 'drizzle-orm';
-import { db } from '@/db';
-import { project } from '@/db/schema';
-import { generateProjectId } from './project-store';
+import { eq, and } from "drizzle-orm";
+import { db } from "@/db";
+import { project } from "@/db/schema";
+import { generateProjectId } from "./project-store";
 
 export interface ProjectData {
-  id: string;
-  name: string;
-  templateId: string;
-  properties: Record<string, any>;
-  description?: string;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
+	id: string;
+	name: string;
+	templateId: string;
+	properties: Record<string, any>;
+	description?: string;
+	userId: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
 export interface CreateProjectData {
-  name: string;
-  templateId: string;
-  properties: Record<string, any>;
-  description?: string;
-  userId: string;
+	name: string;
+	templateId: string;
+	properties: Record<string, any>;
+	description?: string;
+	userId: string;
 }
 
 export interface UpdateProjectData {
-  name?: string;
-  templateId?: string;
-  properties?: Record<string, any>;
-  description?: string;
+	name?: string;
+	templateId?: string;
+	properties?: Record<string, any>;
+	description?: string;
 }
 
 export class ProjectService {
-  // Create a new project
-  async createProject(data: CreateProjectData): Promise<ProjectData> {
-    try {
-      const projectId = generateProjectId();
-      const now = new Date();
+	// Create a new project
+	async createProject(data: CreateProjectData): Promise<ProjectData> {
+		try {
+			const projectId = generateProjectId();
+			const now = new Date();
 
-      console.log('Inserting project into database:', { projectId, userId: data.userId });
+			console.log("Inserting project into database:", {
+				projectId,
+				userId: data.userId,
+			});
 
-      const [newProject] = await db
-        .insert(project)
-        .values({
-          id: projectId,
-          name: data.name,
-          templateId: data.templateId,
-          properties: data.properties,
-          description: data.description,
-          userId: data.userId,
-          createdAt: now,
-          updatedAt: now,
-        })
-        .returning();
+			const [newProject] = await db
+				.insert(project)
+				.values({
+					id: projectId,
+					name: data.name,
+					templateId: data.templateId,
+					properties: data.properties,
+					description: data.description,
+					userId: data.userId,
+					createdAt: now,
+					updatedAt: now,
+				})
+				.returning();
 
-      console.log('Successfully created project:', newProject);
-      return newProject as ProjectData;
-    } catch (error) {
-      console.error('Database error creating project:', error);
-      throw new Error(`Failed to create project: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
-  }
+			console.log("Successfully created project:", newProject);
+			return newProject as ProjectData;
+		} catch (error) {
+			console.error("Database error creating project:", error);
+			throw new Error(
+				`Failed to create project: ${error instanceof Error ? error.message : "Unknown error"}`,
+			);
+		}
+	}
 
-  // Get all projects for a user
-  async getUserProjects(userId: string): Promise<ProjectData[]> {
-    const projects = await db
-      .select()
-      .from(project)
-      .where(eq(project.userId, userId))
-      .orderBy(project.updatedAt);
+	// Get all projects for a user
+	async getUserProjects(userId: string): Promise<ProjectData[]> {
+		const projects = await db
+			.select()
+			.from(project)
+			.where(eq(project.userId, userId))
+			.orderBy(project.updatedAt);
 
-    return projects as ProjectData[];
-  }
+		return projects as ProjectData[];
+	}
 
-  // Get all projects (admin function)
-  async getAllProjects(): Promise<ProjectData[]> {
-    const projects = await db
-      .select()
-      .from(project)
-      .orderBy(project.updatedAt);
+	// Get all projects (admin function)
+	async getAllProjects(): Promise<ProjectData[]> {
+		const projects = await db.select().from(project).orderBy(project.updatedAt);
 
-    return projects as ProjectData[];
-  }
+		return projects as ProjectData[];
+	}
 
-  // Get a specific project by ID
-  async getProject(id: string, userId?: string): Promise<ProjectData | null> {
-    const conditions = userId 
-      ? and(eq(project.id, id), eq(project.userId, userId))
-      : eq(project.id, id);
+	// Get a specific project by ID
+	async getProject(id: string, userId?: string): Promise<ProjectData | null> {
+		const conditions = userId
+			? and(eq(project.id, id), eq(project.userId, userId))
+			: eq(project.id, id);
 
-    const [foundProject] = await db
-      .select()
-      .from(project)
-      .where(conditions)
-      .limit(1);
+		const [foundProject] = await db
+			.select()
+			.from(project)
+			.where(conditions)
+			.limit(1);
 
-    return (foundProject as ProjectData) || null;
-  }
+		return (foundProject as ProjectData) || null;
+	}
 
-  // Update a project
-  async updateProject(
-    id: string, 
-    data: UpdateProjectData, 
-    userId?: string
-  ): Promise<ProjectData | null> {
-    const conditions = userId 
-      ? and(eq(project.id, id), eq(project.userId, userId))
-      : eq(project.id, id);
+	// Update a project
+	async updateProject(
+		id: string,
+		data: UpdateProjectData,
+		userId?: string,
+	): Promise<ProjectData | null> {
+		const conditions = userId
+			? and(eq(project.id, id), eq(project.userId, userId))
+			: eq(project.id, id);
 
-    const [updatedProject] = await db
-      .update(project)
-      .set({
-        ...data,
-        updatedAt: new Date(),
-      })
-      .where(conditions)
-      .returning();
+		const [updatedProject] = await db
+			.update(project)
+			.set({
+				...data,
+				updatedAt: new Date(),
+			})
+			.where(conditions)
+			.returning();
 
-    return (updatedProject as ProjectData) || null;
-  }
+		return (updatedProject as ProjectData) || null;
+	}
 
-  // Delete a project
-  async deleteProject(id: string, userId?: string): Promise<boolean> {
-    const conditions = userId 
-      ? and(eq(project.id, id), eq(project.userId, userId))
-      : eq(project.id, id);
+	// Delete a project
+	async deleteProject(id: string, userId?: string): Promise<boolean> {
+		const conditions = userId
+			? and(eq(project.id, id), eq(project.userId, userId))
+			: eq(project.id, id);
 
-    const result = await db
-      .delete(project)
-      .where(conditions)
-      .returning({ id: project.id });
+		const result = await db
+			.delete(project)
+			.where(conditions)
+			.returning({ id: project.id });
 
-    return result.length > 0;
-  }
+		return result.length > 0;
+	}
 
-  // Check if project exists
-  async projectExists(id: string, userId?: string): Promise<boolean> {
-    const foundProject = await this.getProject(id, userId);
-    return foundProject !== null;
-  }
+	// Check if project exists
+	async projectExists(id: string, userId?: string): Promise<boolean> {
+		const foundProject = await this.getProject(id, userId);
+		return foundProject !== null;
+	}
 }
 
 // Export singleton instance
